@@ -1,7 +1,7 @@
 #discord bot to act as interface for z1 yak rover
 #use GIGAYAK_DISCORD_KEY as an env variable - the key for discord bot. needs read/write permission to channels
 
-from discord.ext import tasks, commands
+#from discord.ext import tasks, commands
 import discord
 import asyncio
 import os
