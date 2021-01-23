@@ -11,7 +11,7 @@ import datetime
 from dotenv import load_dotenv
 
 
-from discord_gigayak import *
+from discord_iamz1 import *
 
 
 
