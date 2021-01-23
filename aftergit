@@ -1,0 +1,9 @@
+#actions to do after pull to complete deploy. redo to match what we actually need on pi
+exec >~/robot/iamz1/logfileofpostmerge
+exec 2>&1
+set -x
+set -v
+ps ax | grep 'iamz1' | awk '{printf $1 " "}'
+kill -9 $(ps ax | grep 'iamz1.py' | awk '{printf $1 " "}')
+nohup python3 ~/robot/iamz1/iamz1.py 2>&1 &
+exit
