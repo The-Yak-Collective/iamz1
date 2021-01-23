@@ -62,7 +62,11 @@ go to https://roamresearch.com/#/app/ArtOfGig/page/iBLdEt5Ji to see more about z
 
 async def dmchan(t):
 #create DM channel betwen bot and user
-    target=client.get_user(t).dm_channel
+    target=client.get_user(t)
+    if (not target): 
+        print("unable to find user and create dm",flush=True)
+    return target
+    target=target.dm_channel
     if (not target): 
         print("need to create dm channel",flush=True)
         target=await client.get_user(t).create_dm()
