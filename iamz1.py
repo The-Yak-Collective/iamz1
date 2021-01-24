@@ -52,7 +52,7 @@ async def on_message(message):
 $z1help               this message
 $z1test               a test message
 
-go to https://roamresearch.com/#/app/ArtOfGig/page/iBLdEt5Ji to see more about z1 ya rover project
+go to https://roamresearch.com/#/app/ArtOfGig/page/iBLdEt5Ji to see more about z1 yak rover project
         '''
         await splitsend(message.channel,s,True)
         return
