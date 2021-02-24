@@ -53,7 +53,7 @@ async def iamz1_upload(ctx):
 
 @bot.command(name='run', help='run X ARGS: run a file X in the directory of user that sent the message. send next parameters to running. ')
 async def iamz1_run(ctx,name,*args):
-     s='i would have run file {0} in directory of {1} with parameters {2}'.format(name,ctx.author.name,str(*args))
+    s='i would have run file {0} in directory of {1} with parameters {2}'.format(name,ctx.author.name,str(*args))
 #check there is a file and directory. if not say "oops"
 #call script that runs file, etc into a text file
 #send back message with pid, for killing
