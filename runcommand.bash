@@ -1,10 +1,11 @@
 #!/bin/bash
 echo "starting command" $0
 echo "parameters" "$@"
+echo "the working directory is"
 pwd
 temp_file=$(mktemp) #i am actually NOT sending the output yet
 mess_file=$(mktemp)
-source "$@" >$temp_file 2>&1 &
+source "$@" >$temp_file 2>&1 && /bin/bash postafter.bash $temp_file &
 export APP_PID=$! 
 echo '{"content": "' >$mess_file
 echo 'pid is' $APP_PID >>$mess_file
