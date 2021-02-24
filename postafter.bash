@@ -5,4 +5,5 @@ echo $1 >>$post_file
 echo '"}' >>$post_file
 sed -i 's/$/\\n/' $post_file
 sed -i '$s/..$//' $post_file
-curl -i -H 'Expect: application/json' -F file=@$1 -F 'payload_json=@$post_file' $TWEAKS_HOOK
+astring=$(<$post_file)
+curl -i -H 'Expect: application/json' -F file=@$1 -F 'payload_json=$astring' $TWEAKS_HOOK
