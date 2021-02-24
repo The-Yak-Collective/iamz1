@@ -103,7 +103,7 @@ async def iamz1_video(ctx,onoff, *arg):
         await splitsend(ctx.channel,s,False)
         return
 
-def name2filename(x)
+def name2filename(x):
     return re.sub('[^a-zA-Z0-9]+','',x)
 
 def allowed(x,y): #is x allowed to play with item created by y
