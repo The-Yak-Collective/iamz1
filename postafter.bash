@@ -1,8 +1,8 @@
 post_file=$(mktemp)
 echo "trying to post after prog stopped" $1
-echo '{"content": "lets try to upload a results file ' >$post_file
-echo $1 >>$post_file
-echo '"}' >>$post_file
+echo '{"wait": true, "content": "lets try to upload a results file ' $1 '"}'>$post_file
+#echo $1 >>$post_file
+#echo '"}' >>$post_file
 sed -i 's/$/\\n/' $post_file
 sed -i '$s/..$//' $post_file
 astring=$(<$post_file)
