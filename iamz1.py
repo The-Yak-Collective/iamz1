@@ -29,7 +29,8 @@ from discord_iamz1 import * #especially "bot"
 
 
 load_dotenv('.env')
-USERHOMEDIR="/media/pi/z1-drive/"
+USERHOMEDIR="/media/pi/z1-drive/" #note username may change. should use discord ID maybe
+WHEREIRUNDIR="/media/pi/z1-drive/maier/iamz1/" #obviously should change and be in an env file too
 
 @bot.event #needed since it takes time to connect to discord
 async def on_ready(): 
@@ -63,7 +64,7 @@ async def iamz1_run(ctx,name,*args):
 #call script that runs file, etc into a text file
 #send back message with pid, for killing
 #script will send back the output file by curl
-    thestringlist=["runcommand.bash",thefiletorun]+list(args)
+    thestringlist=[WHEREIRUNDIR+"runcommand.bash",thefiletorun]+list(args)
     print(thestringlist)
     out = subprocess.Popen(thestringlist, 
            stdout=subprocess.PIPE, 
