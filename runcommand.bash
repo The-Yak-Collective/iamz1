@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "starting command" $0
+echo "parameters" "$@"
 pwd
 temp_file=$(mktemp) #i am actually NOT sending the output yet
 mess_file=$(mktemp)
