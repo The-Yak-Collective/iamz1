@@ -55,10 +55,15 @@ async def iamz1_upload(ctx):
 async def iamz1_run(ctx,name,*args):
     s='i would have run file {0} in directory of {1} with parameters {2}'.format(name,ctx.author.name," ".join(args))
 #check there is a file and directory. if not say "oops"
+    thefiletorun=USERHOMEDIR+name2filename(ctx.author.name)+'/'+name
+    if not os.path.exists(thefiletorun):
+        print('oops no such file: '+thefiletorun)
+        await splitsend(ctx.channel,'oops no such file: '+thefiletorun,False)
+        return
 #call script that runs file, etc into a text file
 #send back message with pid, for killing
 #script will send back the output file by curl
-    thestringlist=["runcommand.bash",USERHOMEDIR+name2filename(ctx.author.name)+'/'+name]+list(args)
+    thestringlist=["runcommand.bash",thefiletorun]+list(args)
     print(thestringlist)
     out = subprocess.Popen(thestringlist, 
            stdout=subprocess.PIPE, 
