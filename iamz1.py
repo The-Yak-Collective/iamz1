@@ -53,7 +53,7 @@ async def iamz1_upload(ctx):
 
 @bot.command(name='run', help='run X ARGS: run a file X in the directory of user that sent the message. send next parameters to running. ')
 async def iamz1_run(ctx,name,*args):
-    s='i would have run file {0} in directory of {1} with parameters {2}'.format(name,ctx.author.name,str(*args))
+    s='i would have run file {0} in directory of {1} with parameters {2}'.format(name,ctx.author.name," ".join(args))
 #check there is a file and directory. if not say "oops"
 #call script that runs file, etc into a text file
 #send back message with pid, for killing
@@ -87,7 +87,7 @@ async def iamz1_kill(ctx,pid):
 
 @bot.command(name='git', help='one day this will do a git pull action into user directory. ')
 async def iamz1_git(ctx,git):
-        s='i would have pulled git repository '+pid+' into user dir '+ctx.author.name
+        s='i would have pulled git repository '+git+' into user dir '+ctx.author.name
 #tbd - what about privacy?
         await splitsend(ctx.channel,s,False)
         return
@@ -98,7 +98,7 @@ async def iamz1_video(ctx,onoff, *arg):
             dur=arg[0]
         else:
             dur=30
-        s='i would have turned a video stream '+onoff+' for '+dur+' seconds'
+        s='i would have turned a video stream '+onoff+' for '+str(dur)+' seconds'
 #tbd - needs to autoshutdown to save money
         await splitsend(ctx.channel,s,False)
         return
