@@ -58,7 +58,7 @@ async def iamz1_run(ctx,name,*args):
 #call script that runs file, etc into a text file
 #send back message with pid, for killing
 #script will send back the output file by curl
-    thestringlist=['source',USERHOMEDIR+name2filename(ctx.author.name)+'/'+runcommand.bash,name]+args
+    thestringlist=['source',USERHOMEDIR+name2filename(ctx.author.name)+'/'+"runcommand.bash",name]+args
     out = subprocess.Popen(thestringlist, 
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
