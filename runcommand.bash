@@ -12,4 +12,4 @@ echo 'pid is' $APP_PID >>$mess_file
 echo '"}' >>$mess_file
 sed -i 's/$/\\n/' $mess_file
 sed -i '$s/..$//' $mess_file
-curl -d "@$mess_file" -H "Content-Type: application/json" -X POST $TWEAKS_HOOK 
+curl -s -d "@$mess_file" -H "Content-Type: application/json" -X POST $TWEAKS_HOOK 
