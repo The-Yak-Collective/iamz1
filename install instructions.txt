@@ -1,0 +1,20 @@
+iamz1 install instructions
+1. get homedir of media: /media/pi/z1-drive
+2. create maier/iamz1 directory
+3. create .env file there
+4. put IAMZ1_DISCORD_KEY in .env (for bot to access discord) 
+5. put TWEAKS_HOOK in .env (for shell commands to be able to post to bot-tweaks channel)
+6. git pull/clone iamz1 repository there
+7. create homedir/maier/tiwt/Rover-Twitter
+8. create .env file there
+9. put iamz1 twitter keys into .env of Rover-Twitter directory
+CK, CS, ATK, ATS
+10. git pull/clone rover-twitter repository
+11. pip install (--user)
+python-dotenv
+python-twitter
+discord.py
+12. add daily cron for twitter 
+10 3 * * * /usr/bin/python3 /media/pi/z1-drive/maier/twit/Rover-Twitter/sendstatus.py
+13. add after rebot cron for discord
+@reboot sleep 70 && nohup /usr/bin/python3 /media/pi/z1-drive/maier/iamz1/iamz1.py

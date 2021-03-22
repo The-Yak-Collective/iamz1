@@ -15,5 +15,8 @@
 #need also a function that knows what bot is capable of. also via database. can be used as a limit on capabilities - for example, it prevents you from going past an angle or getting permission past an angle. maybe we need to ask for commands to have "max" rather than a number. user should be able to give a fallback value as well as a desired number. fallback can be "max" or "best". maybe we even have flex mode where we say how much we want to get it (try, force, etc.)
 #will need watchdog that tracks if bot meets ability. maye also rover model can "complain" it did not get what it wanted. example: maximum speed. and/or maybe we have a self test mode of some kind (a gym).
 
+#watchdog: 1. has modules that can check stuff, like range using ULS, position using INS
+#2. and can have various abilities, like block commands, allow only some, force rewind. etc.
+
 Class Rover:
     pass
