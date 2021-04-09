@@ -6,6 +6,7 @@ var room;
 var localtrack;
 var my_user_name="iamz1"
 
+
 function addLocalVideo() {
     Twilio.Video.createLocalVideoTrack().then(track => {
         localtrack=track;
@@ -52,7 +53,7 @@ function connect(username) {
             body: JSON.stringify({'username': username})
         }).then(res => res.json()).then(data => {
             // join video call
-            return Twilio.Video.connect(data.token);
+            return Twilio.Video.connect(data.token,{audio: false});
         }).then(_room => {
             room = _room;
             console.log(room);
