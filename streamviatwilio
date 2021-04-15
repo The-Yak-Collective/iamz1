@@ -1,0 +1,2 @@
+#! /bin/bash
+chromium-browser --headless --disable-gpu --use-fake-ui-for-media-stream --remote-debugging-port=9222 runonbot.html &
