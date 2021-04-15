@@ -1,0 +1,89 @@
+<html lang=en>
+  <head>
+
+    <meta charset=utf-8>
+    <title>iamz1test</title>
+
+  </head>
+  <body>
+    <div id="twilio_video" >
+
+            Name: iamz1
+            <button id="join_leave">Join call</button>
+            <button id="leave" onclick="disconnect()">leave</button>
+        <p id="par_count">Disconnected.</p>
+        <div id="container" class="container">
+            <div id="vid_local" class="participant"><div></div><div>Me</div></div>
+            <!-- more participants will be added dynamically here -->
+        </div>
+        <script src="http://media.twiliocdn.com/sdk/js/video/releases/2.3.0/twilio-video.min.js"></script>
+        <script src="twilio_app.js"></script>
+    </div>
+
+<script>
+var my_user_name="iamz1"
+
+function show_twilio_video()
+{
+    addLocalVideo();
+    document.getElementById("twilio_video").style.display="inline";
+
+    return false;
+}
+function hide_twilio_video()
+{
+    document.getElementById("twilio_video").style.display="none";
+
+    rmLocalVideo();
+    return false;
+}
+
+</script>
+
+
+
+<script name="pusher" src="https://js.pusher.com/5.1/pusher.min.js"></script>
+
+
+
+
+<script name="functions">
+//here are defined functions
+
+
+
+
+
+
+
+
+function c_video(t)
+{
+    params=t.split(/\s+/);
+    if (params[1]=="ON" || params[1]=='on') 
+    {
+    show_twilio_video();
+    }
+    else
+    {
+    hide_twilio_video();
+    disconnect();
+    }
+}
+
+
+
+
+
+console.log("loaded")
+show_twilio_video();
+console.log("showing video!?")
+document.getElementById("join_leave").click();
+console.log("tried to join")
+
+</script>
+  </body>
+</html>
+
+
+
