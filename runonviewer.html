@@ -141,7 +141,7 @@ function disconnect() {
 
 button.addEventListener('click', connectButtonHandler);
 document.getElementById("join_leave").click();
-
+setTimeout(function(){disconnect();},300*1000);
 </script>
   </body>
 </html>

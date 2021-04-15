@@ -1,5 +1,4 @@
 #! /bin/bash
 timeout 300 chromium-browser --headless --disable-gpu --use-fake-ui-for-media-stream --remote-debugging-port=9222 runonbot.html &
-export TW_PID=$!
-echo you can kill by $TW_PID
+echo you can kill by kill -9 $(ps ax | grep 'runonbot' | awk '{printf $1 " "}')
 
