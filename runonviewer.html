@@ -8,7 +8,7 @@
   <body>
     <div id="twilio_video" >
 
-            Name: iamz1
+            Name: <div id="nameshow">iamz1</div>
             <button id="join_leave">Join call</button>
             <button id="leave" onclick="disconnect()">leave</button>
         <p id="par_count">Disconnected.</p>
@@ -22,7 +22,7 @@
 
 <script>
 var my_user_name="viewer_"+Math.random().toString(36).substr(2, 5)
-
+document.getElementById("nameshow").innerHTML=my_user_name;
 function show_twilio_video()
 {
     addLocalVideo();
