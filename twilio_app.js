@@ -11,7 +11,10 @@ function addLocalVideo() {
     Twilio.Video.createLocalVideoTrack().then(track => {
         localtrack=track;
         var video = document.getElementById('vid_local').firstChild;
-        video.appendChild(track.attach());
+        const vid=track.attach();
+        vid.muted=true;
+        console.log(vid);
+        video.appendChild(vid);
     });
 };
 function rmLocalVideo() {
@@ -78,6 +81,7 @@ function updateParticipantCount() {
 };
 
 function participantConnected(participant) {
+    console.log(participant)
     var participant_div = document.createElement('div');
     participant_div.setAttribute('id', participant.sid);
     participant_div.setAttribute('class', 'participant');
@@ -92,6 +96,7 @@ function participantConnected(participant) {
     container.appendChild(participant_div);
 
     participant.tracks.forEach(publication => {
+        console.log('got here');
         if (publication.isSubscribed)
             trackSubscribed(tracks_div, publication.track);
     });
@@ -107,7 +112,10 @@ function participantDisconnected(participant) {
 };
 
 function trackSubscribed(div, track) {
-    div.appendChild(track.attach());
+    temp=track.attach();
+    temp.muted=true;
+    console.log(temp);
+    div.appendChild(temp);
 };
 
 function trackUnsubscribed(track) {
