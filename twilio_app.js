@@ -4,7 +4,7 @@ const par_count = document.getElementById('par_count');
 var connected = false;
 var room;
 var localtrack;
-var my_user_name="iamz1"
+
 
 
 function addLocalVideo() {
