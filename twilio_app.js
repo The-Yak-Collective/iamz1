@@ -15,6 +15,7 @@ function addLocalVideo() {
         vid.muted=true;
         console.log(vid);
         video.appendChild(vid);
+
     });
 };
 function rmLocalVideo() {
@@ -59,8 +60,10 @@ function connect(username) {
             return Twilio.Video.connect(data.token,{audio: false});
         }).then(_room => {
             room = _room;
-            console.log(room);
-            room.participants.forEach(participantConnected);
+            console.log("the room:",room);
+            console.log("the localtrack:",localtrack);
+            room.localParticipant.publishTrack(localtrack);
+            room.participants.forEach(participantConnected)
             room.on('participantConnected', participantConnected);
             room.on('participantDisconnected', participantDisconnected);
             connected = true;
@@ -94,7 +97,7 @@ function participantConnected(participant) {
     participant_div.appendChild(label_div);
 
     container.appendChild(participant_div);
-
+    console.log("here are the tracks of this participant",participant.tracks);
     participant.tracks.forEach(publication => {
         console.log('got here');
         if (publication.isSubscribed)
