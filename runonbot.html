@@ -34,11 +34,9 @@ var localtrack;
 function addLocalVideo() {
     Twilio.Video.createLocalVideoTrack().then(track => {
         localtrack=track;
-        //var video = document.getElementById('vid_local').firstChild;
         const vid=track.attach();
         vid.muted=true;
         console.log(vid);
-        //video.appendChild(vid);
 
     });
 };
@@ -101,18 +99,6 @@ function updateParticipantCount() {
 
 function participantConnected(participant) {
     console.log(participant)
-    //var participant_div = document.createElement('div');
-    //participant_div.setAttribute('id', participant.sid);
-    //participant_div.setAttribute('class', 'participant');
-
-    //var tracks_div = document.createElement('div');
-    //participant_div.appendChild(tracks_div);
-
-    //var label_div = document.createElement('div');
-    //label_div.innerHTML = participant.identity;
-    //participant_div.appendChild(label_div);
-
-    //container.appendChild(participant_div);
     console.log("here are the tracks of this participant",participant.tracks);
     participant.tracks.forEach(publication => {
         console.log('got here - should never happen');
@@ -126,7 +112,6 @@ function participantConnected(participant) {
 };
 
 function participantDisconnected(participant) {
-    //document.getElementById(participant.sid).remove();
     updateParticipantCount();
 };
 
@@ -134,7 +119,7 @@ function trackSubscribed(div, track) {
     temp=track.attach();
     temp.muted=true;
     console.log(temp);
-    //div.appendChild(temp);
+
 };
 
 function trackUnsubscribed(track) {
@@ -143,8 +128,7 @@ function trackUnsubscribed(track) {
 
 function disconnect() {
     room.disconnect();
-    //while (container.lastChild.id != 'vid_local')
-    //    container.removeChild(container.lastChild);
+
     button.innerHTML = 'Join call';
     connected = false;
     updateParticipantCount();
