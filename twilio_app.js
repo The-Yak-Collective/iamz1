@@ -14,7 +14,7 @@ function addLocalVideo() {
         const vid=track.attach();
         vid.muted=true;
         console.log(vid);
-        video.appendChild(vid);
+        //video.appendChild(vid);
 
     });
 };
