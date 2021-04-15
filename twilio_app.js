@@ -48,7 +48,7 @@ function connectButtonHandler(event) {
 function connect(username) {
     var promise = new Promise((resolve, reject) => {
         // get a token from the back end
-        fetch('https://visavis.chat/twilio_iamz1_token', {
+        fetch('https://visavis.chat/twilio_iamz1_token_new', {
             method: 'POST',
             body: JSON.stringify({'username': username})
         }).then(res => res.json()).then(data => {
