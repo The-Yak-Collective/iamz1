@@ -1,6 +1,6 @@
 #! /bin/bash
 # yak rover name is set in /etc/environment
-if [[ -z "${YAK_ROVER_NAME}" ]; then
+if [[ -z "${YAK_ROVER_NAME}" ]]; then
     export $YAK_ROVER_NAME=iamz1
 fi
 
