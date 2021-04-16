@@ -10,6 +10,11 @@
 
             Name: <div id="nameshow">iamz1</div>
             <button id="join_leave">Join call</button>
+            <label for="rover">Choose a rover:</label>
+            <select id="rover">
+                <option value="WWG">Wonderful Wandering Growth</option>
+                <option value="AFW">Abio Flex Wanderer</option>
+            </select>
             <button id="leave" onclick="disconnect()">leave</button>
         <p id="par_count">Disconnected.</p>
         <div id="container" class="container">
@@ -56,9 +61,10 @@ function connectButtonHandler(event) {
 function connect(username) {
     var promise = new Promise((resolve, reject) => {
         // get a token from the back end
+        connectto=document.getElementById("rover").value;
         fetch('https://visavis.chat/twilio_iamz1_token_new', {
             method: 'POST',
-            body: JSON.stringify({'username': username})
+            body: JSON.stringify({'username': username,'roomname': connectto})
         }).then(res => res.json()).then(data => {
             // join video call
             return Twilio.Video.connect(data.token,{audio: false});
@@ -140,7 +146,7 @@ function disconnect() {
 };
 
 button.addEventListener('click', connectButtonHandler);
-document.getElementById("join_leave").click();
+
 setTimeout(function(){disconnect();},300*1000);
 </script>
   </body>

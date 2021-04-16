@@ -8,7 +8,7 @@
   <body>
     <div id="twilio_video" >
 
-            Name: iamz1
+            Name: myself(iamz1)
             <button id="join_leave">Join call</button>
             <button id="leave" onclick="disconnect()">leave</button>
         <p id="par_count">Disconnected.</p>
@@ -68,7 +68,7 @@ function connect(username) {
         // get a token from the back end
         fetch('https://visavis.chat/twilio_iamz1_token_new', {
             method: 'POST',
-            body: JSON.stringify({'username': username})
+            body: JSON.stringify({'username': username,'roomname':username})
         }).then(res => res.json()).then(data => {
             // join video call
             return Twilio.Video.connect(data.token,{audio: false});
