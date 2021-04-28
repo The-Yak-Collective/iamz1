@@ -122,6 +122,18 @@ async def iamz1_rag(ctx, name, *args):
     await splitsend(ctx.channel,s,False)
     return
         
+        
+@bot.command(name='unload', help='move all servos to unload configuration')
+async def iamz1_unloadservos(ctx):
+    out = subprocess.Popen(['/usr/bin/python3', 'testunload.py'],
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+    stdout,stderr = out.communicate()
+    s='ah. feeling unloaded'.format(name)
+    await splitsend(ctx.channel,s,False)
+    return
+        
 
 
 @bot.command(name='run', help='run X ARGS: run a file X in the directory of user that sent the message. send next parameters to running. ')

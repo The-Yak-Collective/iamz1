@@ -20,7 +20,7 @@ f=os.listdir(ACTDIR)
 actnames=[x[:-4] for x in f if x[-4:]=='.d6a']
 
 times=1
-if len(args)>1:
+if len(args)>2:
     times=int(args[2])
 name=args[1]
 if name in actnames:
