@@ -102,7 +102,7 @@ async def iamz1_cmdrun(ctx,name,*args):
 
 @bot.command(name='raglist', help='show list of action groups we can rag')
 async def iamz1_raglist(ctx,name,*args):
-    out = subprocess.Popen(['/usr/bin/python3', 'raglist.py'
+    out = subprocess.Popen(['/usr/bin/python3', 'raglist.py'],
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
