@@ -130,7 +130,7 @@ async def iamz1_unloadservos(ctx):
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
     stdout,stderr = out.communicate()
-    s='ah. feeling unloaded'.format(name)
+    s='ah. feeling unloaded'
     await splitsend(ctx.channel,s,False)
     return
         
