@@ -17,7 +17,7 @@ if(len(args)==0):
     sys.exit("no action group specified")
 
 f=os.listdir(ACTDIR)
-actnames=[x for x in f if x[-4:]=='.d6a']
+actnames=[x[:-4] for x in f if x[-4:]=='.d6a']
 
 times=1
 if len(args)>1:
