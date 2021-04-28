@@ -27,8 +27,8 @@ from discord.ext import tasks, commands
 from discord_iamz1 import * #especially "bot"
 
 load_dotenv('.env')
-USERHOMEDIR=os.getenv(USERHOMEDIR,default="/media/pi/z1-drive/") 
-WHEREIRUNDIR=os.getenv(WHEREIRUNDIR,default="/media/pi/z1-drive/maier/iamz1/") 
+USERHOMEDIR=os.getenv('USERHOMEDIR',default="/media/pi/z1-drive/") 
+WHEREIRUNDIR=os.getenv('WHEREIRUNDIR',default="/media/pi/z1-drive/maier/iamz1/") 
 #PREAMBLE=os.getenv('YAK_ROVER_NAME') #happens in discord file
 
 @bot.event #needed since it takes time to connect to discord
