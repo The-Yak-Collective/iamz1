@@ -83,7 +83,7 @@ async def iamz1_cmdrun(ctx,name,*args):
 #call script that runs file, etc into a text file
 #send back message with pid, for killing
 #script will send back the output file by curl
-    thestringlist=["/bin/bash",WHEREIRUNDIR+"runcommand.bash","python3",thefiletorun]+list(args)
+    thestringlist=["/bin/bash",WHEREIRUNDIR+"runcommand.bash","runpython3.bash",thefiletorun]+list(args)
     print(thestringlist)
     out = subprocess.Popen(thestringlist, 
            cwd=WHEREIRUNDIR,
