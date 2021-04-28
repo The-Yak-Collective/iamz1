@@ -3,9 +3,9 @@ import discord
 from discord.ext import commands
 import os
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
-load_dotenv('.env')
+load_dotenv(find_dotenv()) #'.env') #possibly not really needed
 
 PREAMBLE=os.getenv('YAK_ROVER_NAME')
 

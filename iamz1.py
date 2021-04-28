@@ -21,13 +21,13 @@ import re
 import subprocess
 import sys
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 from discord.ext import tasks, commands
 
 
 from discord_iamz1 import * #especially "bot"
-
-load_dotenv('.env')
+ourdir=os.path.dirname(os.path.abspath(__file__))
+load_dotenv(find_dotenv()) #'.env')
 USERHOMEDIR=os.getenv('USERHOMEDIR',default="/media/pi/z1-drive/") 
 WHEREIRUNDIR=os.getenv('WHEREIRUNDIR',default="/media/pi/z1-drive/maier/iamz1/") 
 #PREAMBLE=os.getenv('YAK_ROVER_NAME') #happens in discord file
