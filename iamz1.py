@@ -19,6 +19,7 @@ import time
 import datetime
 import re
 import subprocess
+import sys
 
 from dotenv import load_dotenv
 from discord.ext import tasks, commands
@@ -83,6 +84,8 @@ async def iamz1_cmdrun(ctx,name,*args):
 #call script that runs file, etc into a text file
 #send back message with pid, for killing
 #script will send back the output file by curl
+    sys.path.append(WHEREIRUNDIR)
+    sys.path.append('/home/pi/SpiderPi/HiwonderSDK')
     thestringlist=["/bin/bash",WHEREIRUNDIR+"runcommand.bash","runpython3.bash",thefiletorun]+list(args)
     print(thestringlist)
     out = subprocess.Popen(thestringlist, 
