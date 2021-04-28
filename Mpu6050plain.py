@@ -258,17 +258,11 @@ if __name__ == "__main__":
 ''')
     while True:
         try:
-            accel_date = mpu.get_accel_data(g=True)
-
-            ax = accel_date['x']
-            ay = accel_date['y']
-            az = accel_date['z']
-
-            angle_x = int(math.degrees(math.atan2(ax, az)))
-            angle_y = int(math.degrees(math.atan2(ay, az)))
-            #print('angle_x:', angle_x, ' '*(3 - len(str(angle_x))) + 'angle_y:', angle_y)
-            #time.sleep(0.1)
-            print(ax,ay,az)
+            d=mpu.get_all_data()
+            a=d[0]
+            b=d[1]
+            t=d[2]
+            print(a,b,t)
         except KeyboardInterrupt:
             break
         except BaseException as e:
