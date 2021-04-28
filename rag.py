@@ -13,7 +13,7 @@ rag NAME TIMES
 ''')
 args=sys.argv
 
-if(!len(argv)):
+if(len(argv)==0):
     sys.exit("no action group specified")
 
 f=os.listdir(ACTDIR)
@@ -21,8 +21,8 @@ actnames=[x for x in f if x[-4:]=='.d6a']
 
 times=1
 if len(args)>1:
-    times=int(args[1])
-name=args[0]
+    times=int(args[2])
+name=args[1]
 if name in actnames:
     AGC.runActionGroup(name,times=times)
 else:
