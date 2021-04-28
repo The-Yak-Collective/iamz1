@@ -150,7 +150,7 @@ async def iamz1_video(ctx,onoff, *arg):
             dur=arg[0]
         else:
             dur=30
-        subprocess.call('source streamviatwilio',cwd=WHEREIRUNDIR)
+        subprocess.call(['source', 'streamviatwilio'],cwd=WHEREIRUNDIR)
         s="tried to start video. unpredictible reults if less than 5 minutes from last run. see video using 'runonviewer.html'."+onoff+str(arg)
         await splitsend(ctx.channel,s,False)
         return
