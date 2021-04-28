@@ -11,5 +11,5 @@ ACTDIR=os.getenv('ACTDIR','/home/pi/SpiderPi/ActionGroups/')
 f=os.listdir(ACTDIR)
 actnames=[x[:-4] for x in f if x[-4:]=='.d6a']
 
-for x in f:
+for x in actnames:
     print(x)
