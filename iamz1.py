@@ -51,17 +51,20 @@ async def iamz1_upload(ctx):
         await splitsend(ctx.channel,s,False)
         return
 
-@bot.command(name='comupload', help='upload an attached file to general command directory . will only upload one file, for now')
-async def iamz1_comupload(ctx):
-        s='i would have uploaded file to cmd directory.'
-#check there is a file
-#check if there is a directory or create one if needed
-#overwrite existing file
-        await splitsend(ctx.channel,s,False)
-        return
+@bot.command(name='cmdupload', help='upload an attached file to general command directory . will only upload one file, for now')
+async def iamz1_cmdupload(ctx):
+    if (len(ctx.message.attachments)>0):
+        print('has attachment')
+        thefilename=ctx.message.attachments[0].filename
+        with open(WHEREIRUNDIR+"/cmd/"+thefilename,'wb') as f:
+            await ctx.message.attachments[0].save(f)#probbaly also works if we save direct to file name, not f
+    s="uploaded file "+thefilename
+    await splitsend(ctx.channel,s,False)
+    return
+    
 @bot.command(name='comlist', help='list commands available')
-async def iamz1_comlist(ctx):
-    thedir=WHEREIRUNDIR+'com'
+async def iamz1_cmdlist(ctx):
+    thedir=WHEREIRUNDIR+'cmd'
     f=os.listdir(thedir)
     ff=[x for x in f if x[-3:]=='.py']
     s="list of python files in cmd directory:\n"+"\n".join(ff)
