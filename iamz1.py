@@ -100,6 +100,19 @@ async def iamz1_cmdrun(ctx,name,*args):
         
 
 
+@bot.command(name='raglist', help='show list of action groups we can rag')
+async def iamz1_raglist(ctx,name,*args):
+    out = subprocess.Popen(['/usr/bin/python3', 'raglist.py'
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+    stdout,stderr = out.communicate()
+    s='available action groups:\n'+str(stdout,"utf-8").replace("\\n",'\n')
+    await splitsend(ctx.channel,s,False)
+    return
+        
+
+
 @bot.command(name='run', help='run X ARGS: run a file X in the directory of user that sent the message. send next parameters to running. ')
 async def iamz1_run(ctx,name,*args):
     s='i am running  file {0} in directory of {1} ({3}) with parameters {2}'.format(name,ctx.author.name," ".join(args),name2filename(ctx.author.name))
