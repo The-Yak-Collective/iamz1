@@ -111,6 +111,17 @@ async def iamz1_raglist(ctx):
     await splitsend(ctx.channel,s,False)
     return
         
+@bot.command(name='rag', help='run action group NAME TIMES times')
+async def iamz1_rag(ctx, name, *args):
+    out = subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+list(args),
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+    stdout,stderr = out.communicate()
+    s='running action {} if it exists'.format(name)
+    await splitsend(ctx.channel,s,False)
+    return
+        
 
 
 @bot.command(name='run', help='run X ARGS: run a file X in the directory of user that sent the message. send next parameters to running. ')
