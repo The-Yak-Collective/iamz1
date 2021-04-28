@@ -26,4 +26,4 @@ name=args[1]
 if name in actnames:
     AGC.runActionGroup(name,times=times)
 else:
-    sys.exit("action not exist: "+ name+"see"+"\n".join(actnames))
+    sys.exit("action not exist: "+ name+"\nsee"+"\n".join(actnames))
