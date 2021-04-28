@@ -153,7 +153,7 @@ async def dmchan(t):
 
 async def splitsend(ch,st,codeformat):
 #send messages within discord limit + optional code-type formatting
-    st=PREAMBLE+":"+st
+    st=PREAMBLE+": "+st
     if len(st)<1900: #discord limit is 2k and we want some play)
         if codeformat:
             await ch.send('```'+st+'```')
