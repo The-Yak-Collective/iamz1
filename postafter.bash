@@ -1,5 +1,5 @@
 post_file=$(mktemp)
-echo "trying to post after prog stopped" $1 $YAK_ROVER_NAME
+echo "trying to post after prog stopped" $1 $YAK_ROVER_NAME >trackingfile
 echo '{"wait": true, "content": "lets try to upload a results file ' $1 '"}'>$post_file
 #echo $1 >>$post_file
 #echo '"}' >>$post_file
