@@ -260,9 +260,9 @@ if __name__ == "__main__":
         try:
             d=mpu.get_all_data()
             a=d[0]
-            b=d[1]
+            g=d[1]
             t=d[2]
-            print(a,b,t)
+            print(a['x'],a['y'],a['z'],g['x'],g['y'],g['z'],t)
         except KeyboardInterrupt:
             break
         except BaseException as e:
