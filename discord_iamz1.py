@@ -2,17 +2,14 @@
 import discord
 from discord.ext import commands
 
+load_dotenv('.env')
+from dotenv import load_dotenv
+
+PREAMBLE=os.getenv('YAK_ROVER_NAME')
+
 intents = discord.Intents.default()
 #intents.reactions = True
 #intents.members = True
-bot = commands.Bot(command_prefix='$iamz1 ', intents=intents)
+bot = commands.Bot(command_prefix='$'+PREAMBLE+' ', intents=intents)
 print('bot:',bot)
 
-#move from "client" to "bot" commands
-#import discord
-
-#intents = discord.Intents.default()
-#intents.members = True
-
-
-#client = discord.Client()#intents=intents)

@@ -10,7 +10,7 @@
 # video feedback we still need to solve - maybe shoudl be a rover command and nota  discord command? also needs a time limi
 
 # watchdogs. can be uploaded. they are able to stop any prog from interacting with rover parts. not clear what is best way to do it. a message to the Rover object might do it.
-
+#rover name set in system environment - a property of the SP itself
 #from discord.ext import tasks, commands
 import discord
 import asyncio
@@ -26,11 +26,10 @@ from discord.ext import tasks, commands
 
 from discord_iamz1 import * #especially "bot"
 
-
-
 load_dotenv('.env')
-USERHOMEDIR="/media/pi/z1-drive/" #note username may change. should use discord ID maybe
-WHEREIRUNDIR="/media/pi/z1-drive/maier/iamz1/" #obviously should change and be in an env file too
+USERHOMEDIR=os.getenv(USERHOMEDIR,default="/media/pi/z1-drive/") 
+WHEREIRUNDIR=os.getenv(WHEREIRUNDIR,default="/media/pi/z1-drive/maier/iamz1/") 
+#PREAMBLE=os.getenv('YAK_ROVER_NAME') #happens in discord file
 
 @bot.event #needed since it takes time to connect to discord
 async def on_ready(): 
@@ -51,6 +50,23 @@ async def iamz1_upload(ctx):
 #overwrite existing file
         await splitsend(ctx.channel,s,False)
         return
+
+@bot.command(name='comupload', help='upload an attached file to general command directory . will only upload one file, for now')
+async def iamz1_comupload(ctx):
+        s='i would have uploaded file to cmd directory.'
+#check there is a file
+#check if there is a directory or create one if needed
+#overwrite existing file
+        await splitsend(ctx.channel,s,False)
+        return
+@bot.command(name='comlist', help='list commands available')
+async def iamz1_comlist(ctx):
+    thedir=WHEREIRUNDIR+'com'
+    f=os.listdir(thedir)
+    ff=[x for x in f if x[-3:]=='.py']
+    s="list of python files in cmd directory:\n"+"\n".join(ff)
+    await splitsend(ctx.channel,s,False)
+    return
 
 @bot.command(name='run', help='run X ARGS: run a file X in the directory of user that sent the message. send next parameters to running. ')
 async def iamz1_run(ctx,name,*args):
@@ -76,7 +92,7 @@ async def iamz1_run(ctx,name,*args):
     return
         
 @bot.command(name='watchdog', help='watchdog X ARGS: run AS A WATCHDOG a file X in the directory of user that sent the message. send next parameters to running. ')
-async def iamz1_run(ctx,name,*args):
+async def iamz1_runwatchdog(ctx,name,*args):
         s='i would have run file {0} in directory of {1} as a watchdog with parameters {2}'.format(name,ctx.author.name,str(*args))
 #check there is a file and directory. if not say "oops"
 #format for how to run and how to give feedback for watchdog and how to kill one, unclear for now. so maybe use "run"
@@ -99,14 +115,14 @@ async def iamz1_git(ctx,git):
         await splitsend(ctx.channel,s,False)
         return
         
-@bot.command(name='video', help='video start/stop duration. one day this will open a video stream to a well known location for duration seconds. maybe a twilio room. ')
+@bot.command(name='video', help='video start/stop duration. for now it can only start and only for 5 min. ')
 async def iamz1_video(ctx,onoff, *arg):
         if len(arg)>1:
             dur=arg[0]
         else:
             dur=30
-        s='i would have turned a video stream '+onoff+' for '+str(dur)+' seconds'
-#tbd - needs to autoshutdown to save money
+        subprocess.call('source streamviatwilio',cwd=WHEREIRUNDIR)
+        s="tried to start video. unpredictible reults if less than 5 minutes from last run. see video using 'runonviewer.html'."+onoff+str(arg)
         await splitsend(ctx.channel,s,False)
         return
 
@@ -137,6 +153,7 @@ async def dmchan(t):
 
 async def splitsend(ch,st,codeformat):
 #send messages within discord limit + optional code-type formatting
+    st=PREAMBLE+":"+st
     if len(st)<1900: #discord limit is 2k and we want some play)
         if codeformat:
             await ch.send('```'+st+'```')
