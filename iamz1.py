@@ -62,7 +62,7 @@ async def iamz1_cmdupload(ctx):
     await splitsend(ctx.channel,s,False)
     return
     
-@bot.command(name='comlist', help='list commands available')
+@bot.command(name='cmdlist', help='list (python) commands available')
 async def iamz1_cmdlist(ctx):
     thedir=WHEREIRUNDIR+'cmd'
     f=os.listdir(thedir)
@@ -70,6 +70,32 @@ async def iamz1_cmdlist(ctx):
     s="list of python files in cmd directory:\n"+"\n".join(ff)
     await splitsend(ctx.channel,s,False)
     return
+
+@bot.command(name='cmdrun', help='run X ARGS: run a file X (python) in the general directory. send next parameters to running. ')
+async def iamz1_cmdrun(ctx,name,*args):
+    s='i am running  file {0} in home directory, ({3}) with parameters {2}, for user {1}'.format(name,ctx.author.name," ".join(args),WHEREIRUNDIR)
+#check there is a file and directory. if not say "oops"
+    thefiletorun=WHEREIRUNDIR+'cmd/'+name
+    if not os.path.exists(thefiletorun):
+        print('oops no such file: '+thefiletorun)
+        await splitsend(ctx.channel,'oops no such file: '+thefiletorun,False)
+        return
+#call script that runs file, etc into a text file
+#send back message with pid, for killing
+#script will send back the output file by curl
+    thestringlist=["/bin/bash",WHEREIRUNDIR+"runcommand.bash","python3 "+thefiletorun]+list(args)
+    print(thestringlist)
+    out = subprocess.Popen(thestringlist, 
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+    stdout,stderr = out.communicate()
+    s=s+ '\n'+str(thestringlist)+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
+
+    await splitsend(ctx.channel,s,False)
+    return
+        
+
 
 @bot.command(name='run', help='run X ARGS: run a file X in the directory of user that sent the message. send next parameters to running. ')
 async def iamz1_run(ctx,name,*args):
