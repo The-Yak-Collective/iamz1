@@ -13,7 +13,7 @@ rag NAME TIMES
 ''')
 args=sys.argv
 
-if(len(argv)==0):
+if(len(args)==0):
     sys.exit("no action group specified")
 
 f=os.listdir(ACTDIR)
