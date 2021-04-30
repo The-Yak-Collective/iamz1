@@ -118,7 +118,7 @@ async def iamz1_rag(ctx, name, *args):
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
     stdout,stderr = out.communicate()
-    s='running action {} if it exists'.format(name)
+    s=str(stdout,"utf-8").replace("\\n",'\n')
     await splitsend(ctx.channel,s,False)
     return
         
