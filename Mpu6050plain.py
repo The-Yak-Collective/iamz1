@@ -249,13 +249,7 @@ if __name__ == "__main__":
     mpu = mpu6050(0x68)
     mpu.set_gyro_range(mpu.GYRO_RANGE_2000DEG)
     mpu.set_accel_range(mpu.ACCEL_RANGE_2G) 
-    print('''
-    x
-   \__/
-  _/  \_ y
-   \__/
-   /  \\
-''')
+
     while True:
         try:
             d=mpu.get_all_data()

@@ -111,7 +111,7 @@ async def iamz1_raglist(ctx):
     await splitsend(ctx.channel,s,False)
     return
         
-@bot.command(name='rag', help='run action group NAME [TIMES] times')
+@bot.command(name='rag', help='run action group NAME [TIMES] times. "list" shows list of available actions. "stop" stops running action. ')
 async def iamz1_rag(ctx, name, *args):
     out = subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+list(args),
            cwd=WHEREIRUNDIR,
