@@ -13,6 +13,17 @@ SPEEDTIME=500 #milliseconds to move in
 if(len(args)<2): 
     sys.exit("no cam action specified. try 'list'",str(args))
 
+def pos():
+    print(TILT-1,PAN-1)
+    return Board.Servos[TILT-1].getPosition(),Board.Servos[PAN-1].getPosition()
+    
+def setpos(id,x):
+    print('setting servo {} to {} with speed {}'.format(id,x,SPEEDTIME))
+    Board.setPWMServoPulse(id,x,SPEEDTIME)
+    time.sleep(SPEEDTIME)
+    return
+   
+
 
 if(args[1]=="list"):
     print('''list of available cam commands:
@@ -70,10 +81,3 @@ if (args[2]=='go'):
     setpos(sid,temp)
     sys.exit(pos())
 
-def pos():
-    print(TILT-1,PAN-1)
-    return Board.Servos[TILT-1].getPosition(),Board.Servos[PAN-1].getPosition()
-    
-def setpos(id,x):
-    print('setting servo {} to {} with speed {}'.format(id,x,SPEEDTIME))
-    return Board.setPWMServoPulse(id,x,SPEEDTIME)
