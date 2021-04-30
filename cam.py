@@ -20,7 +20,7 @@ def pos():
 def setpos(id,x):
     print('setting servo {} to {} with speed {}'.format(id,x,SPEEDTIME))
     Board.setPWMServoPulse(int(id),int(x),int(SPEEDTIME))
-    #time.sleep(SPEEDTIME)
+    time.sleep(SPEEDTIME/1000.0)
     return
    
 
