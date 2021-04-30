@@ -52,18 +52,18 @@ if (args[1]=='pan'):
 if (args[1]=='TILT'):
     sid=TILT
 #from here, only second arg matters
-if (args[2].isdigit())
+if (args[2].isdigit()):
     setpos(sid,int(args[2]))
     sys.exit(pos())
-if (args[2]=='-')
+if (args[2]=='-'):
     temp=pos()[sid-1]
     setpos(sid,temp-STEP)
     sys.exit(pos())
-if (args[2]=='+')
+if (args[2]=='+'):
     temp=pos()[sid-1]
     setpos(sid,temp+STEP)
     sys.exit(pos())
-if (args[2]=='go')
+if (args[2]=='go'):
     temp=pos()[sid-1]
     setpos(sid,500)
     for x in range (500+STEP,2500+STEP,STEP):
