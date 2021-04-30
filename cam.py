@@ -14,7 +14,7 @@ if(len(args)<2):
     sys.exit("no cam action specified. try 'list'",str(args))
 
 def pos():
-    print(TILT-1,PAN-1)
+    print(TILT-1,PAN-1,Board.Servos[0].Position,Board.Servos[1].Position)
     return Board.Servos[TILT-1].getPosition(),Board.Servos[PAN-1].getPosition()
     
 def setpos(id,x):
