@@ -16,7 +16,7 @@ if(len(args)<2):
     sys.exit("no cam action specified. try 'list'",str(args))
 
 def pos():
-    return Board.Servos(TILT-1).getPosition(),Board.Servos(PAN-1).getPosition()
+    return Board.Servos[TILT-1].getPosition(),Board.Servos[PAN-1].getPosition()
 def setpos(id,x):
     return Board.setPWMServoPulse(id,x,SPEEDTIME)
 
