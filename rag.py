@@ -16,7 +16,7 @@ args=sys.argv
 if(len(args)<2): 
     sys.exit("no action group specified",str(args))
     
-f=os.listdir(ACTDIR)
+f=sorted(os.listdir(ACTDIR))
 actnames=[x[:-4] for x in f if x[-4:]=='.d6a']
 
 if(args[1]=="list"):
