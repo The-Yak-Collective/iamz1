@@ -121,6 +121,17 @@ async def iamz1_rag(ctx, name, *args):
     s=str(stdout,"utf-8").replace("\\n",'\n')
     await splitsend(ctx.channel,s,False)
     return
+
+@bot.command(name='cam', help='move camera pan/tilt +/-/x OR x,y OR rest. "list" shows list of available actions. ')
+async def iamz1_cam(ctx, *args):
+    out = subprocess.Popen(['/usr/bin/python3', 'cam.py']+list(args),
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+    stdout,stderr = out.communicate()
+    s=str(stdout,"utf-8").replace("\\n",'\n')
+    await splitsend(ctx.channel,s,False)
+    return
         
         
 @bot.command(name='unload', help='move all servos to unload configuration')
