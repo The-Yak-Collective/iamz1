@@ -10,9 +10,14 @@ PAN=2
 TILT=1
 STEP=100 # size of +/- steps
 SPEEDTIME=500 #milliseconds to move in 
+
 if(len(args)<2): 
     sys.exit("no cam action specified. try 'list'",str(args))
 
+def savepos():
+    os.environ["CAM_PAN"]=str(Board.Servos[PAN-1].getPosition())
+    os.environ["CAM_TILT"]=str(Board.Servos[TILT-1].getPosition())
+    
 def pos():
     print(TILT-1,PAN-1,Board.Servos[0].Position,Board.Servos[1].Position)
     return Board.Servos[TILT-1].getPosition(),Board.Servos[PAN-1].getPosition()
@@ -21,6 +26,7 @@ def setpos(id,x):
     print('setting servo {} to {} with speed {}'.format(id,x,SPEEDTIME))
     Board.setPWMServoPulse(int(id),int(x),int(SPEEDTIME))
     time.sleep(SPEEDTIME/1000.0)
+    savepos()
     return
    
 
