@@ -4,8 +4,6 @@ import time
 import Board
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
-ACTDIR=os.getenv('ACTDIR','/home/pi/SpiderPi/ActionGroups/')
-
 
 args=sys.argv
 PAN=2
@@ -15,12 +13,6 @@ SPEEDTIME=500 #milliseconds to move in
 if(len(args)<2): 
     sys.exit("no cam action specified. try 'list'",str(args))
 
-def pos():
-    return Board.Servos[TILT-1].getPosition(),Board.Servos[PAN-1].getPosition()
-    
-def setpos(id,x):
-    print('setting servo {} to {} with speed {}'.format(id,x,SPEEDTIME))
-    return Board.setPWMServoPulse(id,x,SPEEDTIME)
 
 if(args[1]=="list"):
     print('''list of available cam commands:
@@ -49,6 +41,7 @@ if (args[1].isdigit() and args[2].isdigit()):
     setpos(PAN,int(args[1]))
     setpos(TILT,int(args[2]))
     sys.exit(pos())
+sid=PAN #not needed, but lets see
 if (args[1]=='pan'):
     sid=PAN
 elif (args[1]=='tilt'):
@@ -76,3 +69,11 @@ if (args[2]=='go'):
         setpos(sid,x)
     setpos(sid,temp)
     sys.exit(pos())
+
+def pos():
+    print(TILT-1,PAN-1)
+    return Board.Servos[TILT-1].getPosition(),Board.Servos[PAN-1].getPosition()
+    
+def setpos(id,x):
+    print('setting servo {} to {} with speed {}'.format(id,x,SPEEDTIME))
+    return Board.setPWMServoPulse(id,x,SPEEDTIME)
