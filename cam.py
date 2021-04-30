@@ -17,7 +17,9 @@ if(len(args)<2):
 
 def pos():
     return Board.Servos[TILT-1].getPosition(),Board.Servos[PAN-1].getPosition()
+    
 def setpos(id,x):
+    print('setting servo {} to {} with speed {}'.format(id,x,SPEEDTIME))
     return Board.setPWMServoPulse(id,x,SPEEDTIME)
 
 if(args[1]=="list"):
@@ -49,8 +51,12 @@ if (args[1].isdigit() and args[2].isdigit()):
     sys.exit(pos())
 if (args[1]=='pan'):
     sid=PAN
-if (args[1]=='TILT'):
+elif (args[1]=='tilt'):
     sid=TILT
+else:
+    sys.exit('illegal command')
+if len(args)<3:
+    sys.exit('need at least one argument after pan/tilt')
 #from here, only second arg matters
 if (args[2].isdigit()):
     setpos(sid,int(args[2]))
