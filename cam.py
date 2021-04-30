@@ -13,10 +13,18 @@ SPEEDTIME=500 #milliseconds to move in
 
 if(len(args)<2): 
     sys.exit("no cam action specified. try 'list'",str(args))
+try:
+    readpos()
+except:
+    pass
 
 def savepos():
-    os.environ["CAM_PAN"]=str(Board.Servos[PAN-1].getPosition())
-    os.environ["CAM_TILT"]=str(Board.Servos[TILT-1].getPosition())
+    with open('campos.txt','w') as f:
+        f.write('{0}\n{1}\n'.format(str(Board.Servos[PAN-1].getPosition()),str(Board.Servos[TILT-1].getPosition())))
+def readpos():
+    with open('campos.txt','r') as f:
+        g=f.readlines()
+        print('got ',int(g[0]),int(g[1]))
     
 def pos():
     print(TILT-1,PAN-1,Board.Servos[0].Position,Board.Servos[1].Position)
