@@ -28,7 +28,7 @@ if(args[1]=="list"):
     sys.exit()
 
 if(args[1]=="stop"):
-    AGC.stopActionGroup()
+    AGC.stopAction()
     sys.exit("stopped AG")
 times=1
 if len(args)>2:
