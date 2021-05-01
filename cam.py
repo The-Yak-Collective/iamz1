@@ -21,24 +21,24 @@ except:
 def savepos():
     with open('campos.txt','w') as f:
         f.write('{0}\n{1}\n'.format(str(Board.Servos[PAN-1].getPosition()),str(Board.Servos[TILT-1].getPosition())))
-    print('saved:',str(Board.Servos[PAN-1].getPosition()),str(Board.Servos[TILT-1].getPosition()))
+    #print('saved:',str(Board.Servos[PAN-1].getPosition()),str(Board.Servos[TILT-1].getPosition()))
     
 def readpos():
     with open('campos.txt','r') as f:
         g=f.readlines()
-        print('got ',int(g[0]),int(g[1]))
+        #print('got ',int(g[0]),int(g[1]))
     Board.Servos[PAN-1].Position=int(g[0])
     Board.Servos[TILT-1].Position=int(g[1])
-    print('set', Board.Servos[PAN-1].Position,Board.Servos[TILT-1].Position)
+    #print('set', Board.Servos[PAN-1].Position,Board.Servos[TILT-1].Position)
 
 readpos()
     
 def pos():
-    print(TILT-1,PAN-1,Board.Servos[0].Position,Board.Servos[1].Position)
+    #print(TILT-1,PAN-1,Board.Servos[0].Position,Board.Servos[1].Position)
     return Board.Servos[TILT-1].getPosition(),Board.Servos[PAN-1].getPosition()
     
 def setpos(id,x):
-    print('setting servo {} to {} with speed {}'.format(id,x,SPEEDTIME))
+    #print('setting servo {} to {} with speed {}'.format(id,x,SPEEDTIME))
     Board.setPWMServoPulse(int(id),int(x),int(SPEEDTIME))
     time.sleep(SPEEDTIME/1000.0)
     savepos()
