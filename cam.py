@@ -25,6 +25,10 @@ def readpos():
     with open('campos.txt','r') as f:
         g=f.readlines()
         print('got ',int(g[0]),int(g[1]))
+    Board.Servos[PAN-1].Position=g[0]
+    Board.Servos[PAN-1].Position=g[1]
+
+readpos()
     
 def pos():
     print(TILT-1,PAN-1,Board.Servos[0].Position,Board.Servos[1].Position)
