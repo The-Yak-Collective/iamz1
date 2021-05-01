@@ -199,9 +199,13 @@ async def iamz1_video(ctx,onoff, *arg):
         if len(arg)>1:
             dur=arg[0]
         else:
-            dur=30
-        subprocess.call(['/bin/bash', 'streamviatwilio'],cwd=WHEREIRUNDIR)
-        s="tried to start video. unpredictible reults if less than 5 minutes from last run. see video using 'runonviewer.html'."+onoff+str(arg)
+            dur="300"
+        if (onoff=='off'):
+            subprocess.call(['/bin/bash', 'stopvideo'],cwd=WHEREIRUNDIR)
+            s='tried to turn off video using kill (stopvideo). if video was not running, effect on system stability unpredictable'
+        else:
+            subprocess.call(['/bin/bash', 'streamviatwilio', dur],cwd=WHEREIRUNDIR)
+            s="tried to start video. unpredictible reults if last run not over yet. see video using 'runonviewer.html'."
         await splitsend(ctx.channel,s,False)
         return
 

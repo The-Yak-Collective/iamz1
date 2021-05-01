@@ -5,6 +5,8 @@ if [[ -z "${YAK_ROVER_NAME}" ]]; then
 fi
 
 sed s/\"iamz1\"/\"$YAK_ROVER_NAME\"/ runonbot.html >streamit.html
-timeout 300 chromium-browser --headless --disable-gpu --use-fake-ui-for-media-stream --remote-debugging-port=9222 streamit.html &
+
+timeout $1 chromium-browser --headless --disable-gpu --use-fake-ui-for-media-stream --remote-debugging-port=9222 streamit.html &
 echo you can kill by kill -9 $(ps ax | grep 'streamit' | awk '{printf $1 " "}')
+echo kill -9 $(ps ax | grep 'streamit' | awk '{printf $1 " "}') >stopvideo
 
