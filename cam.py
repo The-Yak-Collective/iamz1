@@ -21,12 +21,15 @@ except:
 def savepos():
     with open('campos.txt','w') as f:
         f.write('{0}\n{1}\n'.format(str(Board.Servos[PAN-1].getPosition()),str(Board.Servos[TILT-1].getPosition())))
+    print('saved:',str(Board.Servos[PAN-1].getPosition()),str(Board.Servos[TILT-1].getPosition()))
+    
 def readpos():
     with open('campos.txt','r') as f:
         g=f.readlines()
         print('got ',int(g[0]),int(g[1]))
     Board.Servos[PAN-1].Position=int(g[0])
-    Board.Servos[PAN-1].Position=int(g[1])
+    Board.Servos[TILT-1].Position=int(g[1])
+    print('set', Board.Servos[PAN-1].Position,Board.Servos[TILT-1].Position)
 
 readpos()
     
