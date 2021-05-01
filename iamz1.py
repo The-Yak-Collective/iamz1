@@ -196,7 +196,7 @@ async def iamz1_git(ctx,git):
         
 @bot.command(name='video', help='video start/stop duration. for now it can only start and only for 5 min. ')
 async def iamz1_video(ctx,onoff, *arg):
-        if len(arg)>1:
+        if len(arg)>0:
             dur=arg[0]
         else:
             dur="300"
