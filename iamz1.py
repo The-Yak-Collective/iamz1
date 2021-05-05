@@ -33,6 +33,11 @@ USERHOMEDIR=os.getenv('USERHOMEDIR',default="/media/pi/z1-drive/")
 WHEREIRUNDIR=os.getenv('WHEREIRUNDIR',default="/media/pi/z1-drive/maier/iamz1/") 
 #PREAMBLE=os.getenv('YAK_ROVER_NAME') #happens in discord file
 
+async def gotit(ctx):
+        s='I got: {0} from {1}'.format(ctx.message.content, ctx.author.name)
+        await splitsend(ctx.channel,s,False)
+        return
+
 @bot.event #needed since it takes time to connect to discord
 async def on_ready(): 
     print('We have logged in as {0.user}'.format(bot),  bot.guilds)
@@ -230,10 +235,6 @@ async def iamz1_video(ctx,onoff, *arg):
         await splitsend(ctx.channel,s,False)
         return
 
-async def gotit(ctx):
-        s='I got: {0} from {1}'.format(ctx.message.content, ctx.author.name)
-        await splitsend(ctx.channel,s,False)
-        return
 
 
 def name2filename(x):
