@@ -35,6 +35,7 @@ WHEREIRUNDIR=os.getenv('WHEREIRUNDIR',default="/media/pi/z1-drive/maier/iamz1/")
 
 async def gotit(ctx):
         s='I got: {0} from {1}'.format(ctx.message.content, ctx.author.name)
+        print(s)
         await splitsend(ctx.channel,s,False)
         return
 
@@ -125,16 +126,17 @@ async def iamz1_stop(ctx):
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
-    stdout,stderr = out.communicate()
-    s1='did i stop (freeze more like it)?'+str(stdout,"utf-8").replace("\\n",'\n')
+    #stdout,stderr = out.communicate()
+    #s1='did i stop (freeze more like it)?'+str(stdout,"utf-8").replace("\\n",'\n')
     
     out1 = subprocess.Popen(['/bin/bash', 'kill', '-9', '''$(ps ax | grep 'cam.py' | awk '{printf $1 " "}')'''],
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
-    stdout,stderr = out.communicate()
-    s2=s1+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
-    await splitsend(ctx.channel,s2,False)
+    #stdout,stderr = out.communicate()
+    #s2=s1+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
+    s="did i stop/freeze all?"
+    await splitsend(ctx.channel,s,False)
     return
         
 @bot.command(name='rag', help='run action group NAME [TIMES] times. "list" shows list of available actions. "stop" stops running action. ',before_invoke=gotit)
