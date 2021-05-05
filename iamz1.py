@@ -149,7 +149,7 @@ async def iamz1_rag(ctx, name, *args):
            stderr=subprocess.STDOUT)
     try:
         stdout,stderr = out.communicate(timeout=2)
-    except TimeoutExpired:
+    except subprocess.TimeoutExpired:
         pass
     s=str(stdout,"utf-8").replace("\\n",'\n')
     await splitsend(ctx.channel,s,False)
@@ -164,7 +164,7 @@ async def iamz1_cam(ctx, *args):
            stderr=subprocess.STDOUT)
     try:
         stdout,stderr = out.communicate(timeout=2)
-    except TimeoutExpired:
+    except subprocess.TimeoutExpired:
         pass
     s=str(stdout,"utf-8").replace("\\n",'\n')
     await splitsend(ctx.channel,s,False)
