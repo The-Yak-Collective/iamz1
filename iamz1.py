@@ -33,6 +33,7 @@ USERHOMEDIR=os.getenv('USERHOMEDIR',default="/media/pi/z1-drive/")
 WHEREIRUNDIR=os.getenv('WHEREIRUNDIR',default="/media/pi/z1-drive/maier/iamz1/") 
 #PREAMBLE=os.getenv('YAK_ROVER_NAME') #happens in discord file
 
+@command.before_invoke
 async def gotit(ctx):
         s='I got: {0} from {1}'.format(ctx.message.content, ctx.author.name)
         print(s)
@@ -109,7 +110,7 @@ async def iamz1_cmdrun(ctx,name,*args):
         
 
 
-@bot.command(name='raglist', help='show list of action groups we can rag')
+@bot.command(name='raglist', help='show list of action groups we can rag',hidden=True)
 async def iamz1_raglist(ctx):
     out = subprocess.Popen(['/usr/bin/python3', 'raglist.py'],
            cwd=WHEREIRUNDIR,
@@ -198,7 +199,7 @@ async def iamz1_run(ctx,name,*args):
     await splitsend(ctx.channel,s,False)
     return
         
-@bot.command(name='watchdog', help='watchdog X ARGS: run AS A WATCHDOG a file X in the directory of user that sent the message. send next parameters to running. ')
+@bot.command(name='watchdog', help='watchdog X ARGS: run AS A WATCHDOG a file X in the directory of user that sent the message. send next parameters to running. ',hidden=True)
 async def iamz1_runwatchdog(ctx,name,*args):
         s='i would have run file {0} in directory of {1} as a watchdog with parameters {2}'.format(name,ctx.author.name,str(*args))
 #check there is a file and directory. if not say "oops"
@@ -215,7 +216,7 @@ async def iamz1_kill(ctx,pid):
         await splitsend(ctx.channel,s,False)
         return
 
-@bot.command(name='git', help='one day this will do a git pull action into user directory. ')
+@bot.command(name='git', help='one day this will do a git pull action into user directory. ', hidden=True)
 async def iamz1_git(ctx,git):
         s='i would have pulled git repository '+git+' into user dir '+ctx.author.name
 #tbd - what about privacy?
