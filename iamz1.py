@@ -123,14 +123,14 @@ async def iamz1_raglist(ctx):
 
 @bot.command(name='stop', help='stops any ongoing action group (rag) and camera motion (cam). we hope', before_invoke=gotit)
 async def iamz1_stop(ctx):
-    out = subprocess.Popen(['/bin/bash', 'pkill', '-f', 'rag.py'],
+    out = subprocess.Popen(['/bin/bash', "set -v", "&&", 'pkill', '-f', 'rag.py'],
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
     #stdout,stderr = out.communicate()
     #s1='did i stop (freeze more like it)?'+str(stdout,"utf-8").replace("\\n",'\n')
     
-    out1 = subprocess.Popen(['/bin/bash', 'pkill', '-f', 'cam.py'],
+    out1 = subprocess.Popen(['/bin/bash', "set -v", "&&", 'pkill', '-f', 'cam.py'],
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
