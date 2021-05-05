@@ -123,14 +123,14 @@ async def iamz1_raglist(ctx):
 
 @bot.command(name='stop', help='stops any ongoing action group (rag) and camera motion (cam). we hope', before_invoke=gotit)
 async def iamz1_stop(ctx):
-    out = subprocess.Popen(['/bin/bash', 'kill', '-9', '''$(ps ax | grep 'rag.py' | awk '{printf $1 " "}')'''],
+    out = subprocess.Popen(['/bin/bash', 'pkill', '-f', 'rag.py'],
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
     #stdout,stderr = out.communicate()
     #s1='did i stop (freeze more like it)?'+str(stdout,"utf-8").replace("\\n",'\n')
     
-    out1 = subprocess.Popen(['/bin/bash', 'kill', '-9', '''$(ps ax | grep 'cam.py' | awk '{printf $1 " "}')'''],
+    out1 = subprocess.Popen(['/bin/bash', 'pkill', '-f', 'cam.py'],
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
@@ -149,10 +149,10 @@ async def iamz1_rag(ctx, name, *args):
            stderr=subprocess.STDOUT)
     try:
         stdout,stderr = out.communicate(timeout=2)
+        s=str(stdout,"utf-8").replace("\\n",'\n')
+        await splitsend(ctx.channel,s,False)
     except subprocess.TimeoutExpired:
         pass
-    s=str(stdout,"utf-8").replace("\\n",'\n')
-    await splitsend(ctx.channel,s,False)
     return
 
 @bot.command(name='cam', help='move camera pan/tilt +/-/x OR x,y OR rest. "list" shows list of available actions. ', before_invoke=gotit)
@@ -164,10 +164,10 @@ async def iamz1_cam(ctx, *args):
            stderr=subprocess.STDOUT)
     try:
         stdout,stderr = out.communicate(timeout=2)
+        s=str(stdout,"utf-8").replace("\\n",'\n')
+        await splitsend(ctx.channel,s,False)
     except subprocess.TimeoutExpired:
         pass
-    s=str(stdout,"utf-8").replace("\\n",'\n')
-    await splitsend(ctx.channel,s,False)
     return
         
         
