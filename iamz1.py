@@ -12,6 +12,7 @@
 # watchdogs. can be uploaded. they are able to stop any prog from interacting with rover parts. not clear what is best way to do it. a message to the Rover object might do it.
 #rover name set in system environment - a property of the SP itself
 #from discord.ext import tasks, commands
+
 import discord
 import asyncio
 import os
@@ -37,13 +38,15 @@ async def on_ready():
     print('We have logged in as {0.user}'.format(bot),  bot.guilds)
     return
 
-@bot.command(name='test', help='test message. go to https://roamresearch.com/#/app/ArtOfGig/page/iBLdEt5Ji to see more about z1 yak rover project')
+@bot.command(name='test', help='test message. go to https://roamresearch.com/#/app/ArtOfGig/page/iBLdEt5Ji to see more about z1 yak rover project', before_invoke=gotit)
 async def iamz_test(ctx):
         s='this is a test response from z1 rover bot who got a message from '+ctx.author.name
         await splitsend(ctx.channel,s,False)
         return
 
-@bot.command(name='upload', help='upload an attached file to directory of user that sent the message. will only upload one file, for now')
+
+
+@bot.command(name='upload', help='upload an attached file to directory of user that sent the message. will only upload one file, for now', before_invoke=gotit)
 async def iamz1_upload(ctx):
         s='i would have uploaded file to directory of '+ctx.author.name
 #check there is a file
@@ -52,7 +55,7 @@ async def iamz1_upload(ctx):
         await splitsend(ctx.channel,s,False)
         return
 
-@bot.command(name='cmdupload', help='upload an attached file to general command directory . will only upload one file, for now')
+@bot.command(name='cmdupload', help='upload an attached file to general command directory . will only upload one file, for now', before_invoke=gotit)
 async def iamz1_cmdupload(ctx):
     if (len(ctx.message.attachments)>0):
         print('has attachment')
@@ -63,7 +66,7 @@ async def iamz1_cmdupload(ctx):
     await splitsend(ctx.channel,s,False)
     return
     
-@bot.command(name='cmdlist', help='list (python) commands available')
+@bot.command(name='cmdlist', help='list (python) commands available', before_invoke=gotit)
 async def iamz1_cmdlist(ctx):
     thedir=WHEREIRUNDIR+'cmd'
     f=os.listdir(thedir)
@@ -72,7 +75,7 @@ async def iamz1_cmdlist(ctx):
     await splitsend(ctx.channel,s,False)
     return
 
-@bot.command(name='cmdrun', help='run X ARGS: run a file X (python) in the general directory. send next parameters to running. ')
+@bot.command(name='cmdrun', help='run X ARGS: run a file X (python) in the general directory. send next parameters to running. ', before_invoke=gotit)
 async def iamz1_cmdrun(ctx,name,*args):
     s='i am running  file {0} in home directory, ({3}) with parameters {2}, for user {1}'.format(name,ctx.author.name," ".join(args),WHEREIRUNDIR)
 #check there is a file and directory. if not say "oops"
@@ -110,8 +113,26 @@ async def iamz1_raglist(ctx):
     s='available action groups:\n'+str(stdout,"utf-8").replace("\\n",'\n')
     await splitsend(ctx.channel,s,False)
     return
+
+@bot.command(name='stop', help='stops any ongoing action group (rag) and camera motion (cam). we hope', before_invoke=gotit)
+async def iamz1_stop(ctx):
+    out = subprocess.Popen(['/bin/bash', 'kill', '-9', '''$(ps ax | grep 'rag.py' | awk '{printf $1 " "}')'''],
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+    stdout,stderr = out.communicate()
+    s1='did i stop (freeze more like it)?'+str(stdout,"utf-8").replace("\\n",'\n')
+    
+    out1 = subprocess.Popen(['/bin/bash', 'kill', '-9', '''$(ps ax | grep 'cam.py' | awk '{printf $1 " "}')'''],
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+    stdout,stderr = out.communicate()
+    s2=s1+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
+    await splitsend(ctx.channel,s2,False)
+    return
         
-@bot.command(name='rag', help='run action group NAME [TIMES] times. "list" shows list of available actions. "stop" stops running action. ')
+@bot.command(name='rag', help='run action group NAME [TIMES] times. "list" shows list of available actions. "stop" stops running action. ',before_invoke=gotit)
 async def iamz1_rag(ctx, name, *args):
     out = subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+list(args),
            cwd=WHEREIRUNDIR,
@@ -122,7 +143,7 @@ async def iamz1_rag(ctx, name, *args):
     await splitsend(ctx.channel,s,False)
     return
 
-@bot.command(name='cam', help='move camera pan/tilt +/-/x OR x,y OR rest. "list" shows list of available actions. ')
+@bot.command(name='cam', help='move camera pan/tilt +/-/x OR x,y OR rest. "list" shows list of available actions. ', before_invoke=gotit)
 async def iamz1_cam(ctx, *args):
     out = subprocess.Popen(['/usr/bin/python3', 'cam.py']+list(args),
            cwd=WHEREIRUNDIR,
@@ -147,7 +168,7 @@ async def iamz1_unloadservos(ctx):
         
 
 
-@bot.command(name='run', help='run X ARGS: run a file X in the directory of user that sent the message. send next parameters to running. ')
+@bot.command(name='run', help='run X ARGS: run a file X in the directory of user that sent the message. send next parameters to running. ', before_invoke=gotit)
 async def iamz1_run(ctx,name,*args):
     s='i am running  file {0} in directory of {1} ({3}) with parameters {2}'.format(name,ctx.author.name," ".join(args),name2filename(ctx.author.name))
 #check there is a file and directory. if not say "oops"
@@ -194,7 +215,7 @@ async def iamz1_git(ctx,git):
         await splitsend(ctx.channel,s,False)
         return
         
-@bot.command(name='video', help='video start/stop duration. for now it can only start and only for 5 min. ')
+@bot.command(name='video', help='video start/stop duration. for now it can only start and only for 5 min. ', before_invoke=gotit)
 async def iamz1_video(ctx,onoff, *arg):
         if len(arg)>0:
             dur=arg[0]
@@ -208,6 +229,12 @@ async def iamz1_video(ctx,onoff, *arg):
             s="tried to start video. unpredictible reults if last run not over yet. see video using 'runonviewer.html'."
         await splitsend(ctx.channel,s,False)
         return
+
+async def gotit(ctx):
+        s='I got: {0} from {1}'.format(ctx.message.content, ctx.author.name)
+        await splitsend(ctx.channel,s,False)
+        return
+
 
 def name2filename(x):
     return re.sub('[^a-zA-Z0-9]+','',x)

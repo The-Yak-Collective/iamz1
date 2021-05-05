@@ -48,18 +48,18 @@ def setpos(id,x):
 
 if(args[1]=="list"):
     print('''list of available cam commands:
-    pan go slow move from left to right end where was
-    tilt go slow move top down end where was
-    pan X pan to positon X range {500..2500}
-    tilt X tilt to positon X range {500..2500}
-    pan + add 100 to pan position
-    pan - subtract 100 from pan position
-    tilt + add 100 to tilt position
-    tilt - subtract 100 from tilt position
-    X Y  goto position X,Y
-    pos  show pos
-    rest  goto 1500,1500 - center position
-    list this list
+    pan go  => slow move from left to right end where was
+    tilt go => slow move top down end where was
+    pan X => pan to positon X range {500..2500}
+    tilt X => tilt to positon X range {500..2500}
+    pan + => add 100 to pan position
+    pan - => subtract 100 from pan position
+    tilt + => add 100 to tilt position
+    tilt - => subtract 100 from tilt position
+    X Y => goto position X,Y
+    pos => show pos
+    rest => goto 1500,1500 - center position
+    list => this list
     ''')
     sys.exit(pos())
 
