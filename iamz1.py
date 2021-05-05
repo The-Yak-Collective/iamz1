@@ -33,7 +33,7 @@ USERHOMEDIR=os.getenv('USERHOMEDIR',default="/media/pi/z1-drive/")
 WHEREIRUNDIR=os.getenv('WHEREIRUNDIR',default="/media/pi/z1-drive/maier/iamz1/") 
 #PREAMBLE=os.getenv('YAK_ROVER_NAME') #happens in discord file
 
-@bot.command.before_invoke
+
 async def gotit(ctx):
         s='I got: {0} from {1}'.format(ctx.message.content, ctx.author.name)
         print(s)
