@@ -142,22 +142,30 @@ async def iamz1_stop(ctx):
         
 @bot.command(name='rag', help='run action group NAME [TIMES] times. "list" shows list of available actions. "stop" stops running action. ',before_invoke=gotit)
 async def iamz1_rag(ctx, name, *args):
+    gotit(ctx)
     out = subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+list(args),
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
-    stdout,stderr = out.communicate()
+    try:
+        stdout,stderr = out.communicate(timeout=2)
+    except TimeoutExpired:
+        pass
     s=str(stdout,"utf-8").replace("\\n",'\n')
     await splitsend(ctx.channel,s,False)
     return
 
 @bot.command(name='cam', help='move camera pan/tilt +/-/x OR x,y OR rest. "list" shows list of available actions. ', before_invoke=gotit)
 async def iamz1_cam(ctx, *args):
+    gotit(ctx)
     out = subprocess.Popen(['/usr/bin/python3', 'cam.py']+list(args),
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
-    stdout,stderr = out.communicate()
+    try:
+        stdout,stderr = out.communicate(timeout=2)
+    except TimeoutExpired:
+        pass
     s=str(stdout,"utf-8").replace("\\n",'\n')
     await splitsend(ctx.channel,s,False)
     return
