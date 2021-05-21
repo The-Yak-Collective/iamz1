@@ -28,7 +28,7 @@ while True:
         img_counter += 1
 
 cam.release()
-cv2.destroyAllWindows()
+
 
 imgL = cv2.imread("opencv_frame_0.png",0)
 imgR = cv2.imread("opencv_frame_1.png",0)
@@ -37,6 +37,5 @@ stereo = cv2.StereoBM_create(numDisparities=16, blockSize=15)
 print("now here")
 disparity = stereo.compute(imgL,imgR)
 print("and finally")
-plt.imshow(disparity,'gray')
-plt.show()
-
+cv2.imwrite("disp_img.png", disparity)
+cv2.destroyAllWindows()
