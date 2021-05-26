@@ -165,5 +165,5 @@ def serial_servo_get_rmsg(cmd):
     else:
         serialHandle.flushInput()  # 清空接收缓存
         return None
-for i in range (1,18):
+for i in range (1,19):
     serial_serro_wirte_cmd(id=i, w_cmd=LOBOT_SERVO_LOAD_OR_UNLOAD_WRITE, dat1=0)
