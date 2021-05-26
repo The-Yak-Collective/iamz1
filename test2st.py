@@ -12,7 +12,7 @@ imgL = cv2.imread(sys.argv[1],0)
 imgR = cv2.imread(sys.argv[2],0)
 
 
-stereo = cv2.StereoSGBM_create(numDisparities=64, blockSize=5)
+stereo = cv2.StereoSGBM_create(numDisparities=16, blockSize=11)
 
 start = time.time()
 
