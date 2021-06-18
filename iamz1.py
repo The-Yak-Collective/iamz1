@@ -231,7 +231,7 @@ async def iamz1_git(ctx,git):
         await splitsend(ctx.channel,s,False)
         return
         
-@bot.command(name='video', help='video start/stop duration. for now it can only start and only for 5 min. ', before_invoke=gotit)
+@bot.command(name='video', help='video on/off duration. for now it can only start and only for 5 min. ', before_invoke=gotit)
 async def iamz1_video(ctx,onoff, *arg):
         if len(arg)>0:
             dur=arg[0]
