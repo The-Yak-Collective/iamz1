@@ -10,9 +10,9 @@ if len(sys.argv)>1:
 ret, frame = cam.read()
 if not ret:
     print("failed to grab frame")
-    break
-cv2.imwrite(img_name, frame)
-print("{} written!".format(img_name))
+else:
+    cv2.imwrite(img_name, frame)
+    print("{} written!".format(img_name))
 
 cam.release()
 
