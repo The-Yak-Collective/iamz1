@@ -1,7 +1,7 @@
 import cv2
 import sys
 
-cam = cv2.VideoCapture(0)
+cam = cv2.VideoCapture('/dev/video2')
 
 img_name = "a_snap.png"
 if len(sys.argv)>1:
