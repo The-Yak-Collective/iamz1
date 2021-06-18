@@ -1,13 +1,15 @@
 import cv2
 import sys
-
-cam = cv2.VideoCapture('/dev/video2')
-
 img_name = "a_snap.png"
 if len(sys.argv)>1:
     img_name=argv[1]
 
+cam = cv2.VideoCapture(0)
 ret, frame = cam.read()
+if not ret:
+    cam = cv2.VideoCapture('/dev/video2')
+    ret, frame = cam.read()
+
 if not ret:
     print("failed to grab frame")
 else:
