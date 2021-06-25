@@ -145,6 +145,7 @@ async def iamz1_stop(ctx):
 @bot.command(name='rag', help='run action group NAME [TIMES] times. "list" shows list of available actions. "stop" stops running action. ',before_invoke=gotit)
 async def iamz1_rag(ctx, name, *args):
     await gotit(ctx)
+    global make_clip
     if make_clip:
         out = subprocess.Popen(['/bin/bash', 'makeaclip.bash'],
            cwd=WHEREIRUNDIR,
