@@ -31,8 +31,10 @@ ourdir=os.path.dirname(os.path.abspath(__file__))
 load_dotenv(find_dotenv()) #'.env')
 USERHOMEDIR=os.getenv('USERHOMEDIR',default="/media/pi/z1-drive/") 
 WHEREIRUNDIR=os.getenv('WHEREIRUNDIR',default="/media/pi/z1-drive/maier/iamz1/") 
+TWITTERHOMEDIR=os.getenv('TWITTERHOMEDIR',default="/media/pi/z1-drive/maier/twit/Rover-Twitter/") 
 #PREAMBLE=os.getenv('YAK_ROVER_NAME') #happens in discord file
 
+tweet_outcome=False
 
 async def gotit(ctx):
         s='I got: {0} from {1}'.format(ctx.message.content, ctx.author.name)
@@ -50,8 +52,6 @@ async def iamz_test(ctx):
         s='this is a test response from z1 rover bot who got a message from '+ctx.author.name
         await splitsend(ctx.channel,s,False)
         return
-
-
 
 @bot.command(name='upload', help='upload an attached file to directory of user that sent the message. will only upload one file, for now', before_invoke=gotit)
 async def iamz1_upload(ctx):
@@ -153,6 +153,15 @@ async def iamz1_rag(ctx, name, *args):
         await splitsend(ctx.channel,s,False)
     except subprocess.TimeoutExpired:
         pass
+    if tweet_outcome:
+        out = subprocess.Popen(['/usr/bin/python3', 'snap.py']+,
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+        out = subprocess.Popen(['/usr/bin/python3', TWITTERHOMEDIR+'tweetthis.py', "in response to {}".format(name+' '+str(list(args))),"a_snap.png"],
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
     return
 
 @bot.command(name='cam', help='move camera pan/tilt +/-/x OR x,y OR rest. "list" shows list of available actions. ', before_invoke=gotit)
@@ -244,6 +253,14 @@ async def iamz1_video(ctx,onoff, *arg):
             subprocess.call(['/bin/bash', 'streamviatwilio', dur],cwd=WHEREIRUNDIR)
             s="tried to start video. unpredictible reults if last run not over yet. see video using 'runonviewer.html'."
         await splitsend(ctx.channel,s,False)
+        return
+
+@bot.command(name='tweet', help='tweet on/off. tweet a picture of outcome of command after doing command', before_invoke=gotit)
+async def tweetonoff(ctx,onoff):
+        if (onoff=='off'):
+            tweet_outcome=False
+        else:
+            tweet_outcome=True
         return
 
 
