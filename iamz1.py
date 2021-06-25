@@ -172,7 +172,7 @@ async def iamz1_rag(ctx, name, *args):
                 stdout=subprocess.PIPE, 
                 stderr=subprocess.STDOUT)
         else:
-            out = subprocess.Popen(['/usr/bin/python3', TWITTERHOMEDIR+'tweetthis.py', "in response to {}".format("rag "+name+' '+" ".join(list(args))),"a_clip.mp4"],
+            out = subprocess.Popen(['/usr/bin/python3', TWITTERHOMEDIR+'tweetthis.py', "in response to {}".format("rag "+name+' '+" ".join(list(args))),"a_clip.mpeg"],
                 cwd=WHEREIRUNDIR,
                 stdout=subprocess.PIPE, 
                 stderr=subprocess.STDOUT)
