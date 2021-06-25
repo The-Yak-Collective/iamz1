@@ -154,7 +154,7 @@ async def iamz1_rag(ctx, name, *args):
     except subprocess.TimeoutExpired:
         pass
     if tweet_outcome:
-        out = subprocess.Popen(['/usr/bin/python3', 'snap.py']+,
+        out = subprocess.Popen(['/usr/bin/python3', 'snap.py'],
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
