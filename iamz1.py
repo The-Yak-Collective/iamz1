@@ -35,6 +35,7 @@ TWITTERHOMEDIR=os.getenv('TWITTERHOMEDIR',default="/media/pi/z1-drive/maier/twit
 #PREAMBLE=os.getenv('YAK_ROVER_NAME') #happens in discord file
 
 tweet_outcome=False
+auto_unload=False
 
 async def gotit(ctx):
         s='I got: {0} from {1}'.format(ctx.message.content, ctx.author.name)
@@ -162,6 +163,12 @@ async def iamz1_rag(ctx, name, *args):
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
+    if auto_unload:
+        out = subprocess.Popen(['/usr/bin/python3', 'testunload.py'],
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+        stdout,stderr = out.communicate()
     return
 
 @bot.command(name='cam', help='move camera pan/tilt +/-/x OR x,y OR rest. "list" shows list of available actions. ', before_invoke=gotit)
@@ -261,8 +268,19 @@ async def tweetonoff(ctx,onoff):
             tweet_outcome=False
         else:
             tweet_outcome=True
+        s="tweet onoff status is now {}". format(str(tweet_outcome))
+        await splitsend(ctx.channel,s,False)
         return
 
+@bot.command(name='aunload', help='aunload on/off. automaic unload after each rag command', before_invoke=gotit)
+async def tweetonoff(ctx,onoff):
+        if (onoff=='off'):
+            auto_unload=False
+        else:
+            auto_unload=True
+        s="auto unload onoff status is now {}". format(str(tweet_outcome))
+        await splitsend(ctx.channel,s,False)
+        return
 
 
 def name2filename(x):
