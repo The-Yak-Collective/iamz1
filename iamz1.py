@@ -264,6 +264,7 @@ async def iamz1_video(ctx,onoff, *arg):
 
 @bot.command(name='tweet', help='tweet on/off. tweet a picture of outcome of command after doing command', before_invoke=gotit)
 async def tweetonoff(ctx,onoff):
+        global tweet_outcome
         if (onoff=='off'):
             tweet_outcome=False
         else:
@@ -274,11 +275,12 @@ async def tweetonoff(ctx,onoff):
 
 @bot.command(name='aunload', help='aunload on/off. automaic unload after each rag command', before_invoke=gotit)
 async def tweetonoff(ctx,onoff):
+        global auto_unload
         if (onoff=='off'):
             auto_unload=False
         else:
             auto_unload=True
-        s="auto unload onoff status is now {}". format(str(tweet_outcome))
+        s="auto unload onoff status is now {}". format(str(auto_unload))
         await splitsend(ctx.channel,s,False)
         return
 
