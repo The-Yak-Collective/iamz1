@@ -172,12 +172,16 @@ async def iamz1_rag(ctx, name, *args):
                 cwd=WHEREIRUNDIR,
                 stdout=subprocess.PIPE, 
                 stderr=subprocess.STDOUT)
+            print("should have tweeted a pic")
         else:
-            out = subprocess.Popen(['/usr/bin/python3', TWITTERHOMEDIR+'tweetthis.py', "in response to {}".format("rag "+name+' '+" ".join(list(args))),"a_clip.mp4"],
+            #we need to wait for clip to be ready!
+            s=['/usr/bin/python3', TWITTERHOMEDIR+'tweetthis.py', "in response to {}".format("rag "+name+' '+" ".join(list(args))),"a_clip.mp4"]
+            out = subprocess.Popen(s,
                 cwd=WHEREIRUNDIR,
                 stdout=subprocess.PIPE, 
                 stderr=subprocess.STDOUT)
             make_clip=False #only one clip, for now
+            print("did i tweet a_clip?"," ".join(s)) 
 
     if auto_unload:
         out = subprocess.Popen(['/usr/bin/python3', 'testunload.py'],
