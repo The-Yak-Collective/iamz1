@@ -87,6 +87,7 @@ def readservo():
 def read6dof():
     d=mpu.get_all_data()
     res=[d[0]["x"],d[0]["y"],d[0]["z"],d[1]["x"],d[1]["y"],d[1]["z"],d[2]]
+    return res
     
 def readuls():
     global sonar
