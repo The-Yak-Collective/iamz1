@@ -67,7 +67,7 @@ def main():
                 data.append(x())
             csvwrite(f,data)
 #sleep what is left of a second
-            nt=read_func[0]()-timestamp
+            nt=read_funcs[0]()-timestamp
             if(nt<1000):
                 time.sleep((1000.0-nt)/1000.0)
             else:
