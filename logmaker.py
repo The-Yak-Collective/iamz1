@@ -59,7 +59,8 @@ def main():
             timestamp=read_funcs[0]() #returns timestamp
             data.append(timestamp)
             for x in read_funcs[1:]:
-                print(x(), flush=True)
+                print("x is",x)
+                print("i got",x(), flush=True)
                 data=data.append(x())
             csvwrite(f,data)
 #sleep what is left of a second
