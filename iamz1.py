@@ -330,6 +330,9 @@ async def logonoff(ctx,onoff):
            stderr=subprocess.STDOUT, env={**os.environ})
         s="logging is now on at {}".format(str(thedir))
         await splitsend(ctx.channel,s,False)
+        stdout,stderr = out.communicate() #this is blocking so only for debugging
+        s=+str(stderr,"utf-8").replace("\\n",'\n')+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
+        await splitsend(ctx.channel,s,False)
         return
     s="usage: $log on/off to start/stop logging to a log directory"
     await splitsend(ctx.channel,s,False)
