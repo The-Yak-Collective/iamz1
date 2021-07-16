@@ -319,7 +319,7 @@ async def logonoff(ctx,onoff):
         await splitsend(ctx.channel,s,False)
         return
     elif (onoff=='on'):
-        theparentdir=os.getenv('PARENTLOGDIR','/home/pi/gdrive/logs/')
+        PARENTLOGDIR=os.getenv('PARENTLOGDIR','/home/pi/gdrive/logs/')
         thedir=str(int(time.time()))
         os.mkdir(PARENTLOGDIR+thedir)
         thedir=PARENTLOGDIR+thedir+"/"
