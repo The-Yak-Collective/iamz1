@@ -22,9 +22,11 @@ mpu=None
 sonar=None
 cam=None
 timestamp=0
+LOGDIR=""
 
 def main():
     global timestamp
+    global LOGDIR
     load_dotenv(find_dotenv())
     USERHOMEDIR=os.getenv('USERHOMEDIR',"/media/pi/z1-drive/") 
     WHEREIRUNDIR=os.getenv('WHEREIRUNDIR',"/media/pi/z1-drive/maier/iamz1/") 
