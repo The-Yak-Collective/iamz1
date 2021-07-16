@@ -37,6 +37,7 @@ TWITTERHOMEDIR=os.getenv('TWITTERHOMEDIR',default="/media/pi/z1-drive/maier/twit
 tweet_outcome=False
 auto_unload=False
 make_clip=False
+logging_object=None
 
 async def gotit(ctx):
         s='I got: {0} from {1}'.format(ctx.message.content, ctx.author.name)
@@ -303,6 +304,37 @@ async def unloadonoff(ctx,onoff):
         s="auto unload onoff status is now {}". format(str(auto_unload))
         await splitsend(ctx.channel,s,False)
         return
+
+@bot.command(name='log', help='log on/off. start/stop logging into a dedicated directory', before_invoke=gotit)
+async def logonoff(ctx,onoff):
+    global logging_object
+    thedir=os.getenv('LOGDIR',None)
+    if (onoff=='off'):
+        if not thedir:
+            s="logging was not on.")
+            await splitsend(ctx.channel,s,False)
+            return
+        logging_object.terminate()
+        s="logging at {} now stopped.". format(str(thedir))
+        await splitsend(ctx.channel,s,False)
+        return
+    elif (onoff='on'):
+        theparentdir=os.getenv('PARENTLOGDIR','/home/pi/gdrive/logs/')
+        thedir=str(int(time.time()))
+        os.mkdir(PARENTLOGDIR+thedir)
+        thedir=PARENTLOGDIR+thedir+"/"
+        os.environ['LOGDIR']=thedir
+        logging_object = subprocess.Popen(['/bin/python3', 'logmaker.py'], 
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+        s="logging is now on at {}".format(str(thedir))
+        await splitsend(ctx.channel,s,False)
+        return
+    s="usage: $log on/off to start/stop logging to a log directory"
+    await splitsend(ctx.channel,s,False)
+    return
+
 
 @bot.command(name='clip', help='clip on/off. capture clip next rag', before_invoke=gotit)
 async def cliponoff(ctx,onoff): #later make thsi persistant and also how long. maybe also do a pan-clip
