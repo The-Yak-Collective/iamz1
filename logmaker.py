@@ -57,7 +57,7 @@ def main():
         while True:
             data=[]
             timestamp=read_funcs[0]() #returns timestamp
-            data=list(timestamp)
+            data.append(timestamp)
             for x in read_funcs[1:]:
                 data=data+x()
             csvwrite(f,data)
