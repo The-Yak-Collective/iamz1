@@ -131,12 +131,12 @@ def initimage():
 def inituls():
     global sonar
     sonar=SONAR.Sonar()
-    return ["uls range"]
+    return ["uls_range"]
 
 def csvwrite(f,data):
     for x in data[:-1]:
         f.write('"'+str(x)+'",')
-    f.write('"'+str(x)+'"')
+    f.write('"'+str(data[-1])+'"'+"\n")
     f.flush()
     
 main() #so i can play with function order
