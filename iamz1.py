@@ -331,6 +331,11 @@ async def logonoff(ctx,onoff):
         s="logging is now on at {}".format(str(thedir))
         await splitsend(ctx.channel,s,False)
         stdout,stderr = logging_object.communicate() #this is blocking so only for debugging
+        if not stdout:
+            stdout="no output"
+        if not stderr:
+            stderr="no output"
+
         s=str(stderr,"utf-8").replace("\\n",'\n')+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
         await splitsend(ctx.channel,s,False)
         return
