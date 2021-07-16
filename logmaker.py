@@ -126,7 +126,7 @@ def inituls():
     return ["uls range"]
 
 def csvwrite(f,data):
-    for x in data[:-1]
+    for x in data[:-1]:
         f.write('"'+str(x)+'",')
     f.write('"'+str(x)+'"')
     f.flush()
