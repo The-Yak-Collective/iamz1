@@ -62,7 +62,7 @@ def main():
             for x in read_funcs[1:]:
                 print("x is",x)
                 print("i got",x(), flush=True)
-                data=data.append(x())
+                data.append(x())
             csvwrite(f,data)
 #sleep what is left of a second
             nt=read_func[0]()-timestamp
@@ -90,12 +90,11 @@ def read6dof():
     d=mpu.get_all_data()
     res=[d[0]["x"],d[0]["y"],d[0]["z"],d[1]["x"],d[1]["y"],d[1]["z"],d[2]]
     return res
-    
+
 def readulsrangefinder():
-    return "1975"
+    #return ("1975")
     global sonar
     print("sonar", sonar.getDistance(), flush=True)
-
     return sonar.getDistance()
     
 def readimage():
