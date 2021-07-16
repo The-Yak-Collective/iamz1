@@ -108,7 +108,7 @@ def readimage():
     cam.release()
     return(img_name)
 
-cam.release()
+    
 def init6dof():
     global mpu
     mpu = MPU.mpu6050(0x68)
@@ -120,7 +120,7 @@ def initimage():
 
     return ["imagefile"]
 
-def inituls()
+def inituls():
     global sonar
     sonar=SONAR.Sonar()
     return ["uls range"]
