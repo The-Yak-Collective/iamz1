@@ -331,7 +331,7 @@ async def logonoff(ctx,onoff):
         s="logging is now on at {}".format(str(thedir))
         await splitsend(ctx.channel,s,False)
         stdout,stderr = logging_object.communicate() #this is blocking so only for debugging
-        s=+str(stderr,"utf-8").replace("\\n",'\n')+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
+        s=str(stderr,"utf-8").replace("\\n",'\n')+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
         await splitsend(ctx.channel,s,False)
         return
     s="usage: $log on/off to start/stop logging to a log directory"
