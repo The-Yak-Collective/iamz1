@@ -332,9 +332,9 @@ async def logonoff(ctx,onoff):
         await splitsend(ctx.channel,s,False)
         stdout,stderr = logging_object.communicate() #this is blocking so only for debugging
         if not stdout:
-            stdout="no output"
+            stdout=b'no output'
         if not stderr:
-            stderr="no output"
+            stderr=b'no output'
 
         s=str(stderr,"utf-8").replace("\\n",'\n')+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
         await splitsend(ctx.channel,s,False)
