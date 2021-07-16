@@ -38,8 +38,8 @@ def main():
 
     init_funcs=[inittime,initservo,init6dof,inituls,initimage]
     #list of read functions
-    read_funcs=[readtime,readservo,read6dof,readuls,readimage]
     readtime=lambda: int(time.time()*1000) #time in milliseconds
+    read_funcs=[readtime,readservo,read6dof,readuls,readimage]
 
 
     #create datafile in that dir
