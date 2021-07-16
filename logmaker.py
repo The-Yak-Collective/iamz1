@@ -90,9 +90,10 @@ def read6dof():
     return res
     
 def readuls():
+    return "1975"
     global sonar
     print("sonar", sonar.getDistance(), flush=True)
-    return 1975
+
     return sonar.getDistance()
     
 def readimage():
