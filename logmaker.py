@@ -64,7 +64,7 @@ def main():
             for x in read_funcs[1:]:
                 print("x is",x)
                 print("i got",x(), flush=True)
-                data.append(x())
+                data=data+x()
             csvwrite(f,data)
 #sleep what is left of a second
             nt=read_funcs[0]()-timestamp
@@ -97,7 +97,7 @@ def readulsrangefinder():
     #return ("1975")
     global sonar
     print("sonar", sonar.getDistance(), flush=True)
-    return sonar.getDistance()
+    return [sonar.getDistance()]
     
 def readimage():
     global cam
@@ -112,9 +112,9 @@ def readimage():
     if not ret:
         print("failed to grab frame")
     else:
-        cv2.imwrite(LOGDIR+img_name, frame)
+        cv2.imwrite(LOGDIR+"images/"+img_name, frame)
     cam.release()
-    return(img_name)
+    return [LOGDIR+"images/"+img_name]
 
     
 def init6dof():
