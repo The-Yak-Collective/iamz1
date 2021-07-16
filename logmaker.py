@@ -91,7 +91,7 @@ def read6dof():
     
 def readuls():
     global sonar
-    print("sonar", sonar.getDistance())
+    print("sonar", sonar.getDistance(), flush=True)
     return sonar.getDistance()
     
 def readimage():
