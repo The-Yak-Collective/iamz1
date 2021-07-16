@@ -39,7 +39,7 @@ def main():
     init_funcs=[inittime,initservo,init6dof,inituls,initimage]
     #list of read functions
     readtime=lambda: int(time.time()*1000) #time in milliseconds
-    read_funcs=[readtime,readservo,read6dof,readuls,readimage]
+    read_funcs=[readtime,readservo,read6dof,readulsrangefinder,readimage]
 
 
     #create datafile in that dir
@@ -54,6 +54,7 @@ def main():
 #run read functions
 #create output list
 #write list to file+flush
+        print(read_funcs,flush=True)
         while True:
             data=[]
             timestamp=read_funcs[0]() #returns timestamp
@@ -90,7 +91,7 @@ def read6dof():
     res=[d[0]["x"],d[0]["y"],d[0]["z"],d[1]["x"],d[1]["y"],d[1]["z"],d[2]]
     return res
     
-def readuls():
+def readulsrangefinder():
     return "1975"
     global sonar
     print("sonar", sonar.getDistance(), flush=True)
