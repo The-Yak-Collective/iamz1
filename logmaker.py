@@ -56,7 +56,7 @@ def main():
 #write list to file+flush
         while True:
             data=[]
-            timestamp=read_func[0]() #returns timestamp
+            timestamp=read_funcs[0]() #returns timestamp
             data[0]=timestamp
             for x in read_funcs[1:]:
                 data=data+x()
