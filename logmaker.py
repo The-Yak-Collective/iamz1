@@ -1,3 +1,13 @@
+#started (and killed) from iamz1 discord bot (using object.kill or .terminate)
+#when run, create directory in gdrive/logs/NEWNAME
+#set env to this dir value (or do we need to do all this in iamz1? probably, so also rag, etc. have it)
+#functions: servors, including pos and temp (also volatge?)
+#imu (6DOF)
+#can we give camera pos?
+#uls sensor
+#snap image and save link (in sub folder called images and names as of time stamp
+
+#also rag and cam create log files in same directory. csv. time, command, time of end, cam pos start and cam pos end (for cam)
 #imports
 import time
 import Board
@@ -32,43 +42,33 @@ def main():
     readtime=lambda: int(time.time()*1000) #time in milliseconds
 
 
-    #started (and killed) from iamz1 discord bot (using object.kill or .terminate)
-    #when run, create directory in gdrive/logs/NEWNAME
-    #set env to this dir value (or do we need to do all this in iamz1? probably, so also rag, etc. have it)
     #create datafile in that dir
     #run init functions and create list
     #csv-print list to file
-        with open(LOGDIR+"datafile.csv",'a') as f:
-            labels=[]
-            for x in init_funcs:
-                labels=labels+x()
-            csvwrite(f,labels)
-    #create timestamp
-    #run read functions
-    #create output list
-    #write list to file+flush
-            while True:
-                data=[]
-                timestamp=read_func[0]() #returns timestamp
-                data[0]=timestamp
-                for x in read_funcs[1:]:
-                    data=data+x()
-                csvwrite(f,data)
-    #sleep what is left of a second
-                nt=read_func[0]()-timestamp
-                if(nt<1000):
-                    time.sleep((1000.0-nt)/1000.0)
-                else:
-                    print("reading took over a second! {}".format(str(nt)))
+    with open(LOGDIR+"datafile.csv",'a') as f:
+        labels=[]
+        for x in init_funcs:
+            labels=labels+x()
+        csvwrite(f,labels)
+#create timestamp
+#run read functions
+#create output list
+#write list to file+flush
+        while True:
+            data=[]
+            timestamp=read_func[0]() #returns timestamp
+            data[0]=timestamp
+            for x in read_funcs[1:]:
+                data=data+x()
+            csvwrite(f,data)
+#sleep what is left of a second
+            nt=read_func[0]()-timestamp
+            if(nt<1000):
+                time.sleep((1000.0-nt)/1000.0)
+            else:
+                print("reading took over a second! {}".format(str(nt)))
 
 
-    #functions: servors, including pos and temp (also volatge?)
-    #imu (6DOF)
-    #can we give camera pos?
-    #uls sensor
-    #snap image and save link (in sub folder called images and names as of time stamp
-
-    #also rag and cam create log files in same directory. csv. time, command, time of end, cam pos start and cam pos end (for cam)
 
 def getBusServoStatus(ser):
     Pulse = Board.getBusServoPulse(ser)
