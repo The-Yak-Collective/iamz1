@@ -324,7 +324,7 @@ async def logonoff(ctx,onoff):
         os.mkdir(PARENTLOGDIR+thedir)
         thedir=PARENTLOGDIR+thedir+"/"
         os.environ['LOGDIR']=thedir
-        logging_object = subprocess.Popen(['/bin/python3', 'logmaker.py'], 
+        logging_object = subprocess.Popen(['/usr/bin/python3', 'logmaker.py'], 
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
