@@ -311,7 +311,7 @@ async def logonoff(ctx,onoff):
     thedir=os.getenv('LOGDIR',None)
     if (onoff=='off'):
         if not thedir:
-            s="logging was not on.")
+            s="logging was not on."
             await splitsend(ctx.channel,s,False)
             return
         logging_object.terminate()
