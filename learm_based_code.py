@@ -46,7 +46,7 @@ def positionsToAngles(positions):
 #private worker method for startSerialProcess()
 def openSerialPort(writeQueue,readQueue):
 	serialData = serial.Serial(
-		port='/dev/ttyAMA4', #Replace ttyS0 with ttyAM0 for Pi1,Pi2,Pi0 - i followed https://www.raspberrypi.org/forums/viewtopic.php?t=244528 for uart5 that maps to pins 14 and 15. i tried with flow control (in /boot/config.txt
+		port='/dev/ttyAMA1', #Replace ttyS0 with ttyAM0 for Pi1,Pi2,Pi0 - i followed https://www.raspberrypi.org/forums/viewtopic.php?t=244528 for uart5 that maps to pins 14 and 15. i tried with flow control (in /boot/config.txt). could be that the AMA# depends on how many uarts you enabled. /dev/tty* shows AMA0 and AMA1. before there was?
 		baudrate = 9600,
 		bytesize=serial.EIGHTBITS,
 		timeout=None
