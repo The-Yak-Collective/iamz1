@@ -38,10 +38,10 @@ def main():
     tmplabels=[["p"+str(x),"t"+str(x),"v"+str(x)] for x in range(1,19)] # could use itertools.Product
     initservo=lambda: [item for x in tmplabels for item in x] 
 
-    init_funcs=[inittime,init6dof,inituls,initimage] #,initservo
+    init_funcs=[inittime,initservo,init6dof,inituls,initimage] 
     #list of read functions
     readtime=lambda: int(time.time()*1000) #time in milliseconds
-    read_funcs=[readtime,read6dof,readulsrangefinder,readimage]#readservo,
+    read_funcs=[readtime,readservo,read6dof,readulsrangefinder,readimage]
 
 
     #create datafile in that dir
