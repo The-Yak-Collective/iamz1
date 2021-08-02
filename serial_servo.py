@@ -127,12 +127,12 @@ if __name__ == '__main__':
         runActionGroup(8,1)
         time.sleep(3)
     #     
-    #     moveServo(1,500,1500)
-    #     time.sleep(1.5)
-    #     moveServo(1,2500,1500)
-    #     moveServos(1500, 5, 1,500, 2,500, 3,500, 4,500, 5,500)
-    #     time.sleep(1.5)
-    #     moveServos(1500, 5, 1,2500, 2,2500, 3,2500, 4,2500, 5,2500)
+        moveServo(1,500,1500)
+        time.sleep(1.5)
+        moveServo(1,2500,1500)
+        moveServos(1500, 5, 1,500, 2,500, 3,500, 4,500, 5,500)
+        time.sleep(1.5)
+        moveServos(1500, 5, 1,2500, 2,2500, 3,2500, 4,2500, 5,2500)
         print("ok")
 
     except Exception as e:
