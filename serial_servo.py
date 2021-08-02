@@ -4,7 +4,7 @@
 import time
 import serial
 
-serialHandle = serial.Serial("/dev/ttyAMA0", 9600)  #初始化串口， 波特率为9600
+serialHandle = serial.Serial("/dev/ttyAMA1", 9600)  #初始化串口， 波特率为9600
 
 CMD_SERVO_MOVE          = 0x03   #控制舵机指令
 CMD_ACTION_GROUP_RUN    = 0x06   #运行动作组指令
