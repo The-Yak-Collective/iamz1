@@ -116,7 +116,7 @@ def moveServos(*args):
         print(e)
 
 
-if __name__ == '__name__':
+if __name__ == '__main__':
     try:
         setActionGroupSpeed(8, 200)
         runActionGroup(8,2)
