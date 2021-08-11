@@ -25,11 +25,11 @@ class Locker: #thanks  to keeely@ https://stackoverflow.com/questions/6931342/sy
 def lock_serial(func):
     def wrapper(*args,**kwargs):
     #print("waiting for lock")
-    with Locker():
-        #print("obtained lock")
-        #time.sleep(5.0) #program flow needs some work here
-        func(*args,**kwargs)
-        #unlock()
+        with Locker():
+            #print("obtained lock")
+            #time.sleep(5.0) #program flow needs some work here
+            func(*args,**kwargs)
+            #unlock()
     return wrapper
 
 #幻尔科技SpiderPi扩展板sdk#
