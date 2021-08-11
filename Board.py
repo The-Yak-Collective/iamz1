@@ -98,6 +98,7 @@ def getBusServoID(id=None):
         if msg is not None:
             return msg
 
+@lock_serial
 def setBusServoPulse(id, pulse, use_time):
     """
     驱动串口舵机转到指定位置
@@ -112,6 +113,7 @@ def setBusServoPulse(id, pulse, use_time):
     use_time = 30000 if use_time > 30000 else use_time
     serial_serro_wirte_cmd(id, LOBOT_SERVO_MOVE_TIME_WRITE, pulse, use_time)
 
+@lock_serial
 def stopBusServo(id=None):
     '''
     停止舵机运行
@@ -222,6 +224,7 @@ def getBusServoTempLimit(id):
         if msg is not None:
             return msg
 
+@lock_serial
 def getBusServoPulse(id):
     '''
     读取舵机当前位置
@@ -234,6 +237,7 @@ def getBusServoPulse(id):
         if msg is not None:
             return msg
 
+@lock_serial
 def getBusServoTemp(id):
     '''
     读取舵机温度
@@ -246,6 +250,7 @@ def getBusServoTemp(id):
         if msg is not None:
             return msg
 
+@lock_serial
 def getBusServoVin(id):
     '''
     读取舵机电压
@@ -258,6 +263,7 @@ def getBusServoVin(id):
         if msg is not None:
             return msg
 
+@lock_serial
 def restBusServoPulse(oldid):
     # 舵机清零偏差和P值中位（500）
     serial_servo_set_deviation(oldid, 0)    # 清零偏差
@@ -265,10 +271,12 @@ def restBusServoPulse(oldid):
     serial_serro_wirte_cmd(oldid, LOBOT_SERVO_MOVE_TIME_WRITE, 500, 100)    # 中位
 
 ##掉电
+@lock_serial
 def unloadBusServo(id):
     serial_serro_wirte_cmd(id, LOBOT_SERVO_LOAD_OR_UNLOAD_WRITE, 0)
 
 ##读取是否掉电
+@lock_serial
 def getBusServoLoadStatus(id):
     while True:
         serial_servo_read_cmd(id, LOBOT_SERVO_LOAD_OR_UNLOAD_READ)
