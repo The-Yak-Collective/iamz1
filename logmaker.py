@@ -106,26 +106,26 @@ def readulsrangefinder():
 def readimage():
     global cam
     global timestamp
-    startat=read_funcs[0]()
+    startat=int(time.time()*1000)
     print("started acquisition at:",startat)
     img_name=str(timestamp)+".png"
     cam = cv2.VideoCapture(0)
-    print("do teh capture, done at:",read_funcs[0]()-startat)
+    print("do teh capture, done at:",int(time.time()*1000)-startat)
     ret, frame = cam.read()
-    print("read frame try 1, done at:",read_funcs[0]()-startat)
+    print("read frame try 1, done at:",int(time.time()*1000)-startat)
     if not ret:
         cam = cv2.VideoCapture('/dev/video2')
         ret, frame = cam.read()
-        print("capture and read frame try 2, done at:",read_funcs[0]()-startat)
+        print("capture and read frame try 2, done at:",int(time.time()*1000)-startat)
 
     if not ret:
         print("failed to grab frame")
     else:
         cv2.imwrite(LOGDIR+"images/"+img_name, frame)
-    print("wrote frame to disk, done at:",read_funcs[0]()-startat)
+    print("wrote frame to disk, done at:",int(time.time()*1000)-startat)
 
     cam.release()
-    print("done all at:",read_funcs[0]()-startat)
+    print("done all at:",int(time.time()*1000)-startat)
 
     return [LOGDIR+"images/"+img_name]
 
