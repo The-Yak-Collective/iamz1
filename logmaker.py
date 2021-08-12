@@ -62,11 +62,12 @@ def main():
             data=[]
             timestamp=read_funcs[0]() #returns timestamp
             data.append(timestamp)
-            print("start cycle",read_funcs[0]())for x in read_funcs[1:]:
+            print("start cycle at:",timestamp)
+            for x in read_funcs[1:]:
                 #print("x is",x)
                 #print("i got",x(), flush=True)
                 data=data+x()
-                print("did a func. took:",read_funcs[0]())
+                print("did a func. took till now:",read_funcs[0]()-timestamp)
             csvwrite(f,data)
 #sleep what is left of a second
             nt=read_funcs[0]()-timestamp
