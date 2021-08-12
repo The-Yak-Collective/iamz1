@@ -32,7 +32,8 @@ def main():
     USERHOMEDIR=os.getenv('USERHOMEDIR',"/media/pi/z1-drive/") 
     WHEREIRUNDIR=os.getenv('WHEREIRUNDIR',"/media/pi/z1-drive/maier/iamz1/") 
     LOGDIR=os.getenv('LOGDIR',"/home/pi/gdrive/logs/atestlog/")
-    os.mkdir(LOGDIR+"images/")
+    if not os.path.exists(LOGDIR+"images/"):
+        os.mkdir(LOGDIR+"images/")
 
     #list of init functions
     inittime=lambda: ["time"]
