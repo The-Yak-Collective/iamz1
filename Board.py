@@ -35,8 +35,9 @@ def lock_serial(func):
         with Locker():
             #print("obtained lock")
             #time.sleep(5.0) #program flow needs some work here
-            func(*args,**kwargs)
+            x=func(*args,**kwargs)
             #unlock()
+        return x
     return wrapper
 
 #幻尔科技SpiderPi扩展板sdk#
