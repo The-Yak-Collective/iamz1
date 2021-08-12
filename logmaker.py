@@ -16,6 +16,7 @@ import itertools
 import Mpu6050class as MPU
 import Sonar as SONAR
 import cv2
+import sys
 
 from dotenv import load_dotenv, find_dotenv
 mpu=None
@@ -30,7 +31,7 @@ def main():
     load_dotenv(find_dotenv())
     USERHOMEDIR=os.getenv('USERHOMEDIR',"/media/pi/z1-drive/") 
     WHEREIRUNDIR=os.getenv('WHEREIRUNDIR',"/media/pi/z1-drive/maier/iamz1/") 
-    LOGDIR=os.getenv('LOGDIR')
+    LOGDIR=os.getenv('LOGDIR',"/home/pi/gdrive/logs/atestlog/")
     os.mkdir(LOGDIR+"images/")
 
     #list of init functions
@@ -56,15 +57,16 @@ def main():
 #run read functions
 #create output list
 #write list to file+flush
-        print(read_funcs,flush=True)
+        #print(read_funcs,flush=True)
         while True:
             data=[]
             timestamp=read_funcs[0]() #returns timestamp
             data.append(timestamp)
-            for x in read_funcs[1:]:
-                print("x is",x)
-                print("i got",x(), flush=True)
+            print("start cycle",read_funcs[0]())for x in read_funcs[1:]:
+                #print("x is",x)
+                #print("i got",x(), flush=True)
                 data=data+x()
+                print("did a func. took:",read_funcs[0]())
             csvwrite(f,data)
 #sleep what is left of a second
             nt=read_funcs[0]()-timestamp
@@ -96,7 +98,7 @@ def read6dof():
 def readulsrangefinder():
     #return ("1975")
     global sonar
-    print("sonar", sonar.getDistance(), flush=True)
+    #print("sonar", sonar.getDistance(), flush=True)
     return [sonar.getDistance()]
     
 def readimage():
