@@ -13,6 +13,9 @@ from PWMServo import *
 from BusServoCmd import *
 from smbus2 import SMBus, i2c_msg
 
+def test_func1():
+    pass
+    
 class Locker: #thanks  to keeely@ https://stackoverflow.com/questions/6931342/system-wide-mutex-in-python-on-linux
     def __enter__ (self):
         self.fp = open("./lockserial.lock")
@@ -21,6 +24,10 @@ class Locker: #thanks  to keeely@ https://stackoverflow.com/questions/6931342/sy
     def __exit__ (self, _type, value, tb):
         fcntl.flock(self.fp.fileno(), fcntl.LOCK_UN)
         self.fp.close()
+
+def test_func2():
+    pass
+
         
 def lock_serial(func):
     def wrapper(*args,**kwargs):
