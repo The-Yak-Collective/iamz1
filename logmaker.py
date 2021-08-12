@@ -80,8 +80,8 @@ def main():
 
 def getBusServoStatus(ser):
     Pulse = Board.getBusServoPulse(ser)
-    Temp = Board.getBusServoTemp(ser)
-    Vin = Board.getBusServoVin(ser)
+    Temp = 0 #Board.getBusServoTemp(ser)
+    Vin = 0 #Board.getBusServoVin(ser)
     return (Pulse,Temp,Vin)
 
 def readservo():
@@ -105,18 +105,27 @@ def readulsrangefinder():
 def readimage():
     global cam
     global timestamp
+    startat=read_funcs[0]()
+    print("started acquisition at:",startat)
     img_name=str(timestamp)+".png"
     cam = cv2.VideoCapture(0)
+    print("do teh capture, done at:",read_funcs[0]()-startat)
     ret, frame = cam.read()
+    print("read frame try 1, done at:",read_funcs[0]()-startat)
     if not ret:
         cam = cv2.VideoCapture('/dev/video2')
         ret, frame = cam.read()
+        print("capture and read frame try 2, done at:",read_funcs[0]()-startat)
 
     if not ret:
         print("failed to grab frame")
     else:
         cv2.imwrite(LOGDIR+"images/"+img_name, frame)
+    print("wrote frame to disk, done at:",read_funcs[0]()-startat)
+
     cam.release()
+    print("done all at:",read_funcs[0]()-startat)
+
     return [LOGDIR+"images/"+img_name]
 
     
