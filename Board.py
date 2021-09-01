@@ -2,6 +2,9 @@
 #unlike original file, i am adding a bus lock so each of the functions that acesses teh serial bus locks it until done, so that all commands are atomic WRT to teh bus. hopefully this will allow parallel programs to acess the bus.
 #as written, there are too many loops which allow the bus to be blocked due to error and hang. did not happen to me yet, though. but, i nfact, could be teh cause of teh weird behavior. or not...
 #locking is by adding a decorator. we use the file "./lockserial.lock" as the locking file
+
+#for debug: print how many times tried read command
+
 import fcntl
 
 import os
@@ -239,7 +242,10 @@ def getBusServoPulse(id):
     :param id:
     :return:
     '''
+    count=0
     while True:
+        print("read try ",count)
+        count=count+1
         serial_servo_read_cmd(id, LOBOT_SERVO_POS_READ)
         msg = serial_servo_get_rmsg(LOBOT_SERVO_POS_READ)
         if msg is not None:

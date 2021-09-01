@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+#note changes to serial_servo_get_rmsg
 # encoding: utf-8
 import time
 import serial
@@ -139,10 +140,11 @@ def serial_servo_get_rmsg(cmd):
     portRead()  # 将单线串口配置为输入
     time.sleep(0.005)  # 稍作延时，等待接收完毕
     count = serialHandle.inWaiting()    # 获取接收缓存中的字节数
+    print("got {} bytes".format(count))
     if count != 0:  # 如果接收到的数据不空
         recv_data = serialHandle.read(count)  # 读取接收到的数据
-        # for i in recv_data:
-        #     print('%#x' %ord(i))
+        for i in recv_data:
+             print('%#x' %ord(i))
         # 是否是读id指令
         try:
             if recv_data[0] == 0x55 and recv_data[1] == 0x55 and recv_data[4] == cmd:
