@@ -2,8 +2,12 @@
 #slowwave - moved read to "slowread.py"
 import Board
 import time
+import datetime
+try=0
 t=3000
 while True:
+  print("move command ",try, datetime.datetime.now()) #lets see if it simply delays while waiting or gets lost
+  try=try+1
   Board.setBusServoPulse(1,200,t)
   time.sleep(t/2000.0)
   #for i in range(1,19):
