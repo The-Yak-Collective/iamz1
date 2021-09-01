@@ -5,7 +5,7 @@ import time
 import datetime
 t=3000
 while True:
-    print("start:",datetime.now())
+    print("start:",datetime.datetime.now())
     for i in range(1,19):
         x=Board.getBusServoPulse(i)
         print(x)
