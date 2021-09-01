@@ -8,7 +8,6 @@ while True:
     print("start:",datetime.datetime.now())
     for i in range(1,19):
         x=Board.getBusServoPulse(i)
-        print(x)
-    print("end:",datetime.datetime.now())
+        print(x,datetime.datetime.now())
     time.sleep(0.1)
 
