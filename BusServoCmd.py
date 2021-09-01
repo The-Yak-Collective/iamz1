@@ -144,7 +144,7 @@ def serial_servo_get_rmsg(cmd):
     if count != 0:  # 如果接收到的数据不空
         recv_data = serialHandle.read(count)  # 读取接收到的数据
         for i in recv_data:
-             print('%#x' %ord(i))
+             print(i)
         # 是否是读id指令
         try:
             if recv_data[0] == 0x55 and recv_data[1] == 0x55 and recv_data[4] == cmd:
