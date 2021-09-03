@@ -112,6 +112,7 @@ def serial_serro_wirte_cmd(id=None, w_cmd=None, dat1=None, dat2=None):
     # for i in buf:
     #     print('%x' %i)
     serialHandle.write(buf)  # 发送
+    time.sleep(len(buf)*0.0001)
 
 def serial_servo_read_cmd(id=None, r_cmd=None):
     '''
