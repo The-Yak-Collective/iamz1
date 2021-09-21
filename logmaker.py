@@ -67,7 +67,10 @@ def main():
             for x in read_funcs[1:]:
                 #print("x is",x)
                 #print("i got",x(), flush=True)
-                data=data+x()
+                try:
+                    data=data+x()
+                except:
+                    data=data+["error"]
                 print("did a func. took till now:",read_funcs[0]()-timestamp)
             csvwrite(f,data)
 #sleep what is left of a second
