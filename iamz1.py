@@ -328,8 +328,8 @@ async def logonoff(ctx,onoff):
            cwd=WHEREIRUNDIR,
            #stdout=subprocess.PIPE, 
            #stderr=subprocess.STDOUT, 
-           stdout=thedir+logoflogmaker,
-           stderr=thedir+logoflogmaker,
+           stdout=thedir+"logoflogmaker",
+           stderr=thedir+"logoflogmaker",
            env={**os.environ})
         s="logging is now on at {}".format(str(thedir))
         await splitsend(ctx.channel,s,False)
