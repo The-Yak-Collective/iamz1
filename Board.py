@@ -41,8 +41,8 @@ def lock_serial(func):
             #time.sleep(5.0) #program flow needs some work here
             try:
                 x=func(*args,**kwargs)
-            except:
-                print("failed...")
+            except Exception as e:
+                print("failed...", e)
             #unlock()
         return x
     return wrapper

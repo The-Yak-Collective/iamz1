@@ -69,8 +69,9 @@ def main():
                 #print("i got",x(), flush=True)
                 try:
                     data=data+x()
-                except:
+                except Exception as e:
                     data=data+["error"]
+                    print(e)
                 print("did a func. took till now:",read_funcs[0]()-timestamp)
             csvwrite(f,data)
 #sleep what is left of a second
