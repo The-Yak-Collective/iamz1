@@ -324,13 +324,14 @@ async def logonoff(ctx,onoff):
         os.mkdir(PARENTLOGDIR+thedir)
         thedir=PARENTLOGDIR+thedir+"/"
         os.environ['LOGDIR']=thedir
-        logging_object = subprocess.Popen(['/usr/bin/python3', 'logmaker.py'], 
-           cwd=WHEREIRUNDIR,
-           #stdout=subprocess.PIPE, 
-           #stderr=subprocess.STDOUT, 
-           stdout=thedir+"logoflogmaker",
-           stderr=thedir+"logoflogmaker",
-           env={**os.environ})
+        with open (thedir+"logoflogmaker",'w') as fn:
+            logging_object = subprocess.Popen(['/usr/bin/python3', 'logmaker.py'], 
+               cwd=WHEREIRUNDIR,
+               #stdout=subprocess.PIPE, 
+               #stderr=subprocess.STDOUT, 
+               stdout=fn,
+               stderr=fn,
+               env={**os.environ})
         s="logging is now on at {}".format(str(thedir))
         await splitsend(ctx.channel,s,False)
         if False: #for debugging
