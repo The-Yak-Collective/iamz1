@@ -37,8 +37,12 @@ def lock_serial(func):
     #print("waiting for lock")
         with Locker():
             print("obtained lock")
+            x="err"
             #time.sleep(5.0) #program flow needs some work here
-            x=func(*args,**kwargs)
+            try:
+                x=func(*args,**kwargs)
+            except:
+                print("failed...")
             #unlock()
         return x
     return wrapper
