@@ -326,8 +326,11 @@ async def logonoff(ctx,onoff):
         os.environ['LOGDIR']=thedir
         logging_object = subprocess.Popen(['/usr/bin/python3', 'logmaker.py'], 
            cwd=WHEREIRUNDIR,
-           stdout=subprocess.PIPE, 
-           stderr=subprocess.STDOUT, env={**os.environ})
+           #stdout=subprocess.PIPE, 
+           #stderr=subprocess.STDOUT, 
+           stdout=thedir+logoflogmaker,
+           stderr=thedir+logoflogmaker,
+           env={**os.environ})
         s="logging is now on at {}".format(str(thedir))
         await splitsend(ctx.channel,s,False)
         if False: #for debugging
