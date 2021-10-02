@@ -101,6 +101,8 @@ def runAction(actNum, lock_servos=''):
             runningAction = True
             with open(relNum,newline='') as csvfile:
                 readcsv=csv.reader(csvfile) #consider dictreader later
+                for i in range(1,19):
+                    cur_state[i]=int(Board.getBusServoPulse(i))#yes, slow. but we need it for relative movement. i guess we can run this only if we have an actual rel instruction and only for those entries. and maybe only first time they get called. TBD for now as this should work, even if slower
                 for row in readcsv:
                     if stop_action:
                         stop_action_group = True
