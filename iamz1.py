@@ -148,10 +148,7 @@ async def iamz1_rag(ctx, name, *args):
     await gotit(ctx)
     global make_clip
     if make_clip:
-        out = subprocess.Popen(['/bin/bash', 'makeaclip.bash'],
-           cwd=WHEREIRUNDIR,
-           stdout=subprocess.PIPE, 
-           stderr=subprocess.STDOUT)
+        do_make_clip()
 
     out = subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+list(args),
            cwd=WHEREIRUNDIR,
@@ -164,33 +161,60 @@ async def iamz1_rag(ctx, name, *args):
     except subprocess.TimeoutExpired:
         pass
     if name != "list" and tweet_outcome:
-        out = subprocess.Popen(['/usr/bin/python3', 'snap.py'],
+        do_tweet_outcome("rag "+name+' '+" ".join(list(args))))
+    if auto_unload:
+        do_unload()
+    return
+
+@bot.command(name='rel', help='run relative-type action group NAME [TIMES] times. "list" shows list of available actions (not supported yet). "stop" stops running action. ',before_invoke=gotit)
+#relative groups in subfolder "rels"
+async def iamz1_rel(ctx, name, *args):
+    await gotit(ctx)
+    global make_clip
+    if make_clip:
+        do_make_clip()
+
+    out = subprocess.Popen(['/usr/bin/python3', 'rel.py', name]+list(args),
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
-        if not make_clip:
-            out = subprocess.Popen(['/usr/bin/python3', TWITTERHOMEDIR+'tweetthis.py', "in response to {}".format("rag "+name+' '+" ".join(list(args))),"a_snap.png"],
-                cwd=WHEREIRUNDIR,
-                stdout=subprocess.PIPE, 
-                stderr=subprocess.STDOUT)
-            print("should have tweeted a pic")
-        else:
-            #we need to wait for clip to be ready!
-            s=['/usr/bin/python3', TWITTERHOMEDIR+'tweetthis.py', "in response to {}".format("rag "+name+' '+" ".join(list(args))),"a_clip.mp4"]
-            out = subprocess.Popen(s,
-                cwd=WHEREIRUNDIR,
-                stdout=subprocess.PIPE, 
-                stderr=subprocess.STDOUT)
-            make_clip=False #only one clip, for now
-            print("did i tweet a_clip?"," ".join(s)) 
+    try:
+        stdout,stderr = out.communicate(timeout=2)
+        s=str(stdout,"utf-8").replace("\\n",'\n')
+        await splitsend(ctx.channel,s,False)
+    except subprocess.TimeoutExpired:
+        pass
+    if name != "list" and tweet_outcome:
+        do_tweet_outcome("rel "+name+' '+" ".join(list(args))))
+    if auto_unload:
+        do_unload()
+    return
+
+@bot.command(name='seq', help='run a sequence of commands NAME [TIMES] times. "list" shows list of available sequence files actions. "stop" stops running action. ',before_invoke=gotit)
+#sequnces in subfolder "seqs"
+async def iamz1_seq(ctx, name, *args):
+    await gotit(ctx)
+    global make_clip
+    if make_clip:
+        do_make_clip()
+
+    out = subprocess.Popen(['/usr/bin/python3', 'seq.py', name]+list(args),
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+    try:
+        stdout,stderr = out.communicate(timeout=10)#longer timeout as sequnce
+        s=str(stdout,"utf-8").replace("\\n",'\n')
+        await splitsend(ctx.channel,s,False)
+    except subprocess.TimeoutExpired:
+        pass
+    if name != "list" and tweet_outcome:
+        do_tweet_outcome("seq "+name+' '+" ".join(list(args))))
 
     if auto_unload:
-        out = subprocess.Popen(['/usr/bin/python3', 'testunload.py'],
-           cwd=WHEREIRUNDIR,
-           stdout=subprocess.PIPE, 
-           stderr=subprocess.STDOUT)
-        stdout,stderr = out.communicate()
+        do_unload()
     return
+    
 
 @bot.command(name='cam', help='move camera pan/tilt +/-/x OR x,y OR rest. "list" shows list of available actions. ', before_invoke=gotit)
 async def iamz1_cam(ctx, *args):
@@ -210,11 +234,7 @@ async def iamz1_cam(ctx, *args):
         
 @bot.command(name='unload', help='move all servos to unload configuration')
 async def iamz1_unloadservos(ctx):
-    out = subprocess.Popen(['/usr/bin/python3', 'testunload.py'],
-           cwd=WHEREIRUNDIR,
-           stdout=subprocess.PIPE, 
-           stderr=subprocess.STDOUT)
-    stdout,stderr = out.communicate()
+    do_unload()
     s='ah. feeling unloaded'
     await splitsend(ctx.channel,s,False)
     return
@@ -350,7 +370,7 @@ async def logonoff(ctx,onoff):
 
 
 @bot.command(name='clip', help='clip on/off. capture clip next rag', before_invoke=gotit)
-async def cliponoff(ctx,onoff): #later make thsi persistant and also how long. maybe also do a pan-clip
+async def cliponoff(ctx,onoff): #later make this persistent and also how long. maybe also do a pan-clip
         global make_clip
         if (onoff=='off'):
             make_clip=False
@@ -359,6 +379,41 @@ async def cliponoff(ctx,onoff): #later make thsi persistant and also how long. m
         s="make_clip onoff status is now {}". format(str(make_clip))
         await splitsend(ctx.channel,s,False)
         return
+
+def do_unload():
+    out = subprocess.Popen(['/usr/bin/python3', 'testunload.py'],
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+    stdout,stderr = out.communicate()
+
+def do_make_clip():
+    out = subprocess.Popen(['/bin/bash', 'makeaclip.bash'],
+       cwd=WHEREIRUNDIR,
+       stdout=subprocess.PIPE, 
+       stderr=subprocess.STDOUT)
+
+def do_tweet_outcome(inresponseto):
+    out = subprocess.Popen(['/usr/bin/python3', 'snap.py'],
+       cwd=WHEREIRUNDIR,
+       stdout=subprocess.PIPE, 
+       stderr=subprocess.STDOUT)
+    if not make_clip:
+        out = subprocess.Popen(['/usr/bin/python3', TWITTERHOMEDIR+'tweetthis.py', "in response to {}".format(inresponseto),"a_snap.png"],
+            cwd=WHEREIRUNDIR,
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.STDOUT)
+        print("should have tweeted a pic")
+    else:
+        #we need to wait for clip to be ready!
+        s=['/usr/bin/python3', TWITTERHOMEDIR+'tweetthis.py', "in response to {}".format(inresponseto),"a_clip.mp4"]
+        out = subprocess.Popen(s,
+            cwd=WHEREIRUNDIR,
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.STDOUT)
+        make_clip=False #only one clip, for now
+        print("did i tweet a_clip?"," ".join(s)) 
+
 
 def name2filename(x):
     return re.sub('[^a-zA-Z0-9]+','',x)

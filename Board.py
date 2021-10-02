@@ -293,6 +293,10 @@ def restBusServoPulse(oldid):
 def unloadBusServo(id):
     serial_serro_wirte_cmd(id, LOBOT_SERVO_LOAD_OR_UNLOAD_WRITE, 0)
 
+@lock_serial
+def loadBusServo(id):
+    serial_serro_wirte_cmd(id, LOBOT_SERVO_LOAD_OR_UNLOAD_WRITE, 1)
+
 ##读取是否掉电
 @lock_serial
 def getBusServoLoadStatus(id):

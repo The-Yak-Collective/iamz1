@@ -9,7 +9,7 @@ ACTDIR=os.getenv('ACTDIR','/home/pi/SpiderPi/ActionGroups/')
 
 #print('''
 #run action groups by name
-#rag NAME TIMES
+#rag NAME TIMES SPEEDRATIO
 #''')
 args=sys.argv
 
@@ -33,6 +33,10 @@ if(args[1]=="stop"):
 times=1
 if len(args)>2:
     times=int(args[2])
+    
+speedratio=1.0
+if len(args)>3:
+    speedratio=float(args[3])
 name=args[1]
 if name in actnames:
     AGC.runActionGroup(name,times=times)
