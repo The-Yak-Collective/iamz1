@@ -10,10 +10,11 @@
         #push X - state of leg #X pushed to stack (one stack per leg). stack local to execution
         #pop X S - pop the state of leg X, do it in time S milliseconds
         #rag action_group N SR (all parameters needed) - do action group N times, at speed ratio (float) SR
-        #rel action_command N SR - do an action command (like an action group but allowing both relative and absolute position movement and also allowing "NOP" (and unlock? or lock) in an action group line), at speed ratio SR. action commands stored in a separate directory and maybe they have a plain text format. or maybe csv, but strings. what is advantage of sqlite3 files? if we want backwards compatibility, we need to maybe add a table of "modifications". but that is not human readable... so using CSV instead, but in same directory as action groups. work in progress...
+        #rag action_command N SR - (but now with rel option - if no .d6a file found) do an action command (like an action group but allowing both relative and absolute position movement and also allowing "NOP" (and unlock? or lock) in an action group line), at speed ratio SR. action commands stored in a separate directory and maybe they have a plain text format. or maybe csv, but strings. what is advantage of sqlite3 files? if we want backwards compatibility, we need to maybe add a table of "modifications". but that is not human readable... so using CSV instead, but in same directory as action groups. work in progress...
+        #leg X action_group_name N SR - apply actino group file only to leg X
 #TBD - how to modulate the whole file using music/rhythm/etc
 
-#other files to recode: rel.py, rag.py
+
 
 
 import os
@@ -71,11 +72,18 @@ for rep in range(times):
                 angles=stack[numeric].pop()
                 for idx,a in enumerate(angles):
                     Board.setBusServoPulse((numeric-1)*3+idx+1, int(a), usetime):
-        elif (words[0]=="rag" or words[0]=="rel") and lencom==4:
-            name=words[1]
-            args=words[2]
-            speedratio=float(words[3]) #not actually implemented yet, would be by a change in actiongroupcontrol.py
-            out = subprocess.Popen(['/usr/bin/python3', words[0]+'.py', name]+list(args)+list(str(speedratio)),
+        elif (words[0]=="rag" and lencom==4) or (words[0]=='leg' and lencom==5):
+            if lencom==4: #rag command
+                name=words[1]
+                args=words[2]
+                speedratio=float(words[3]) #not actually implemented yet, would be by a change in actiongroupcontrol.py
+                
+            elif lencom==5: #leg command - can go really wild and define leg 0 as all the legs
+                name=words[2]+'#'+words[1]
+                args=words[3]
+                speedratio=float(words[4]) #not actually implemented yet, would be by a change in actiongroupcontrol.py
+
+            out = subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+list(args)+list(str(speedratio)),
                cwd=WHEREIRUNDIR,
                stdout=subprocess.PIPE, 
                stderr=subprocess.STDOUT)

@@ -6,6 +6,7 @@
 #+N or -N - relative movement + we keep track of values (they are windowed by Board)
 #NOP  - do nothing
 #L/UL - lock or unlock this servo
+#now also adding that if file name ends in #number, uses number as number of the leg to apply the file on. an alternative woudl be to have a different file format (with fewer items) when doing only one leg. but using leg as a filter seems easier to implement
 
 import os
 import sys
@@ -59,10 +60,17 @@ def runAction(actNum, lock_servos=''):
     global stop_action_group
 
     cur_state=[0]*18
+    filter=False
+    filtercontents=[]
 
     if actNum is None:
         return
-
+    temp=actNum.split('#')
+    actNum=temp[0]
+    if len(temp)>1:
+        filter=True
+        firstservo=int(temp[1])*3-2
+        filtercontents=[firstservo,firstservo+1,firstservo+2]
     actNum = "/home/pi/SpiderPi/ActionGroups/" + actNum + ".d6a"
     relNum = "/home/pi/SpiderPi/ActionGroups/" + actNum + ".csv" #rather than in rels!
     if os.path.exists(actNum) is True:
@@ -100,7 +108,7 @@ def runAction(actNum, lock_servos=''):
         if runningAction is False:
             runningAction = True
             with open(relNum,newline='') as csvfile:
-                readcsv=csv.reader(csvfile) #consider dictreader later
+                readcsv=csv.reader(csvfile) #consider dictreader later. also check to see if first line is read as fields or not
                 for i in range(1,19):
                     cur_state[i]=int(Board.getBusServoPulse(i))#yes, slow. but we need it for relative movement. i guess we can run this only if we have an actual rel instruction and only for those entries. and maybe only first time they get called. TBD for now as this should work, even if slower
                 for row in readcsv:
@@ -109,6 +117,8 @@ def runAction(actNum, lock_servos=''):
                         break
                     usetime=int(row[1])#row[0]=index of row, shouldbe
                     for i in range(2, len(row)): #we will use same general format as d6a files
+                        if filter and not (i-1 in filtercontents):
+                            continue
                         entry=row[i]
                         if entry=="NOP":
                             continue

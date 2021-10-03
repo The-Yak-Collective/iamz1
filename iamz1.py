@@ -166,29 +166,7 @@ async def iamz1_rag(ctx, name, *args):
         do_unload()
     return
 
-@bot.command(name='rel', help='run relative-type action group NAME [TIMES] times. "list" shows list of available actions (not supported yet). "stop" stops running action. ',before_invoke=gotit)
-#relative groups in subfolder "rels"
-async def iamz1_rel(ctx, name, *args):
-    await gotit(ctx)
-    global make_clip
-    if make_clip:
-        do_make_clip()
 
-    out = subprocess.Popen(['/usr/bin/python3', 'rel.py', name]+list(args),
-           cwd=WHEREIRUNDIR,
-           stdout=subprocess.PIPE, 
-           stderr=subprocess.STDOUT)
-    try:
-        stdout,stderr = out.communicate(timeout=2)
-        s=str(stdout,"utf-8").replace("\\n",'\n')
-        await splitsend(ctx.channel,s,False)
-    except subprocess.TimeoutExpired:
-        pass
-    if name != "list" and tweet_outcome:
-        do_tweet_outcome("rel "+name+' '+" ".join(list(args))))
-    if auto_unload:
-        do_unload()
-    return
 
 @bot.command(name='seq', help='run a sequence of commands NAME [TIMES] times. "list" shows list of available sequence files actions. "stop" stops running action. ',before_invoke=gotit)
 #sequnces in subfolder "seqs"
