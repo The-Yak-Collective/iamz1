@@ -11,7 +11,7 @@
         #pop X S - pop the state of leg X, do it in time S milliseconds
         #rag action_group N SR (all parameters needed) - do action group N times, at speed ratio (float) SR
         #rag action_command N SR - (but now with rel option - if no .d6a file found) do an action command (like an action group but allowing both relative and absolute position movement and also allowing "NOP" (and unlock? or lock) in an action group line), at speed ratio SR. action commands stored in a separate directory and maybe they have a plain text format. or maybe csv, but strings. what is advantage of sqlite3 files? if we want backwards compatibility, we need to maybe add a table of "modifications". but that is not human readable... so using CSV instead, but in same directory as action groups. work in progress...
-        #leg X action_group_name N SR - apply actino group file only to leg X
+        #leg X action_group_name N SR - apply action group file only to leg X. underlying mechanism supports having multiple legs affected
 #TBD - how to modulate the whole file using music/rhythm/etc
 
 
