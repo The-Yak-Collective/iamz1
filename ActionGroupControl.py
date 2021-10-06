@@ -150,4 +150,4 @@ def runAction(actNum, lock_servos='',rs=1.0):
 
     else:
         runningAction = False
-        print("未能找到动作组文件")
+        print("未能找到动作组文件", actNum,relNum)
