@@ -80,7 +80,8 @@ while True:
                 if len(line)==0:
                     print("illegal command")
                     continue
-                elif ord(length)==line[2]:
+                line=line[0]
+                if ord(length)==line[2]:
                     print("write")
                 elif len(line)>3 and ord(length)==line[3]:
                     print("read")
