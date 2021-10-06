@@ -70,18 +70,18 @@ while True:
                 chksum=ser.read()
                 #print(type(readitem),type(id),type(payload))
                 readitem.append(ord(id))
-                readitem.append(ord(cmd))
                 readitem.append(ord(length))
+                readitem.append(ord(cmd))
                 readitem+=payload
                 readitem.append(ord(chksum))
-                print(readitem.hex(), checksum(readitem), end=" ")
+                print(readitem.hex(), chksum, checksum(readitem), end=" ")
                 line=[x for x in coms if x[1]==ord(cmd)]
                 if len(line)==0:
                     print("illegal command")
                     continue
-                elif ord(length)==x[2]:
+                elif ord(length)==line[2]:
                     print("write")
-                elif len(line)>3 and ord(length)==x[3]:
+                elif len(line)>3 and ord(length)==line[3]:
                     print("read")
                 print(line[0], id, cmd,length,payload)
                 break #finished a command unit, i hope
