@@ -5,13 +5,74 @@ import serial
 import io
 import time
 
+HEADER         = 0x55
+
+coms=[["MOVE_TIME_WRITE",1,7],
+["MOVE_TIME_READ",2,3,7],
+["MOVE_TIME_WAIT_WRITE",7,7],
+["MOVE_TIME_WAIT_READ",8,3,7],
+["MOVE_START",11,3],
+["MOVE_STOP",12,3],
+["ID_WRITE",13,4],
+["ID_READ",14,3,4],
+["ANGLE_OFFSET_ADJUST",17,4],
+["ANGLE_OFFSET_WRITE",18,3],
+["ANGLE_OFFSET_READ",19,3],
+["ANGLE_LIMIT_WRITE",20,7],
+["ANGLE_LIMIT_READ",21,3,7],
+["VIN_LIMIT_WRITE",22,7],
+["VIN_LIMIT_READ",23,3,7],
+["TEMP_MAX_LIMIT_WRITE",24,4],
+["TEMP_MAX_LIMIT_READ",25,3,4],
+["TEMP_READ",26,3,4],
+["VIN_READ",27,3,5],
+["POS_READ",28,3,5],
+["OR_MOTOR_MODE_WRITE",29,7],
+["OR_MOTOR_MODE_READ",30,3,7],
+["LOAD_OR_UNLOAD_WRITE",31,4],
+["LOAD_OR_UNLOAD_READ",32,3,4],
+["LED_CTRL_WRITE",33,4],
+["LED_CTRL_READ",34,3,4],
+["LED_ERROR_WRITE",35,4],
+["LED_ERROR_READ",36,3,4]]
+
+
+def checksum(buf):
+    sum = 0x00
+    for b in buf:  # 求和
+        sum += b
+    sum = sum 
+    sum = ~sum  # 取反
+    return sum & 0xff
+
 ser=serial.Serial('/dev/ttyUSB0', 115200,xonxoff=False, rtscts=False, dsrdtr=False)
 ser.flushInput()
-ser.flushOutput()
+
+
+
 while True:
-    bytesToRead = ser.inWaiting()
-    if bytesToRead >0:
-        data_raw = ser.read(bytesToRead)
-        print(data_raw.hex())
-    else:
-        time.sleep(0.01)
+    for c in ser.read():
+        if c == 0x55:
+            print("0x55_1 ",end=" ")
+            if ser.read()==0x55: #so we have two in a row
+                print("0x55_2 ",end=" ")
+                readitem=bytearray(0)
+                id=ser.read()
+                cmd=ser.read()
+                length=ser.read()
+                if length>3:
+                    payload=ser.read(int(length)-3)
+                chksum=ser.read()
+                readitem.extend(id).extend(cmd).extend(length).extend(payload).extend(chksum)
+                print(readitem, readitem.hex(), checksum(readitem), end=" ")
+                line=[x for x in coms if x[1]==int(cmd)]
+                if not line:
+                    print("illegal command")
+                elif int(length)==x[2]:
+                    print("write")
+                elif len(line)>3 and int(length)==x[3]:
+                    print("read")
+                print(line[0], id, cmd,length,payload)
+            break
+        else:
+            print("skipping: ",c.hex())
