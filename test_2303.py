@@ -67,11 +67,11 @@ while True:
                     print("payload:",payload)
                 chksum=ser.read()
                 print(type(readitem),type(id))
-                readitem.append(id)
-                readitem.append(cmd)
-                readitem.append(length)
+                readitem.append(ord(id))
+                readitem.append(ord(cmd))
+                readitem.append(ord(length))
                 readitem.append(payload)
-                readitem.append(chksum)
+                readitem.append(ord(chksum))
                 print(readitem, readitem.hex(), checksum(readitem), end=" ")
                 line=[x for x in coms if x[1]==ord(cmd)]
                 if not line:
