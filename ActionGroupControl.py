@@ -41,7 +41,7 @@ def runActionGroup(actName, times=1, rs=1.0):
             if times < 0 or stop_action_group: # Out of the loop
                 stop_action_group = False
                 break
-            runAction(actName)
+            runAction(actName, rs=rs)
         elif temp == 0:
             if stop_action_group: # Out of the loop
                 stop_action_group = False
@@ -59,7 +59,7 @@ def runAction(actNum, lock_servos='',rs=1.0):
     global stop_action
     global stop_action_group
 
-    cur_state=[0]*18
+    cur_state=[0]*19 #servos numbers 1 to 18
     filter=False
     filtercontents=[]
 
