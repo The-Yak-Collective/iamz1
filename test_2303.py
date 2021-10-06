@@ -60,8 +60,8 @@ while True:
                 readitem=bytearray(0)
                 id=ser.read()
                 #print(type(readitem),type(id))
-                cmd=ser.read()
                 length=ser.read()
+                cmd=ser.read()
                 if ord(length)>3:
                     print(length, ord(length))
                     payload=ser.read(ord(length)-3)
