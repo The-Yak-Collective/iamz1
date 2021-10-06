@@ -77,7 +77,7 @@ while True:
                     readitem[i]=payload[i-3]
                 #print(readitem, readitem.hex(), ord(chksum), checksum(readitem), end=" ")
                 if ord(chksum) != checksum(readitem):
-                    print("checksum fail!",readitem,ord(chksum), checksum(readitem))
+                    print("checksum fail!",readitem,"read=",ord(chksum), "calc=",checksum(readitem))
                     continue
                 line=[x for x in coms if x[1]==ord(cmd)]
                 #print("line=",line)
@@ -97,6 +97,8 @@ while True:
                     print(payload[0])
                 elif ord(length)==5:
                     print(int.from_bytes(payload[0:2],'little'))
+                elif:
+                    print(" ")
                 break #finished a command unit, i hope
             else:
                 print("half a header: ",c.hex())
