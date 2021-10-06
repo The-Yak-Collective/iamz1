@@ -75,7 +75,10 @@ while True:
                 readitem[2]=ord(cmd)
                 for i in range(3,len(payload)+3):
                     readitem[i]=payload[i-3]
-                print(readitem, readitem.hex(), ord(chksum), checksum(readitem), end=" ")
+                #print(readitem, readitem.hex(), ord(chksum), checksum(readitem), end=" ")
+                if ord(chksum) != checksum(readitem):
+                    print("checksum fail!",readitem,ord(chksum), checksum(readitem))
+                    continue
                 line=[x for x in coms if x[1]==ord(cmd)]
                 #print("line=",line)
                 if len(line)==0:
@@ -83,10 +86,10 @@ while True:
                     continue
                 line=line[0]
                 if ord(length)==line[2]:
-                    print("write")
+                    print("write", end=" ")
                 elif len(line)>3 and ord(length)==line[3]:
-                    print("read")
-                print(line[0], ord(id), ord(length), ord(cmd),payload, end=" ")
+                    print("read", end=" ")
+                print(line[0], "servo=", ord(id),  end=" ") #ord(length), ord(cmd),payload, - if we want to see raw form
                 if ord(length)==7:
                     print(int.from_bytes(payload[0:2],'little'), end=" ")
                     print(int.from_bytes(payload[2:4],'little'))
