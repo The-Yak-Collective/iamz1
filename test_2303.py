@@ -97,7 +97,7 @@ while True:
                     print(payload[0])
                 elif ord(length)==5:
                     print(int.from_bytes(payload[0:2],'little'))
-                elif:
+                else:
                     print(" ")
                 break #finished a command unit, i hope
             else:
