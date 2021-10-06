@@ -5,5 +5,6 @@ ser=serial.Serial('/dev/ttyUSB0', 115200,xonxoff=False, rtscts=False, dsrdtr=Fal
 ser.flushInput()
 ser.flushOutput()
 While True:
-  data_raw = ser.read()
-  print(data_raw.hex(), end=" ")
+    bytesToRead = ser.inWaiting()
+    data_raw = ser.read(bytesToRead)
+    print(data_raw.hex(), end=" ")
