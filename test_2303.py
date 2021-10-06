@@ -74,7 +74,7 @@ while True:
                 readitem[1]=ord(length)
                 readitem[2]=ord(cmd)
                 for i in range(3,len(payload)+3):
-                    readitem[i]=ord(payload[i-3])
+                    readitem[i]=payload[i-3]
                 print(readitem, readitem.hex(), chksum, checksum(readitem), end=" ")
                 line=[x for x in coms if x[1]==ord(cmd)]
                 #print("line=",line)
