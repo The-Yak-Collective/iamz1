@@ -14,7 +14,7 @@ import time
 import threading
 import sqlite3 as sql
 from BusServoCmd import *
-from Board import setBusServoPulse, stopBusServo, unLoadBusServo, LoadBusServo
+from Board import setBusServoPulse, stopBusServo, unloadBusServo, loadBusServo
 import csv
 
 # PC software editor action call library
@@ -136,9 +136,9 @@ def runAction(actNum, lock_servos='',rs=1.0):
                             setBusServoPulse(i - 1, cur_state[i-1]-theval, usetime)
                             cur_state[i-1]=cur_state[i-1]-theval
                         elif entry=="UL" or entry=="UNLOAD":
-                            unLoadBusServo(i-1) #but then if it is moved passively, we actually do not know where it is and do not read the position because our reading is simply too slow!
+                            unloadBusServo(i-1) #but then if it is moved passively, we actually do not know where it is and do not read the position because our reading is simply too slow!
                         elif entry=="L" or entry=="LOAD":
-                            LoadBusServo(i-1)
+                            loadBusServo(i-1)
                     for j in range(int(usetime/50)):#left this in though i do not like it
                         if stop_action:
                             stop_action_group = True
