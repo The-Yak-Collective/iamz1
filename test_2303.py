@@ -73,7 +73,6 @@ while True:
                 elif len(line)>3 and int(length)==x[3]:
                     print("read")
                 print(line[0], id, cmd,length,payload)
-            break
             else:
                 print("half a header: ",str(c).hex())
         else:
