@@ -9,6 +9,6 @@ while True:
     bytesToRead = ser.inWaiting()
     if bytesToRead >0:
         data_raw = ser.read(bytesToRead)
-        print(data_raw.hex(), end=" ")
+        print(data_raw.hex())
     else:
         time.sleep(0.01)

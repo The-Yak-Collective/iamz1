@@ -28,7 +28,7 @@ def stopAction():
     
     stop_action = True
 
-def runActionGroup(actName, times=1):
+def runActionGroup(actName, times=1, rs=1.0):
     global stop_action
     global stop_action_group
 
@@ -46,9 +46,9 @@ def runActionGroup(actName, times=1):
             if stop_action_group: # Out of the loop
                 stop_action_group = False
                 break
-            runAction(actName)
+            runAction(actName, rs=rs)
 
-def runAction(actNum, lock_servos=''):
+def runAction(actNum, lock_servos='',rs=1.0):
     '''
     Running action group, can not send stop signal
     :param actNum: action group name, character string stype
@@ -86,7 +86,7 @@ def runAction(actNum, lock_servos=''):
                     break
                 if act is not None:
                     for i in range(0, len(act) - 2, 1):
-                        if int(act[i+2]) < 0):
+                        if (int(act[i+2]) < 0):
                             continue #attempt to make negative numbers into "NOP". maybe thsi was original intention of lock_servos
                         elif str(i + 1) in lock_servos:
                             setBusServoPulse(i + 1, lock_servos[str(i + 1)], act[1])
