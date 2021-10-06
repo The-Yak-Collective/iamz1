@@ -74,7 +74,7 @@ for rep in range(times):
             else:
                 angles=stack[numeric].pop()
                 for idx,a in enumerate(angles):
-                    Board.setBusServoPulse((numeric-1)*3+idx+1, int(a), usetime):
+                    Board.setBusServoPulse((numeric-1)*3+idx+1, int(a), usetime)
         elif (words[0]=="rag" and lencom==4) or (words[0]=='leg' and lencom==5):
             if lencom==4: #rag command
                 name=words[1]
