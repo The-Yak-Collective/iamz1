@@ -14,7 +14,7 @@ import time
 import threading
 import sqlite3 as sql
 from BusServoCmd import *
-from Board import setBusServoPulse, stopBusServo
+from Board import setBusServoPulse, stopBusServo, unLoadBusServo, LoadBusServo
 import csv
 
 # PC software editor action call library
@@ -110,7 +110,7 @@ def runAction(actNum, lock_servos='',rs=1.0):
             with open(relNum,newline='') as csvfile:
                 readcsv=csv.reader(csvfile) #consider dictreader later. also check to see if first line is read as fields or not
                 for i in range(1,19):
-                    cur_state[i]=int(Board.getBusServoPulse(i))#yes, slow. but we need it for relative movement. i guess we can run this only if we have an actual rel instruction and only for those entries. and maybe only first time they get called. TBD for now as this should work, even if slower
+                    cur_state[i]=int(getBusServoPulse(i))#yes, slow. but we need it for relative movement. i guess we can run this only if we have an actual rel instruction and only for those entries. and maybe only first time they get called. TBD for now as this should work, even if slower
                 for row in readcsv:
                     if stop_action:
                         stop_action_group = True
@@ -136,9 +136,9 @@ def runAction(actNum, lock_servos='',rs=1.0):
                             setBusServoPulse(i - 1, cur_state[i-1]-theval, usetime)
                             cur_state[i-1]=cur_state[i-1]-theval
                         elif entry=="UL" or entry=="UNLOAD":
-                            Board.unLoadBusServo(i-1) #but then if it is moved passively, we actually do not know where it is and do not read the position because our reading is simply too slow!
+                            unLoadBusServo(i-1) #but then if it is moved passively, we actually do not know where it is and do not read the position because our reading is simply too slow!
                         elif entry=="L" or entry=="LOAD":
-                            Board.LoadBusServo(i-1)
+                            LoadBusServo(i-1)
                     for j in range(int(usetime/50)):#left this in though i do not like it
                         if stop_action:
                             stop_action_group = True
