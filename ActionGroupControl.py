@@ -14,7 +14,7 @@ import time
 import threading
 import sqlite3 as sql
 from BusServoCmd import *
-from Board import setBusServoPulse, stopBusServo, unloadBusServo, loadBusServo
+from Board import setBusServoPulse, getBusServoPulse, stopBusServo, unloadBusServo, loadBusServo
 import csv
 
 # PC software editor action call library
