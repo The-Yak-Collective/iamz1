@@ -161,7 +161,7 @@ async def iamz1_rag(ctx, name, *args):
     except subprocess.TimeoutExpired:
         pass
     if name != "list" and tweet_outcome:
-        do_tweet_outcome("rag "+name+' '+" ".join(list(args))))
+        do_tweet_outcome("rag "+name+' '+" ".join(list(args)))
     if auto_unload:
         do_unload()
     return
@@ -187,7 +187,7 @@ async def iamz1_seq(ctx, name, *args):
     except subprocess.TimeoutExpired:
         pass
     if name != "list" and tweet_outcome:
-        do_tweet_outcome("seq "+name+' '+" ".join(list(args))))
+        do_tweet_outcome("seq "+name+' '+" ".join(list(args)))
 
     if auto_unload:
         do_unload()
