@@ -52,10 +52,10 @@ ser.flushInput()
 
 while True:
     for c in ser.read():
-        if c == 0x55:
+        if int(c) == 0x55:
             print("0x55_1 ",end=" ")
             c=ser.read()
-            if c == 0x55: #so we have two in a row
+            if int(c) == 0x55: #so we have two in a row
                 print("0x55_2 ",end=" ")
                 readitem=bytearray(0)
                 id=ser.read()
