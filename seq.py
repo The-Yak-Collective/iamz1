@@ -56,11 +56,13 @@ for rep in range(times):
             continue
         words=line.split()
         lencom=len(words)
+        if lencom==0:
+            continue
         if words[0]=="wait" and lencom==1:
             towait=True
         elif words[0]=="nowait" and lencom==1:
             towait=False
-        elif words[0]=="pause" and lencom==1:
+        elif words[0]=="pause" and lencom==2:
             time.sleep(float(words[1])/1000.0)
         elif words[0]=="push"and lencom==2:
             #read angles of three servos on a leg, into angles
