@@ -53,10 +53,10 @@ ser.flushInput()
 while True:
     for c in ser.read():
         if int(c) == 0x55:
-            print("0x55_1 ",end=" ")
+            #print("0x55_1 ",end=" ")
             c=ser.read()
             if ord(c) == 0x55: #so we have two in a row
-                print("0x55_2 ",end=" ")
+                #print("0x55_2 ",end=" ")
                 readitem=bytearray(0)
                 payload=bytearray(0)
                 id=ser.read()
@@ -64,19 +64,19 @@ while True:
                 length=ser.read()
                 cmd=ser.read()
                 if ord(length)>3:
-                    print(length, ord(length))
-                    payload=ser.read(ord(length)-3)
-                    print("payload:",payload.hex())
+                    #print(length, ord(length))
+                    payload=bytearray(ser.read(ord(length)-3))
+                    #print("payload:",payload.hex())
                 chksum=ser.read()
                 #print(type(readitem),type(id),type(payload))
                 readitem.append(ord(id))
                 readitem.append(ord(length))
                 readitem.append(ord(cmd))
-                readitem+=payload
+                readitem.extend(payload)
                 readitem.append(ord(chksum))
                 print(readitem.hex(), chksum, checksum(readitem), end=" ")
                 line=[x for x in coms if x[1]==ord(cmd)]
-                print("line=",line)
+                #print("line=",line)
                 if len(line)==0:
                     print("illegal command")
                     continue
@@ -85,7 +85,7 @@ while True:
                     print("write")
                 elif len(line)>3 and ord(length)==line[3]:
                     print("read")
-                print(line[0], id, cmd,length,payload)
+                print(line[0], ord(id), ord(length), ord(cmd),payload)
                 break #finished a command unit, i hope
             else:
                 print("half a header: ",c.hex())
