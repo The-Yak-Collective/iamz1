@@ -76,6 +76,7 @@ while True:
                 readitem.append(ord(chksum))
                 print(readitem.hex(), chksum, checksum(readitem), end=" ")
                 line=[x for x in coms if x[1]==ord(cmd)]
+                print("line=",line)
                 if len(line)==0:
                     print("illegal command")
                     continue
