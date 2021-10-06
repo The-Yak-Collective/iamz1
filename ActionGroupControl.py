@@ -109,6 +109,7 @@ def runAction(actNum, lock_servos='',rs=1.0):
             runningAction = True
             with open(relNum,newline='') as csvfile:
                 readcsv=csv.reader(csvfile) #consider dictreader later. also check to see if first line is read as fields or not
+                headers = next(readcsv, None) #yup, line 1 is read as data
                 for i in range(1,19):
                     cur_state[i]=int(getBusServoPulse(i))#yes, slow. but we need it for relative movement. i guess we can run this only if we have an actual rel instruction and only for those entries. and maybe only first time they get called. TBD for now as this should work, even if slower
                 for row in readcsv:
