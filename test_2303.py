@@ -1,3 +1,6 @@
+#seems to read ok
+#now put in all the commands and show one command per line in plain english, based on protocol standard
+
 import serial
 import io
 import time

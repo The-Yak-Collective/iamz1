@@ -18,12 +18,13 @@ if(len(args)<2):
     
 f=sorted(os.listdir(ACTDIR))
 actnames=[x[:-4] for x in f if x[-4:]=='.d6a']
+relactnames=[x[:-4] for x in f if x[-4:]=='.csv']
 
 if(args[1]=="list"):
-    #f=os.listdir(ACTDIR)
-    #actnames=[x[:-4] for x in f if x[-4:]=='.d6a']
     print('list of available acts:\n')
     for x in actnames:
+        print(x)
+    for x in relactnames:
         print(x)
     sys.exit()
 
@@ -38,7 +39,7 @@ speedratio=1.0
 if len(args)>3:
     speedratio=float(args[3])
 name=args[1]
-if name in actnames:
-    AGC.runActionGroup(name,times=times)
+if name in actnames or name in relactnames:
+    AGC.runActionGroup(name,times=times, rs=speedratio)
 else:
     sys.exit("action not exist: "+ name)
