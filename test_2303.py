@@ -74,5 +74,7 @@ while True:
                     print("read")
                 print(line[0], id, cmd,length,payload)
             break
+            else:
+                print("half a header: ",str(c).hex())
         else:
-            print("skipping: ",c.hex())
+            print("skipping: ",str(c).hex())
