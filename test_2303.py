@@ -58,6 +58,7 @@ while True:
             if ord(c) == 0x55: #so we have two in a row
                 print("0x55_2 ",end=" ")
                 readitem=bytearray(0)
+                payload=bytearray(0)
                 id=ser.read()
                 #print(type(readitem),type(id))
                 length=ser.read()
