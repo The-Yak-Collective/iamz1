@@ -57,11 +57,12 @@ while True:
             c=ser.read()
             if ord(c) == 0x55: #so we have two in a row
                 #print("0x55_2 ",end=" ")
-                readitem=bytearray(0)
+                #readitem=bytearray(0)
                 payload=bytearray(0)
                 id=ser.read()
                 #print(type(readitem),type(id))
                 length=ser.read()
+                readitem=bytearray(ord(length))
                 cmd=ser.read()
                 if ord(length)>3:
                     #print(length, ord(length))
@@ -72,11 +73,8 @@ while True:
                 readitem[0]=id
                 readitem[1]=length
                 readitem[2]=cmd
-                max=2
                 for i in range(3,len(payload)+3):
                     readitem[i]=payload[i-3]
-                    max=i
-                readitem[max+1]=chksum
                 print(readitem, readitem.hex(), chksum, checksum(readitem), end=" ")
                 line=[x for x in coms if x[1]==ord(cmd)]
                 #print("line=",line)
