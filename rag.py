@@ -39,7 +39,7 @@ speedratio=1.0
 if len(args)>3:
     speedratio=float(args[3])
 name=args[1]
-if name in actnames or name in relactnames:
+if name.split('#')[0] in actnames or name.split('#')[0] in relactnames:
     AGC.runActionGroup(name,times=times, rs=speedratio)
 else:
     sys.exit("action not exist: "+ name)
