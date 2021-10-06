@@ -50,6 +50,9 @@ with open(seqfile) as thefile:
 
 for rep in range(times):
     for line in lines:
+        line.strip()
+        if line[0]=="#":
+            continue
         words=line.split()
         lencom=len(words)
         if words[0]=="wait" and lencom==1:
@@ -60,11 +63,11 @@ for rep in range(times):
             time.sleep(float(words[1])/1000.0)
         elif words[0]=="push"and lencom==2:
             #read angles of three servos on a leg, into angles
-            numeric=words[1]
+            numeric=int(words[1])
             angles=(Board.getBusServoPulse(numeric*3-2),Board.getBusServoPulse(numeric*3-1),Board.getBusServoPulse(numeric*3))
             stack[numeric].append(angles)
         elif words[0]=="pop" and lencom==3:
-            numeric=words[1]
+            numeric=int(words[1])
             usetime=int(words[2])
             if len(stack[numeric])<1:
                 print("empty stack!", words[1])
