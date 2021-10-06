@@ -57,7 +57,7 @@ while True:
             c=int.from_bytes(ser.read(),byteorder='little')
             if c == 0x55: #so we have two in a row
                 print("0x55_2 ",end=" ")
-                readitem=bytearray(0)
+                readitem=bytearray(1)
                 id=int.from_bytes(ser.read(),byteorder='little')
                 cmd=int.from_bytes(ser.read(),byteorder='little')
                 length=int.from_bytes(ser.read(),byteorder='little')
