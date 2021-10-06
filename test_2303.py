@@ -58,9 +58,9 @@ while True:
             if c == 0x55: #so we have two in a row
                 print("0x55_2 ",end=" ")
                 readitem=bytearray(0)
-                id=ser.read()
-                cmd=ser.read()
-                length=ser.read()
+                id=int.from_bytes(ser.read(),byteorder='little')
+                cmd=int.from_bytes(ser.read(),byteorder='little')
+                length=int.from_bytes(ser.read(),byteorder='little')
                 if length>3:
                     payload=ser.read(int(length)-3)
                 chksum=ser.read()
