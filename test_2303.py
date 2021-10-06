@@ -59,28 +59,31 @@ while True:
                 print("0x55_2 ",end=" ")
                 readitem=bytearray(0)
                 id=ser.read()
-                print(type(readitem),type(id))
+                #print(type(readitem),type(id))
                 cmd=ser.read()
                 length=ser.read()
                 if ord(length)>3:
+                    print(length, ord(length))
                     payload=ser.read(ord(length)-3)
-                    print("payload:",payload)
+                    print("payload:",payload.hex())
                 chksum=ser.read()
-                print(type(readitem),type(id),type(payload))
+                #print(type(readitem),type(id),type(payload))
                 readitem.append(ord(id))
                 readitem.append(ord(cmd))
                 readitem.append(ord(length))
                 readitem+=payload
                 readitem.append(ord(chksum))
-                print(readitem, readitem.hex(), checksum(readitem), end=" ")
+                print(readitem.hex(), checksum(readitem), end=" ")
                 line=[x for x in coms if x[1]==ord(cmd)]
-                if not line:
+                if len(line)==0:
                     print("illegal command")
+                    continue
                 elif ord(length)==x[2]:
                     print("write")
                 elif len(line)>3 and ord(length)==x[3]:
                     print("read")
                 print(line[0], id, cmd,length,payload)
+                break #finished a command unit, i hope
             else:
                 print("half a header: ",c.hex())
         else:
