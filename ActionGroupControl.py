@@ -2,11 +2,16 @@
 # encoding: utf-8
 #modified to also read csv files as rel-type (enhanced action group) files
 #each row is a time followed by a series of settings (as strings!) per servo
+#string format
 #number (not zero) = absolute location
 #+N or -N - relative movement + we keep track of values (they are windowed by Board)
 #NOP  - do nothing
 #L/UL - lock or unlock this servo
-#now also adding that if file name ends in #number, uses number as number of the leg to apply the file on. an alternative woudl be to have a different file format (with fewer items) when doing only one leg. but using leg as a filter seems easier to implement
+#actionname#number (or #N1#N2...), uses number as number of the leg to apply the file on. an alternative woudl be to have a different file format (with fewer items) when doing only one leg. but using leg as a filter seems easier to implement
+#actionname$I - insist on action working as described
+#actionname$F - just give feedback on plan vs actual
+# $ comes after #
+
 
 import os
 import sys
@@ -48,6 +53,13 @@ def runActionGroup(actName, times=1, rs=1.0):
                 break
             runAction(actName, rs=rs)
 
+def measure_state():
+    x=[0]*19
+    for i in range(1,19):
+        x[i]=int(getBusServoPulse(i))#yes, slow. but we need it for relative movement. i guess we can run this only if we have an actual rel instruction and only for those entries. and maybe only first time they get called. TBD for now as this should work, even if slower
+    return x
+
+
 def runAction(actNum, lock_servos='',rs=1.0):
     '''
     Running action group, can not send stop signal
@@ -58,19 +70,28 @@ def runAction(actNum, lock_servos='',rs=1.0):
     global runningAction
     global stop_action
     global stop_action_group
-
+    
+    feedback = False
     cur_state=[0]*19 #servos numbers 1 to 18
     filter=False
     filtercontents=[]
 
     if actNum is None:
         return
+    temp=actNum.split('$')
+    actNum=temp[0]
+    if len(temp)>1:
+        if temp[1][0]=='F':
+            feedback=True
+        if temp[1][0]=='I":
+            insist=True
     temp=actNum.split('#')
     actNum=temp[0]
     if len(temp)>1:
         filter=True
-        firstservo=int(temp[1])*3-2
-        filtercontents=[firstservo,firstservo+1,firstservo+2]
+        for i in temp[1:]:
+            firstservo=int(temp[i])*3-2
+            filtercontents.extend([firstservo,firstservo+1,firstservo+2])
     relNum = "/home/pi/SpiderPi/ActionGroups/" + actNum + ".csv" #rather than in rels! and do this first because action name is corrupted by processing
     actNum = "/home/pi/SpiderPi/ActionGroups/" + actNum + ".d6a"
     if os.path.exists(actNum) is True:
@@ -111,7 +132,7 @@ def runAction(actNum, lock_servos='',rs=1.0):
                 readcsv=csv.reader(csvfile) #consider dictreader later. also check to see if first line is read as fields or not
                 headers = next(readcsv, None) #yup, line 1 is read as data
                 for i in range(1,19):
-                    cur_state[i]=int(getBusServoPulse(i))#yes, slow. but we need it for relative movement. i guess we can run this only if we have an actual rel instruction and only for those entries. and maybe only first time they get called. TBD for now as this should work, even if slower
+                    cur_state=measure_state()
                 for row in readcsv:
                     if stop_action:
                         stop_action_group = True
@@ -146,6 +167,19 @@ def runAction(actNum, lock_servos='',rs=1.0):
                             break
                         time.sleep(0.05)
                     time.sleep(0.001 + usetime/1000.0 - 0.05*int(usetime/50))
+                estimated_state=cur_state.copy()
+                if insist:
+                    print("insist function not supported yet")
+                if feedback:
+                    cur_state=measure_state()
+                    print("we should be at:",estimated_state)
+                    print("we are at:",cur_state)
+                    toterror=0
+                    for x,y in zip(estimated_state,cur_state):
+                        toterror+=(x-y)*(x-y)
+                    print("square of error is:",toterror)
+                    #later define a threshold above which we report, etc.
+                    #later define a way by which this feedback actually gets to user...
                 runningAction = False
 
 
