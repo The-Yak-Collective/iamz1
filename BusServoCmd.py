@@ -130,7 +130,8 @@ def serial_servo_read_cmd(id=None, r_cmd=None):
     buf.append(checksum(buf))  # 校验和
     serialHandle.write(buf)  # 发送
     print("buf written for 'read'",buf,checksum(buf))
-    time.sleep(0.00034)
+    time.sleep(0.0004) #    time.sleep(0.00034)
+
 
 def serial_servo_get_rmsg(cmd):
     '''
