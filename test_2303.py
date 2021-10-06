@@ -72,7 +72,7 @@ while True:
                 readitem.append(ord(id))
                 readitem.append(ord(length))
                 readitem.append(ord(cmd))
-                readitem.extend(payload)
+                readitem+=payload
                 readitem.append(ord(chksum))
                 print(readitem, readitem.hex(), chksum, checksum(readitem), end=" ")
                 line=[x for x in coms if x[1]==ord(cmd)]
