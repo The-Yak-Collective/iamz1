@@ -67,7 +67,7 @@ while True:
                 if ord(length)>3:
                     #print(length, ord(length))
                     payload=bytearray(ser.read(ord(length)-3))
-                    print("payload:",payload.hex(),len(payload))
+                    #print("payload:",payload.hex(),len(payload))
                 chksum=ser.read()
                 #print(type(readitem),type(id),type(payload))
                 readitem[0]=ord(id)
@@ -75,7 +75,7 @@ while True:
                 readitem[2]=ord(cmd)
                 for i in range(3,len(payload)+3):
                     readitem[i]=payload[i-3]
-                print(readitem, readitem.hex(), chksum, checksum(readitem), end=" ")
+                print(readitem, readitem.hex(), ord(chksum), checksum(readitem), end=" ")
                 line=[x for x in coms if x[1]==ord(cmd)]
                 #print("line=",line)
                 if len(line)==0:
@@ -86,7 +86,14 @@ while True:
                     print("write")
                 elif len(line)>3 and ord(length)==line[3]:
                     print("read")
-                print(line[0], ord(id), ord(length), ord(cmd),payload)
+                print(line[0], ord(id), ord(length), ord(cmd),payload, end=" ")
+                if ord(length)==7:
+                    print(int.from_bytes(payload[0:2],'little'), end=" ")
+                    print(int.from_bytes(payload[2:4],'little'))
+                elif ord(length)==4:
+                    print(payload[0])
+                elif ord(length)==5
+                    print(int.from_bytes(payload[0:2],'little'))
                 break #finished a command unit, i hope
             else:
                 print("half a header: ",c.hex())
