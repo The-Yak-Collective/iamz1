@@ -71,8 +71,8 @@ def runAction(actNum, lock_servos='',rs=1.0):
         filter=True
         firstservo=int(temp[1])*3-2
         filtercontents=[firstservo,firstservo+1,firstservo+2]
+    relNum = "/home/pi/SpiderPi/ActionGroups/" + actNum + ".csv" #rather than in rels! and do this first because action name is corrupted by processing
     actNum = "/home/pi/SpiderPi/ActionGroups/" + actNum + ".d6a"
-    relNum = "/home/pi/SpiderPi/ActionGroups/" + actNum + ".csv" #rather than in rels!
     if os.path.exists(actNum) is True:
         if runningAction is False:
             runningAction = True
