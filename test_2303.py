@@ -54,29 +54,29 @@ while True:
     for c in ser.read():
         if int(c) == 0x55:
             print("0x55_1 ",end=" ")
-            c=int.from_bytes(ser.read(),byteorder='little')
-            if c == 0x55: #so we have two in a row
+            c=ser.read()
+            if ord(c) == 0x55: #so we have two in a row
                 print("0x55_2 ",end=" ")
                 readitem=bytearray(0)
-                id=int.from_bytes(ser.read(),byteorder='little')
-                cmd=int.from_bytes(ser.read(),byteorder='little')
+                id=ser.read()
+                cmd=ser.read()
                 length=ser.read()
                 if ord(length)>3:
-                    payload=ser.read(int(length)-3)
+                    payload=ser.read(ord(length)-3)
                     print("payload:",payload)
-                chksum=int.from_bytes(ser.read(),byteorder='little')
+                chksum=ser.read()
                 readitem.append(id)
                 readitem.append(cmd)
                 readitem.append(length)
                 readitem.append(payload)
                 readitem.append(chksum)
                 print(readitem, readitem.hex(), checksum(readitem), end=" ")
-                line=[x for x in coms if x[1]==int(cmd)]
+                line=[x for x in coms if x[1]==ord(cmd)]
                 if not line:
                     print("illegal command")
-                elif int(length)==x[2]:
+                elif ord(length)==x[2]:
                     print("write")
-                elif len(line)>3 and int(length)==x[3]:
+                elif len(line)>3 and ord(length)==x[3]:
                     print("read")
                 print(line[0], id, cmd,length,payload)
             else:
