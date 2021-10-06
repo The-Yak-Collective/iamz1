@@ -63,8 +63,8 @@ while True:
                 length=int.from_bytes(ser.read(),byteorder='little')
                 if length>3:
                     payload=ser.read(int(length)-3)
-                chksum=ser.read()
-                readitem.extend(id).extend(cmd).extend(length).extend(payload).extend(chksum)
+                chksum=int.from_bytes(ser.read(),byteorder='little')
+                readitem.append(id).append(cmd).append(length).append(payload).append(chksum)
                 print(readitem, readitem.hex(), checksum(readitem), end=" ")
                 line=[x for x in coms if x[1]==int(cmd)]
                 if not line:
