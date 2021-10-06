@@ -60,9 +60,10 @@ while True:
                 readitem=bytearray(0)
                 id=int.from_bytes(ser.read(),byteorder='little')
                 cmd=int.from_bytes(ser.read(),byteorder='little')
-                length=int.from_bytes(ser.read(),byteorder='little')
-                if length>3:
+                length=ser.read()
+                if ord(length)>3:
                     payload=ser.read(int(length)-3)
+                    print("payload:",payload)
                 chksum=int.from_bytes(ser.read(),byteorder='little')
                 readitem.append(id)
                 readitem.append(cmd)
