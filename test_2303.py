@@ -57,14 +57,18 @@ while True:
             c=int.from_bytes(ser.read(),byteorder='little')
             if c == 0x55: #so we have two in a row
                 print("0x55_2 ",end=" ")
-                readitem=bytearray(1)
+                readitem=bytearray(0)
                 id=int.from_bytes(ser.read(),byteorder='little')
                 cmd=int.from_bytes(ser.read(),byteorder='little')
                 length=int.from_bytes(ser.read(),byteorder='little')
                 if length>3:
                     payload=ser.read(int(length)-3)
                 chksum=int.from_bytes(ser.read(),byteorder='little')
-                readitem.append(id).append(cmd).append(length).append(payload).append(chksum)
+                readitem.append(id)
+                readitem.append(cmd)
+                readitem.append(length)
+                readitem.append(payload)
+                readitem.append(chksum)
                 print(readitem, readitem.hex(), checksum(readitem), end=" ")
                 line=[x for x in coms if x[1]==int(cmd)]
                 if not line:
