@@ -116,7 +116,7 @@ def runAction(actNum, lock_servos='',rs=1.0):
                     if stop_action:
                         stop_action_group = True
                         break
-                    usetime=int(row[1])#row[0]=index of row, shouldbe
+                    usetime=int(int(row[1])/rs)#row[0]=index of row, shouldbe
                     for i in range(2, len(row)): #we will use same general format as d6a files
                         if filter and not (i-1 in filtercontents):
                             continue
