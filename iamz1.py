@@ -21,6 +21,7 @@ import datetime
 import re
 import subprocess
 import sys
+import shutil #for creating sqlite db
 
 from dotenv import load_dotenv, find_dotenv
 from discord.ext import tasks, commands
@@ -38,6 +39,8 @@ tweet_outcome=False
 auto_unload=False
 make_clip=False
 logging_object=None
+
+shutil.copy(WHEREIRUNDIR+'onroverdb_template',WHEREIRUNDIR+'onroverdb')
 
 async def gotit(ctx):
         s='I got: {0} from {1}'.format(ctx.message.content, ctx.author.name)

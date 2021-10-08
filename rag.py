@@ -9,7 +9,7 @@ ACTDIR=os.getenv('ACTDIR','/home/pi/SpiderPi/ActionGroups/')
 
 #print('''
 #run action groups by name
-#rag NAME TIMES SPEEDRATIO
+#rag ACTIONFILENAME TIMES SPEEDRATIO MODU (true/falue) SAVEDATA (true/false)
 #''')
 args=sys.argv
 
@@ -38,8 +38,14 @@ if len(args)>2:
 speedratio=1.0
 if len(args)>3:
     speedratio=float(args[3])
+modu=False
+if len(args)>4:
+    modu=not (args[4] in ['false','False'])
+savedata=False
+if len(args)>5:
+    savedata=not (args[5] in ['false','False'])
 name=args[1]
 if name.split('#')[0].split('$')[0] in actnames or name.split('#')[0].split('$')[0] in relactnames:
-    AGC.runActionGroup(name,times=times, rs=speedratio)
+    print(AGC.runActionGroup(name,times=times, rs=speedratio, sd=sd, modu=modu))
 else:
     sys.exit("action not exist: "+ name)

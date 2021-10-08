@@ -21,23 +21,32 @@ import sqlite3 as sql
 from BusServoCmd import *
 from Board import setBusServoPulse, getBusServoPulse, stopBusServo, unloadBusServo, loadBusServo
 import csv
+# onroverdb: sqlite3 file. for now, we will only write variables there and read modulation data from it
+import json
 
 # PC software editor action call library
 
 runningAction = False
 stop_action = False
 stop_action_group = False
+modulate = False #not implemented for now, needs modulate command in seq and also in rag (so it can get here). modulate file (should be) put into sqlite in seq
+savedata=False
+modulation_value = 1.0
 
 def stopAction():
     global stop_action
     
     stop_action = True
 
-def runActionGroup(actName, times=1, rs=1.0):
+def runActionGroup(actName, times=1, rs=1.0, modu = False, sd=False):
     global stop_action
     global stop_action_group
+    global modulate
+    global savedata
 
     stop_action = False
+    modulate=modu
+    savedata=sd
 
     temp = times
     while True:
@@ -51,7 +60,7 @@ def runActionGroup(actName, times=1, rs=1.0):
             if stop_action_group: # Out of the loop
                 stop_action_group = False
                 break
-            runAction(actName, rs=rs)
+            return runAction(actName, rs=rs)
 
 def measure_state():
     x=[0]*19
@@ -70,7 +79,10 @@ def runAction(actNum, lock_servos='',rs=1.0):
     global runningAction
     global stop_action
     global stop_action_group
+    global modulate
+    global savedata
     
+    starttime=int(time.time()*1000)
     feedback = False
     cur_state=[0]*19 #servos numbers 1 to 18
     filter=False
@@ -131,13 +143,23 @@ def runAction(actNum, lock_servos='',rs=1.0):
             with open(relNum,newline='') as csvfile:
                 readcsv=csv.reader(csvfile) #consider dictreader later. also check to see if first line is read as fields or not
                 headers = next(readcsv, None) #yup, line 1 is read as data
+                if modulate:
+                    con1=sql.connect("onroverdb")
+                    cur1=con1.cursor()
                 for i in range(1,19):
                     cur_state=measure_state()
                 for row in readcsv:
                     if stop_action:
                         stop_action_group = True
                         break
-                    usetime=int(int(row[1])/rs)#row[0]=index of row, shouldbe
+                    nowtime=int(time.time()*1000)
+                    if modulate:
+                        cur1.execute("select rs from modulation where time=?",(nowtime-nowtime%100,))
+                        v=cur1.fetchone()
+                        modulation_value=float(v[0]) if v else 1.0
+                    else:
+                        modulation_value=1.0
+                    usetime=int(int(row[1])/(rs*modulation_value))#row[0]=index of row, shouldbe
                     for i in range(2, len(row)): #we will use same general format as d6a files
                         if filter and not (i-1 in filtercontents):
                             continue
@@ -168,19 +190,28 @@ def runAction(actNum, lock_servos='',rs=1.0):
                         time.sleep(0.05)
                     time.sleep(0.001 + usetime/1000.0 - 0.05*int(usetime/50))
                 estimated_state=cur_state.copy()
+                endtime=int(time.time()*1000)
                 if insist:
                     print("insist function not supported yet")
-                if feedback:
+                if feedback or savedata: #no difference for now
                     cur_state=measure_state()
                     print("we should be at:",estimated_state)
                     print("we are at:",cur_state)
                     toterror=0
                     for x,y in zip(estimated_state,cur_state):
-                        toterror+=(x-y)*(x-y)
+                        toterror+=(int(x)-int(y))*(int(x)-int(y))
                     print("square of error is:",toterror)
                     #later define a threshold above which we report, etc.
                     #later define a way by which this feedback actually gets to user...
+                if savedata:
+                    con=sql.connect("onroverdb")
+                    cur=con.cursor()
+                    cur.execute("REPLACE INTO sharedvalues VALUES (?,?,?)",("cur_state",json.dumps(cur_state),endtime))
+                    cur.execute("REPLACE INTO sharedvalues VALUES (?,?,?)",("estimated_state",json.dumps(estimated_state),endtime))
+                    cur.execute("REPLACE INTO sharedvalues VALUES (?,?,?)",("toterror",json.dumps(toterror),endtime))
                 runningAction = False
+                if feedback:
+                    return(estimated_state,cur_state, toterror)
 
 
     else:
