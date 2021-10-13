@@ -25,7 +25,7 @@ from Board import setBusServoPulse, getBusServoPulse, stopBusServo, unloadBusSer
 import csv
 # onroverdb: sqlite3 file. for now, we will only write variables there and read modulation data from it
 import json
-
+from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 ACTDIR=os.getenv('ACTDIR','/home/pi/SpiderPi/ActionGroups/')
 
