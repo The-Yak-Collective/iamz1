@@ -46,6 +46,6 @@ if len(args)>5:
     savedata=not (args[5] in ['false','False'])
 name=args[1]
 if name.split('#')[0].split('$')[0] in actnames or name.split('#')[0].split('$')[0] in relactnames:
-    print(AGC.runActionGroup(name,times=times, rs=speedratio, sd=sd, modu=modu))
+    print(AGC.runActionGroup(name,times=times, rs=speedratio, sd=savedata, modu=modu))
 else:
     sys.exit("action not exist: "+ name)
