@@ -248,7 +248,8 @@ def getBusServoPulse(id):
     '''
     count=0
     while True:
-        print("read try ",count)
+        if count>3:
+            print("read try ",count)
         count=count+1
         serial_servo_read_cmd(id, LOBOT_SERVO_POS_READ)
         msg = serial_servo_get_rmsg(LOBOT_SERVO_POS_READ)

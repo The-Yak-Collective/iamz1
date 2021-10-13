@@ -89,6 +89,7 @@ def runAction(actNum, lock_servos='',rs=1.0):
     
     starttime=int(time.time()*1000)
     feedback = False
+    insist=False
     cur_state=[0]*19 #servos numbers 1 to 18
     filter=False
     filtercontents=[]

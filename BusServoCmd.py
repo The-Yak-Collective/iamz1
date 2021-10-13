@@ -129,7 +129,7 @@ def serial_servo_read_cmd(id=None, r_cmd=None):
     buf.append(r_cmd)  # 指令
     buf.append(checksum(buf))  # 校验和
     serialHandle.write(buf)  # 发送
-    print("buf written for 'read'",buf,checksum(buf))
+    #print("buf written for 'read'",buf,checksum(buf))
     time.sleep(0.0004) # original time.sleep(0.00034) causes checksum problems at receiving servo
 
 
@@ -143,11 +143,11 @@ def serial_servo_get_rmsg(cmd):
     portRead()  # 将单线串口配置为输入
     time.sleep(0.005)  # 稍作延时，等待接收完毕
     count = serialHandle.inWaiting()    # 获取接收缓存中的字节数
-    print("got {} bytes".format(count))
+    #print("got {} bytes".format(count))
     if count != 0:  # 如果接收到的数据不空
         recv_data = serialHandle.read(count)  # 读取接收到的数据
-        for i in recv_data:
-             print(i)
+        #for i in recv_data:
+        #     print(i)
         # 是否是读id指令
         try:
             if recv_data[0] == 0x55 and recv_data[1] == 0x55 and recv_data[4] == cmd:
