@@ -188,6 +188,10 @@ def runAction(actNum, lock_servos='',rs=1.0):
                     cur.execute("REPLACE INTO sharedvalues VALUES (?,?,?)",("toterror",json.dumps(toterror),endtime))
                 runningAction = False
                 if feedback:
+                    with open('trackfeedback','w+') as f:
+                        print("we should be at:",*estimated_state)
+                        print("we are at:",*cur_state)
+                        print(total error: toterror)
                     return(estimated_state,cur_state, toterror)
     elif os.path.exists(actNum) is True:
         if runningAction is False:
