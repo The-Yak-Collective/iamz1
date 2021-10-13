@@ -95,7 +95,7 @@ def runAction(actNum, lock_servos='',rs=1.0):
     if len(temp)>1:
         if temp[1][0]=='F':
             feedback=True
-        if temp[1][0]=='I":
+        if temp[1][0]=='I':
             insist=True
     temp=actNum.split('#')
     actNum=temp[0]
