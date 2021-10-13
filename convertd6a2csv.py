@@ -12,7 +12,7 @@ for file in sys.argv[1:]:
     ag = sql.connect(file)
     cu = ag.cursor()
     cu.execute("select * from ActionGroup")
-    with open(name.split('.')[0]+'.csv',"w") as csvfile:
+    with open(file[:-4]+'.csv',"w") as csvfile:
         writer=csv.writer(csvfile)
         writer.writerow(header)
         while True:
