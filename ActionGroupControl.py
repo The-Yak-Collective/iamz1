@@ -12,6 +12,8 @@
 #actionname$F - just give feedback on plan vs actual
 # $ comes after #
 
+#CSV has priority over d6a
+
 
 import os
 import sys
@@ -23,6 +25,9 @@ from Board import setBusServoPulse, getBusServoPulse, stopBusServo, unloadBusSer
 import csv
 # onroverdb: sqlite3 file. for now, we will only write variables there and read modulation data from it
 import json
+
+load_dotenv(find_dotenv())
+ACTDIR=os.getenv('ACTDIR','/home/pi/SpiderPi/ActionGroups/')
 
 # PC software editor action call library
 
@@ -104,40 +109,10 @@ def runAction(actNum, lock_servos='',rs=1.0):
         for i in temp[1:]:
             firstservo=int(i)*3-2
             filtercontents.extend([firstservo,firstservo+1,firstservo+2])
-    relNum = "/home/pi/SpiderPi/ActionGroups/" + actNum + ".csv" #rather than in rels! and do this first because action name is corrupted by processing
-    actNum = "/home/pi/SpiderPi/ActionGroups/" + actNum + ".d6a"
-    if os.path.exists(actNum) is True:
-        if runningAction is False:
-            runningAction = True
-            ag = sql.connect(actNum)
-            cu = ag.cursor()
-            cu.execute("select * from ActionGroup")
-            while True:
-                act = cu.fetchone()
-                if stop_action:
-                    stop_action_group = True
-                    break
-                if act is not None:
-                    for i in range(0, len(act) - 2, 1):
-                        if (int(act[i+2]) < 0):
-                            continue #attempt to make negative numbers into "NOP". maybe thsi was original intention of lock_servos
-                        elif str(i + 1) in lock_servos:
-                            setBusServoPulse(i + 1, lock_servos[str(i + 1)], act[1])
-                        else:
-                            setBusServoPulse(i + 1, act[2 + i], act[1])
-                    for j in range(int(act[1]/50)):
-                        if stop_action:
-                            stop_action_group = True
-                            break
-                        time.sleep(0.05)
-                    time.sleep(0.001 + act[1]/1000.0 - 0.05*int(act[1]/50))
-                else:   # run complete exit
-                    break
-            runningAction = False
-            
-            cu.close()
-            ag.close()
-    elif os.path.exists(relNum) is True: #do the rel type action group file
+    relNum = ACTDIR + actNum + ".csv" #rather than in rels! and do this first because action name is corrupted by processing
+    actNum = ACTDIR + actNum + ".d6a"
+
+    if os.path.exists(relNum) is True: #do the rel type action group file
         if runningAction is False:
             runningAction = True
             with open(relNum,newline='') as csvfile:
@@ -212,7 +187,37 @@ def runAction(actNum, lock_servos='',rs=1.0):
                 runningAction = False
                 if feedback:
                     return(estimated_state,cur_state, toterror)
-
+    elif os.path.exists(actNum) is True:
+        if runningAction is False:
+            runningAction = True
+            ag = sql.connect(actNum)
+            cu = ag.cursor()
+            cu.execute("select * from ActionGroup")
+            while True:
+                act = cu.fetchone()
+                if stop_action:
+                    stop_action_group = True
+                    break
+                if act is not None:
+                    for i in range(0, len(act) - 2, 1):
+                        if (int(act[i+2]) < 0):
+                            continue #attempt to make negative numbers into "NOP". maybe thsi was original intention of lock_servos
+                        elif str(i + 1) in lock_servos:
+                            setBusServoPulse(i + 1, lock_servos[str(i + 1)], act[1])
+                        else:
+                            setBusServoPulse(i + 1, act[2 + i], act[1])
+                    for j in range(int(act[1]/50)):
+                        if stop_action:
+                            stop_action_group = True
+                            break
+                        time.sleep(0.05)
+                    time.sleep(0.001 + act[1]/1000.0 - 0.05*int(act[1]/50))
+                else:   # run complete exit
+                    break
+            runningAction = False
+            
+            cu.close()
+            ag.close()
 
     else:
         runningAction = False
