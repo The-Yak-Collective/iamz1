@@ -102,7 +102,7 @@ def runAction(actNum, lock_servos='',rs=1.0):
     if len(temp)>1:
         filter=True
         for i in temp[1:]:
-            firstservo=int(temp[i])*3-2
+            firstservo=int(i)*3-2
             filtercontents.extend([firstservo,firstservo+1,firstservo+2])
     relNum = "/home/pi/SpiderPi/ActionGroups/" + actNum + ".csv" #rather than in rels! and do this first because action name is corrupted by processing
     actNum = "/home/pi/SpiderPi/ActionGroups/" + actNum + ".d6a"
