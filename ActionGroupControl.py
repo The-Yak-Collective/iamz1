@@ -8,9 +8,9 @@
 #NOP  - do nothing
 #L/UL - lock or unlock this servo
 #actionname#number (or #N1#N2...), uses number as number of the leg to apply the file on. an alternative woudl be to have a different file format (with fewer items) when doing only one leg. but using leg as a filter seems easier to implement
-#actionname$I - insist on action working as described
-#actionname$F - just give feedback on plan vs actual
-# $ comes after #
+#actionname@I - insist on action working as described
+#actionname@F - just give feedback on plan vs actual
+# @ comes after #
 
 #CSV has priority over d6a
 
@@ -96,14 +96,14 @@ def runAction(actNum, lock_servos='',rs=1.0):
 
     if actNum is None:
         return
-    temp=actNum.split('$')
+    temp=actNum.split('@')
     actNum=temp[0]
     if len(temp)>1:
         if temp[1][0]=='F':
             feedback=True
         if temp[1][0]=='I':
             insist=True
-    print(insist,feedback,temp)
+    #print(insist,feedback,temp)
     temp=actNum.split('#')
     actNum=temp[0]
     if len(temp)>1:
