@@ -15,7 +15,7 @@ if l<3:
 
 outfile=sys.argv[1]
 if not sys.argv[2] in ['r','a','R','A']:
-    print("usage: learnandset csvfilename r/a [servos list])
+    print("usage: learnandset csvfilename r/a [servos list to train. null=all]")
     sys.exit()
 absolute=True if sys.argv[2] in ['a','A'] else False
 servolist=sys.argv[3:]
