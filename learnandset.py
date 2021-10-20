@@ -68,6 +68,7 @@ no number - defaults to 1000
     lines.append((servo_util.read_all_servo_pos(),t))
     print('position read')
 
+print("raw data:", lines)
 with open(outfile,"w") as csvfile:
     writer=csv.writer(csvfile)
     writer.writerow(header)
@@ -86,7 +87,9 @@ with open(outfile,"w") as csvfile:
                 for a,b in zip(x[0],lines[idx-1][0]):
                     v=a-b
                     sg="+" if v>=0 else "-"
-                    act.append(sg+str(abs(v)))
+                    toadd=sg+str(abs(v))
+                    print(sg,v,toadd,a,b,"sg,v,toadd,a,b")
+                    act.append(toadd)
                 if len(servolist)>0:
                     for i,val in enumerate(act):
                         if i not in servolist:
