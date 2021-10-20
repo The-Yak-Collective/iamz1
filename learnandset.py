@@ -1,5 +1,6 @@
 #command line: learnandset csvfilename r/a [servos list] import subprocess
 #strange bug. when i first turn it on, EVEN THOUGH it went into a stance, is says all servos are at 0. load, etc. do not seem to help. so i added teh rag command
+#cosniser making a/r a per line mode. 
 import sys
 import math
 import os
@@ -43,6 +44,9 @@ leg/servo map:
 090807--161718
 060504--131415
 030201--101112
+
+press <enter> to continue. for relative mode, make sure rover is in baseline position
+
 ''')
 if not absolute:
     lines.append((servo_util.read_all_servo_pos(),0)) #time is meaningless and marked as zero
