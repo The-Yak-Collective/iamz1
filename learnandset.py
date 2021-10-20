@@ -28,7 +28,7 @@ for idx,x in enumerate(servolist):
     servolist[idx]=int(x)
 
 lines=[]
-subprocess.run("python3 rag.py stand_low")
+subprocess.run(["python3","rag.py", "stand_low"])
 #unloads 
 servo_util.unload_all()
 input('''press enter when ready to start.
