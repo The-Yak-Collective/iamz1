@@ -192,7 +192,7 @@ def runAction(actNum, lock_servos='',rs=1.0):
                         print("we should be at:",*estimated_state, file=f)
                         print("we are at:",*cur_state, file=f)
                         print("total error:", toterror,file=f)
-                        f.write("testline")
+                        #f.write("testline")
                     return(estimated_state,cur_state, toterror)
     elif os.path.exists(actNum) is True:
         if runningAction is False:
