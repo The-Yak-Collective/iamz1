@@ -10,6 +10,6 @@ def read_all_servo_pos():
         res.append(p)
     return res
 
-def unload_all(id):
+def unload_all():
     for x in range(1,19):
         Board.unloadBusServo(x)
