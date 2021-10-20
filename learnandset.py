@@ -86,7 +86,7 @@ with open(outfile,"w") as csvfile:
                 for a,b in zip(x[0],lines[idx-1][0]):
                     v=a-b
                     sg="+" if v>=0 else "-"
-                    act.append(sg+str(abs(v))
+                    act.append(sg+str(abs(v)))
                 if len(servolist)>0:
                     for i,val in enumerate(act):
                         if i not in servolist:
