@@ -13,3 +13,6 @@ def read_all_servo_pos():
 def unload_all():
     for x in range(1,19):
         Board.unloadBusServo(x)
+def load_all():
+    for x in range(1,19):
+        Board.loadBusServo(x)
