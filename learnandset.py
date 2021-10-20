@@ -1,10 +1,12 @@
 #command line: learnandset csvfilename r/a [servos list] import subprocess
+#strange bug. when i first turn it on, EVEN THOUGH it went into a stance, is says all servos are at 0. load, etc. do not seem to help. so i added teh rag command
 import sys
 import math
 import os
 import servo_util
 import time
 import csv
+import subprocess
 
 header=["Index","Time","Servo1","Servo2","Servo3","Servo4","Servo5","Servo6","Servo7","Servo8","Servo9","Servo10","Servo11","Servo12","Servo13","Servo14","Servo15","Servo16","Servo17","Servo18"]
 
@@ -26,7 +28,7 @@ for idx,x in enumerate(servolist):
     servolist[idx]=int(x)
 
 lines=[]
-
+subprocess.run("python3 rag.py stand_low")
 #unloads 
 servo_util.unload_all()
 input('''press enter when ready to start.
