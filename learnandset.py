@@ -82,6 +82,7 @@ with open(outfile,"w") as csvfile:
             writer.writerow([idx]+[x[1]]+x[0])
         else:
             if idx>0:
+                act=[]
                 for a,b in zip(x[0],lines[idx-1][0]):
                     act.append(a-b)
                 if len(servolist)>0:
