@@ -29,7 +29,7 @@ lines=[]
 
 #unloads 
 servo_util.unload_all()
-    input('''press enter when ready to start.
+input('''press enter when ready to start.
 for relative mode, place servos in a baseline position
 in use:
 x will ignore the last entered position
