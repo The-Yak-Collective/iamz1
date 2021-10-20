@@ -10,7 +10,7 @@ header=["Index","Time","Servo1","Servo2","Servo3","Servo4","Servo5","Servo6","Se
 
 l=len(sys.argv)
 if l<3:
-    print("usage: learnandset csvfilename r/a [servos list])
+    print("usage: learnandset csvfilename r/a [servos list to train. null=all]")
     sys.exit()
 
 outfile=sys.argv[1]
