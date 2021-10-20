@@ -36,6 +36,11 @@ x will ignore the last entered position
 s will save the file and exit
 enter will prompt for the next position
 number followed by enter will use that number for the entered position, the default is 1000
+leg/servo map:
+      oo
+090807--161718
+060504--131415
+030201--101112
 ''')
 if not absolute:
     lines.append((servo_util.read_all_servo_pos(),0)) #time is meaningless and marked as zero
@@ -54,7 +59,7 @@ no number - defaults to 1000
     elif inp[0] in 'xX':
         if absolute or len(lines)>1:
             lines.pop()
-    if inp.isidigit():
+    if inp.isdigit():
         t=int(inp)
     t=min(t,30000)
     t=max(0,t)
