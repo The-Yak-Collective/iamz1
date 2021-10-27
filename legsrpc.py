@@ -21,7 +21,7 @@ with SimpleXMLRPCServer(('localhost', PORTFORLEGS),
         global lastrecorded
         t=time.time()
         if t-lastrecorded[0]>0.1:
-            lastrecorded=(t,servo_util.read_all_servo_pos)
+            lastrecorded=(t,servo_util.read_all_servo_pos())
         return lastrecorded
 
     server.register_function(legpos, 'legpos')
