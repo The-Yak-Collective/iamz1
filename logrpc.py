@@ -120,6 +120,7 @@ def main():
         def logget():
             global eventdata
             #readcsv=csv.reader(csvfile) #consider or simple store last "event"
+            print("here is what i am trying to return",eventdata)
             return eventdata
         server.register_function(logstart, 'logstart')
         server.register_function(logstop, 'logstop')
