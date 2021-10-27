@@ -122,7 +122,7 @@ def main():
         def logget():
             global eventdata
             #readcsv=csv.reader(csvfile) #consider or simple store last "event"
-            print(eventdata[-1])
+            print(eventdata)
             return json.dumps(eventdata) #[-1] #return last line logged - or maybe we can return it all!
         server.register_function(logstart, 'logstart')
         server.register_function(logstop, 'logstop')
