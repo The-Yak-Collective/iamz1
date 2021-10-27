@@ -72,7 +72,7 @@ def tick():
             if timelefttosleep>0:
                 time.sleep(timelefttosleep)#so we sample about each 0.1 seconds
             else:
-                print('(read is slow) timelefttosleep=',timelefttosleep)
+                print('(read is slow) timelefttosleep=',timelefttosleep, st)
 
 def main():
     global timestamp
