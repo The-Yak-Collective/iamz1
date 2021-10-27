@@ -11,9 +11,10 @@ def log_start(command):
 def log_stop():
     logging.logstop()
 def log_get():
-    return logging.logget()
+    g=logging.logget()
+    return json.loads(g)
     
 legs = xmlrpc.client.ServerProxy('http://localhost:'+str(PORTFORLEGS))
 
 def leg_pos():
-    return json.loads(legs.legpos())
+    return legs.legpos()
