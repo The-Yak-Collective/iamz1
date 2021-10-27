@@ -106,12 +106,12 @@ def main():
 
         # Register a function under a different name
         def logstart(command):
-            global logstate,incommand, thelock
+            global logstate,incommand, thelock,logfilename
             thelock.acquire()
             logstate=1
             incommand=command
             thelock.release()
-            return logfile #so you can read if you want
+            return logfilename #so you can read if you want
         def logstop():
             global logstate,incommand, thelock
             thelock.acquire()
