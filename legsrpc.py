@@ -22,7 +22,7 @@ with SimpleXMLRPCServer(('localhost', PORTFORLEGS),
             lastrecorded=(t,servo_util.read_all_servo_pos)
         return lastrecorded
 
-    server.register_function(adder_function, 'legpos')
+    server.register_function(legpos, 'legpos')
 
     # Run the server's main loop
     server.serve_forever()
