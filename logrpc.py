@@ -51,6 +51,7 @@ def tick():
                 acquirepos=False #maybe change this to simply lower frequency?
             elif logstate==3:
                 acquirepos=True #we read pos at start and at end. and if we are fast enough, we do not do it twice. but we are never fast enough...
+                logstate=0
             thelock.release()
 
             data=[]
@@ -62,9 +63,9 @@ def tick():
                 poses=rpcservices.leg_pos()[1] #drop the initial timestamp
             else:
                 poses=eventdata[-1][3:21]
-            data.append(poses)
-            data.append(read6dof())
-            data.append(readulsrangefinder())
+            data=data+poses
+            data=data+read6dof()
+            data=data+readulsrangefinder()
             writer.writerow(data)
             eventdata.append([data])
             timelefttosleep=st+0.1-time.time()
