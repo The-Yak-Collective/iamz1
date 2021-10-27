@@ -67,8 +67,11 @@ def tick():
             data.append(readulsrangefinder())
             writer.writerow(data)
             eventdata.append([data])
-
-            time.sleep(st+0.1-time.time())#so we sample about each 0.1 seconds
+            timelefttosleep=st+0.1-time.time()
+            if timelefttosleep>0:
+                time.sleep(timelefttosleep)#so we sample about each 0.1 seconds
+            else:
+                print('timelefttosleep=',timelefttosleep)
 
 def main():
     global timestamp
