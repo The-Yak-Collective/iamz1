@@ -71,7 +71,7 @@ def tick():
             if timelefttosleep>0:
                 time.sleep(timelefttosleep)#so we sample about each 0.1 seconds
             else:
-                print('timelefttosleep=',timelefttosleep)
+                print('(read is slow) timelefttosleep=',timelefttosleep)
 
 def main():
     global timestamp
@@ -108,11 +108,13 @@ def main():
             logstate=1
             incommand=command
             thelock.release()
+            return True
         def logstop():
             global logstate,incommand, thelock
             thelock.acquire()
             logstate=3
             thelock.release()
+            return True
 
         def logget():
             global eventdata
