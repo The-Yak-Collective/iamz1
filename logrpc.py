@@ -30,7 +30,7 @@ eventdata=[]
 
 def tick():
     global incommand,eventdata
-    global thelock
+    global thelock,logstate
     acquirepos=False
     eventname='event'+str(int(time.time()))
     with open(logfilename,"a") as f:
