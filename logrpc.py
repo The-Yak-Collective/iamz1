@@ -24,7 +24,7 @@ LOGDIR=""
 
 logstate=0 #0=not, 1=just started, 2=onging, 3=justended
 incommand=""
-thelock=threading.lock()
+thelock=threading.Lock()
 eventdata=[]
 
 def tick():
