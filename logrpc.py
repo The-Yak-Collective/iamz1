@@ -19,7 +19,7 @@ from dotenv import load_dotenv, find_dotenv
 mpu=None
 sonar=None
 
-PORTFORLEGS=9501 #logging on/off port
+PORTFORLOGGING=9501 #logging on/off port
 
 LOGDIR=""
 
