@@ -7,9 +7,9 @@ logging = xmlrpc.client.ServerProxy('http://localhost:'+str(PORTFORLOGGING))
 
 def log_start(command):
     s.logstart(command)
-def log_stop()
+def log_stop():
     s.logstop()
-def log_get()
+def log_get():
     return s.logget()
     
 legs = xmlrpc.client.ServerProxy('http://localhost:'+str(PORTFORLEGS))
