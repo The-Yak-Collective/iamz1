@@ -67,6 +67,7 @@ def tick():
             data=data+read6dof()
             data=data+readulsrangefinder()
             writer.writerow(data)
+            f.flush()
             eventdata.append(data)
             t2=time.time()
             timelefttosleep=st+0.1-t2
