@@ -6,6 +6,7 @@ import ActionGroupControl as AGC
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 ACTDIR=os.getenv('ACTDIR','/home/pi/SpiderPi/ActionGroups/')
+import rpcservices
 
 #print('''
 #run action groups by name
@@ -46,6 +47,8 @@ if len(args)>5:
     savedata=not (args[5] in ['false','False'])
 name=args[1]
 if name.split('#')[0].split('@')[0] in actnames or name.split('#')[0].split('@')[0] in relactnames:
+    rpcservices.log_start(name)
     print(AGC.runActionGroup(name,times=times, rs=speedratio, sd=savedata, modu=modu))
+    rpcservices.log_stop()
 else:
     sys.exit("action not exist: "+ name)

@@ -12,7 +12,7 @@ def log_stop():
     logging.logstop()
 def log_get():
     g=logging.logget()
-    print(g)
+    #print(g)
     return json.loads(g)
     
 legs = xmlrpc.client.ServerProxy('http://localhost:'+str(PORTFORLEGS))
