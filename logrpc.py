@@ -4,7 +4,7 @@ from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 import time
 import servo_util
-import csvwriter
+import csv
 import threading
 
 import os
