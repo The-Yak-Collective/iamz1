@@ -6,9 +6,9 @@ PORTFORLEGS=9502 #position of each servo
 logging = xmlrpc.client.ServerProxy('http://localhost:'+str(PORTFORLOGGING))
 
 def log_start(command):
-    s.logstart(command)
+    logging.logstart(command)
 def log_stop():
-    s.logstop()
+    logging.logstop()
 def log_get():
     return s.logget()
     
