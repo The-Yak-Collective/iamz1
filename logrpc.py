@@ -72,7 +72,7 @@ def tick():
             timelefttosleep=st+0.1-t2
             if timelefttosleep>0:
                 time.sleep(timelefttosleep)#so we sample about each 0.1 seconds
-                print(timelefttosleep)
+                #print(timelefttosleep)
             else:
                 print('(read is slow) timelefttosleep=',timelefttosleep, st,t2)
 
@@ -122,8 +122,8 @@ def main():
         def logget():
             global eventdata
             #readcsv=csv.reader(csvfile) #consider or simple store last "event"
-
-            return eventdata [-1] #return last line logged
+            print(eventdata[-1])
+            return eventdata[-1] #return last line logged
         server.register_function(logstart, 'logstart')
         server.register_function(logstop, 'logstop')
         server.register_function(logget, 'logget')
