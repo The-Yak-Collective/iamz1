@@ -72,6 +72,7 @@ def tick():
             timelefttosleep=st+0.1-t2
             if timelefttosleep>0:
                 time.sleep(timelefttosleep)#so we sample about each 0.1 seconds
+                print(timelefttosleep)
             else:
                 print('(read is slow) timelefttosleep=',timelefttosleep, st,t2)
 
@@ -110,7 +111,7 @@ def main():
             logstate=1
             incommand=command
             thelock.release()
-            return True
+            return logfile #so you can read if you want
         def logstop():
             global logstate,incommand, thelock
             thelock.acquire()
@@ -121,8 +122,8 @@ def main():
         def logget():
             global eventdata
             #readcsv=csv.reader(csvfile) #consider or simple store last "event"
-            print("here is what i am trying to return",eventdata)
-            return eventdata
+
+            return eventdata [-1] #return last line logged
         server.register_function(logstart, 'logstart')
         server.register_function(logstop, 'logstop')
         server.register_function(logget, 'logget')
