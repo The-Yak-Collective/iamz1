@@ -1,5 +1,5 @@
 #service that logs start position and end position
-
+import json
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 import time
@@ -123,7 +123,7 @@ def main():
             global eventdata
             #readcsv=csv.reader(csvfile) #consider or simple store last "event"
             print(eventdata[-1])
-            return eventdata[-1] #return last line logged
+            return json.dumps(eventdata) #[-1] #return last line logged - or maybe we can return it all!
         server.register_function(logstart, 'logstart')
         server.register_function(logstop, 'logstop')
         server.register_function(logget, 'logget')

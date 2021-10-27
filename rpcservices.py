@@ -1,5 +1,6 @@
 import servo_util
 import xmlrpc.client
+import json
 PORTFORLOGGING=9501 # later we will make this an env variable. for now, use 9500-9550
 PORTFORLEGS=9502 #position of each servo
 
@@ -15,4 +16,4 @@ def log_get():
 legs = xmlrpc.client.ServerProxy('http://localhost:'+str(PORTFORLEGS))
 
 def leg_pos():
-    return legs.legpos()
+    return json.loads(legs.legpos())
