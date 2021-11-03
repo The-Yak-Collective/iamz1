@@ -45,7 +45,7 @@ def dosetrep():
     reps=value
     return redirect("/")
 
-def repbuts()
+def repbuts():
     s=[]
     global reps
     for i in [1,2,5,10]:
