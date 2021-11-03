@@ -19,7 +19,7 @@ def index():
 def dorag():
     name=request.args.get('name')
     rep=request.args.get('repeat',default=1,type=int)
-    subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+list(rep),
+    subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+[str(rep)],
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
