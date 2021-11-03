@@ -11,7 +11,7 @@ def index():
     global listofrag
     buts=[ragbutton(f,1) for f in listofrag] 
     return " ".join(buts)
-@app.route('/rag')
+@app.route('/dorag')
 def dorag():
     name=request.args.get('name')
     rep=request.args.get('repeat',default=1,type=int)
