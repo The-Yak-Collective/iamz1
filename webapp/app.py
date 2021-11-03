@@ -2,7 +2,7 @@ import os
 from flask import Flask
 
 app = Flask(__name__)
-listofrag=os.listdir("~/SpiderPi/ActionGroups")
+listofrag=os.listdir("/home/pi/SpiderPi/ActionGroups")
 listofrag=[f[:-4] for f in listofrag]
 listofrag=list(set(listofrag))
 
