@@ -8,7 +8,7 @@ app = Flask(__name__)
 listofrag=os.listdir("/home/pi/SpiderPi/ActionGroups")
 listofrag=[f[:-4] for f in listofrag if f[-4:] in [".csv",".d6a"]]
 listofrag=list(set(listofrag))
-WHEREIRUNUNDER="/home/pi/test/iamz1/"
+WHEREIRUNDIR="/home/pi/test/iamz1/"
 
 @app.route('/')
 def index():
