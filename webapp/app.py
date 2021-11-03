@@ -3,7 +3,7 @@ from flask import Flask
 
 app = Flask(__name__)
 listofrag=os.listdir("/home/pi/SpiderPi/ActionGroups")
-listofrag=[f[:-4] for f in listofrag if f[:-4] in [".csv",".d6a"]]
+listofrag=[f[:-4] for f in listofrag if f[-4:] in [".csv",".d6a"]]
 listofrag=list(set(listofrag))
 
 @app.route('/')
