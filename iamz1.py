@@ -23,6 +23,8 @@ import subprocess
 import sys
 import shutil #for creating sqlite db
 
+from discordsupport import *
+
 from dotenv import load_dotenv, find_dotenv
 from discord.ext import tasks, commands
 
@@ -42,7 +44,7 @@ logging_object=None
 
 shutil.copy(WHEREIRUNDIR+'onroverdb_template',WHEREIRUNDIR+'onroverdb')
 
-async def gotit(ctx):
+async def gotit(ctx): #designed to work only with discord
         s='I got: {0} from {1}'.format(ctx.message.content, ctx.author.name)
         print(s)
         await splitsend(ctx.channel,s,False)
@@ -55,18 +57,15 @@ async def on_ready():
 
 @bot.command(name='test', help='test message. go to https://roamresearch.com/#/app/ArtOfGig/page/iBLdEt5Ji to see more about z1 yak rover project', before_invoke=gotit)
 async def iamz_test(ctx):
-        s='this is a test response from z1 rover bot who got a message from '+ctx.author.name
+        s=dotest(ctx.author.name)
         await splitsend(ctx.channel,s,False)
         return
 
-@bot.command(name='upload', help='upload an attached file to directory of user that sent the message. will only upload one file, for now', before_invoke=gotit)
-async def iamz1_upload(ctx):
-        s='i would have uploaded file to directory of '+ctx.author.name
-#check there is a file
-#check if there is a directory or create one if needed
-#overwrite existing file
-        await splitsend(ctx.channel,s,False)
-        return
+def dotest(who):
+    s='this is a test response from z1 rover bot who got a message from '+who
+    return s
+
+
 
 @bot.command(name='cmdupload', help='upload an attached file to general command directory . will only upload one file, for now', before_invoke=gotit)
 async def iamz1_cmdupload(ctx):
@@ -245,29 +244,7 @@ async def iamz1_run(ctx,name,*args):
     await splitsend(ctx.channel,s,False)
     return
         
-@bot.command(name='watchdog', help='watchdog X ARGS: run AS A WATCHDOG a file X in the directory of user that sent the message. send next parameters to running. ',hidden=True)
-async def iamz1_runwatchdog(ctx,name,*args):
-        s='i would have run file {0} in directory of {1} as a watchdog with parameters {2}'.format(name,ctx.author.name,str(*args))
-#check there is a file and directory. if not say "oops"
-#format for how to run and how to give feedback for watchdog and how to kill one, unclear for now. so maybe use "run"
-        await splitsend(ctx.channel,s,False)
-        return
 
-@bot.command(name='kill', help='kill PID: kills a pid returned by run. seems open to abuse. ')
-async def iamz1_kill(ctx,pid):
-        s='i would have killed PID '+pid
-#check there is a pid. it needs to include name of execution script or something. if not say "oops"
-#hope script will send back the output file by curl
-#send kill command
-        await splitsend(ctx.channel,s,False)
-        return
-
-@bot.command(name='git', help='one day this will do a git pull action into user directory. ', hidden=True)
-async def iamz1_git(ctx,git):
-        s='i would have pulled git repository '+git+' into user dir '+ctx.author.name
-#tbd - what about privacy?
-        await splitsend(ctx.channel,s,False)
-        return
         
 @bot.command(name='video', help='video on/off duration. for now it can only start and only for 5 min. ', before_invoke=gotit)
 async def iamz1_video(ctx,onoff, *arg):
@@ -286,39 +263,49 @@ async def iamz1_video(ctx,onoff, *arg):
 
 @bot.command(name='tweet', help='tweet on/off. tweet a picture of outcome of command after doing command', before_invoke=gotit)
 async def tweetonoff(ctx,onoff):
-        global tweet_outcome
-        if (onoff=='off'):
-            tweet_outcome=False
-        else:
-            tweet_outcome=True
-        s="tweet onoff status is now {}". format(str(tweet_outcome))
-        await splitsend(ctx.channel,s,False)
-        return
+    s=dotweetonoff(onoff)
+    await splitsend(ctx.channel,s,False)
+    return
+
+def dotweetonoff(onoff):
+    global tweet_outcome
+    if (onoff=='off'):
+        tweet_outcome=False
+    else:
+        tweet_outcome=True
+    s="tweet onoff status is now {}". format(str(tweet_outcome))
+    return s
 
 @bot.command(name='aunload', help='aunload on/off. automaic unload after each rag command', before_invoke=gotit)
 async def unloadonoff(ctx,onoff):
-        global auto_unload
-        if (onoff=='off'):
-            auto_unload=False
-        else:
-            auto_unload=True
-        s="auto unload onoff status is now {}". format(str(auto_unload))
-        await splitsend(ctx.channel,s,False)
-        return
+    s=dounloadonoff(onoff)
+    await splitsend(ctx.channel,s,False)
+    return
+
+def dounloadonoff(onoff):
+    global auto_unload
+    if (onoff=='off'):
+        auto_unload=False
+    else:
+        auto_unload=True
+    s="auto unload onoff status is now {}". format(str(auto_unload))
+    return s
 
 @bot.command(name='log', help='log on/off. start/stop logging into a dedicated directory', before_invoke=gotit)
 async def logonoff(ctx,onoff):
+    s=dologonoff(onoff)
+    await splitsend(ctx.channel,s,False)
+    return
+
+def dologonoff(onoff)
     global logging_object
     thedir=os.getenv('LOGDIR',None)
     if (onoff=='off'):
         if not thedir:
             s="logging was not on."
-            await splitsend(ctx.channel,s,False)
-            return
+            return s
         logging_object.terminate()
         s="logging at {} now stopped.". format(str(thedir))
-        await splitsend(ctx.channel,s,False)
-        return
     elif (onoff=='on'):
         PARENTLOGDIR=os.getenv('PARENTLOGDIR','/home/pi/gdrive/logs/')
         thedir=str(int(time.time()))
@@ -334,7 +321,6 @@ async def logonoff(ctx,onoff):
                stderr=fn,
                env={**os.environ})
         s="logging is now on at {}".format(str(thedir))
-        await splitsend(ctx.channel,s,False)
         if False: #for debugging
             stdout,stderr = logging_object.communicate() #this is blocking so only for debugging
             if not stdout:
@@ -342,24 +328,25 @@ async def logonoff(ctx,onoff):
             if not stderr:
                 stderr=b'no output'
 
-            s=str(stderr,"utf-8").replace("\\n",'\n')+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
-            await splitsend(ctx.channel,s,False)
-        return
+            s=s+str(stderr,"utf-8").replace("\\n",'\n')+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
+        return s
     s="usage: $log on/off to start/stop logging to a log directory"
-    await splitsend(ctx.channel,s,False)
-    return
-
+    return s
 
 @bot.command(name='clip', help='clip on/off. capture clip next rag', before_invoke=gotit)
 async def cliponoff(ctx,onoff): #later make this persistent and also how long. maybe also do a pan-clip
-        global make_clip
-        if (onoff=='off'):
-            make_clip=False
-        else:
-            make_clip=True
-        s="make_clip onoff status is now {}". format(str(make_clip))
+        s=docliponoff(onoff)
         await splitsend(ctx.channel,s,False)
         return
+
+def docliponoff(onoff): #use this format - messahe is returned by function, which doe snot need ctx itself. lets see if that works for all
+    global make_clip
+    if (onoff=='off'):
+        make_clip=False
+    else:
+        make_clip=True
+    s="make_clip onoff status is now {}". format(str(make_clip))
+    return(s)
 
 def do_unload():
     out = subprocess.Popen(['/usr/bin/python3', 'testunload.py'],
@@ -399,45 +386,44 @@ def do_tweet_outcome(inresponseto):
 def name2filename(x):
     return re.sub('[^a-zA-Z0-9]+','',x)
 
-def allowed(x,y): #is x allowed to play with item created by y
-#permissions - some activities can only be done by yakshaver, etc. or by person who initiated action
-    if x==y: #same person. setting one to zero will force role check
-        return True
-    mid=bot.guilds[0].get_member(message.author.id)
-    r=[x.name for x in mid.roles]
-    if 'yakshaver' in r or 'yakherder' in r: #for now, both roles are same permissions
-        return True
-    return False
 
-async def dmchan(t):
-#create DM channel betwen bot and user
-    target=bot.get_user(t)
-    if (not target): 
-        print("unable to find user and create dm",flush=True)
-    return target
-    target=target.dm_channel
-    if (not target): 
-        print("need to create dm channel",flush=True)
-        target=await bot.get_user(t).create_dm()
-    return target
 
-async def splitsend(ch,st,codeformat):
-#send messages within discord limit + optional code-type formatting
-    st=PREAMBLE+": "+st
-    if len(st)<1900: #discord limit is 2k and we want some play)
-        if codeformat:
-            await ch.send('```'+st+'```')
-        else:
-            await ch.send(st)
-    else:
-        x=st.rfind('\n',0,1900)
-        if (x<0):
-            x=1900
-        if codeformat:
-            await ch.send('```'+st[0:x]+'```')
-        else:
-            await ch.send(st[0:x])
-        await splitsend(ch,st[x+1:],codeformat)
+##from here unsupported functions
+
+@bot.command(name='upload', help='upload an attached file to directory of user that sent the message. will only upload one file, for now', before_invoke=gotit)
+async def iamz1_upload(ctx):
+        s='i would have uploaded file to directory of '+ctx.author.name
+#check there is a file
+#check if there is a directory or create one if needed
+#overwrite existing file
+        await splitsend(ctx.channel,s,False)
+        return
+
+@bot.command(name='watchdog', help='watchdog X ARGS: run AS A WATCHDOG a file X in the directory of user that sent the message. send next parameters to running. ',hidden=True)
+async def iamz1_runwatchdog(ctx,name,*args):
+        s='i would have run file {0} in directory of {1} as a watchdog with parameters {2}'.format(name,ctx.author.name,str(*args))
+#check there is a file and directory. if not say "oops"
+#format for how to run and how to give feedback for watchdog and how to kill one, unclear for now. so maybe use "run"
+        await splitsend(ctx.channel,s,False)
+        return
+
+@bot.command(name='kill', help='kill PID: kills a pid returned by run. seems open to abuse. ')
+async def iamz1_kill(ctx,pid):
+        s='i would have killed PID '+pid
+#check there is a pid. it needs to include name of execution script or something. if not say "oops"
+#hope script will send back the output file by curl
+#send kill command
+        await splitsend(ctx.channel,s,False)
+        return
+
+@bot.command(name='git', help='one day this will do a git pull action into user directory. ', hidden=True)
+async def iamz1_git(ctx,git):
+        s='i would have pulled git repository '+git+' into user dir '+ctx.author.name
+#tbd - what about privacy?
+        await splitsend(ctx.channel,s,False)
+        return
+
+##till here unsupported functions
 
 discord_token=os.getenv('IAMZ1_DISCORD_KEY')
 bot.run(discord_token) 
