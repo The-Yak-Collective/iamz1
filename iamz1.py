@@ -297,7 +297,7 @@ async def logonoff(ctx,onoff):
     await splitsend(ctx.channel,s,False)
     return
 
-def dologonoff(onoff)
+def dologonoff(onoff):
     global logging_object
     thedir=os.getenv('LOGDIR',None)
     if (onoff=='off'):
