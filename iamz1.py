@@ -22,6 +22,7 @@ import re
 import subprocess
 import sys
 import shutil #for creating sqlite db
+import io # so that we are transparent to how file gets here
 
 from discordsupport import *
 from unsupportedcommands import *
@@ -70,38 +71,56 @@ def dotest(who):
 
 @bot.command(name='cmdupload', help='upload an attached file to general command directory . will only upload one file, for now', before_invoke=gotit)
 async def iamz1_cmdupload(ctx):
-    if (len(ctx.message.attachments)>0):
+    if (len(ctx.message.attachments)>0):#for discord. for http, needs to be different
         print('has attachment')
         thefilename=ctx.message.attachments[0].filename
-        with open(WHEREIRUNDIR+"/cmd/"+thefilename,'wb') as f:
-            await ctx.message.attachments[0].save(f)#probbaly also works if we save direct to file name, not f
-    s="uploaded file "+thefilename
+        f=io.BytesIO()
+        await ctx.message.attachments[0].save(f)
+        s=docmdupload(thefilename,f)
+    else:
+        s="no attachment"
     await splitsend(ctx.channel,s,False)
     return
+
+def docmdupload(thefilename,ioobj): 
+    ioobj.seek(0)
+    with open(WHEREIRUNDIR+"/cmd/"+thefilename,'wb') as f:
+        f.write(ioobj.getbuffer())
+    s="uploaded file "+thefilename
+    return s
     
 @bot.command(name='cmdlist', help='list (python) commands available', before_invoke=gotit)
 async def iamz1_cmdlist(ctx):
+    s=docmdlist()
+    await splitsend(ctx.channel,s,False)
+    return
+
+def docmdlist():
     thedir=WHEREIRUNDIR+'cmd'
     f=os.listdir(thedir)
     ff=[x for x in f if x[-3:]=='.py']
     s="list of python files in cmd directory:\n"+"\n".join(ff)
-    await splitsend(ctx.channel,s,False)
-    return
-
+    return s
+    
 @bot.command(name='cmdrun', help='run X ARGS: run a file X (python) in the general directory. send next parameters to running. ', before_invoke=gotit)
 async def iamz1_cmdrun(ctx,name,*args):
-    s='i am running  file {0} in home directory, ({3}) with parameters {2}, for user {1}'.format(name,ctx.author.name," ".join(args),WHEREIRUNDIR)
+    s=docmdrun(ctx.author.name,name,*args)
+    await splitsend(ctx.channel,s,False)
+    return
+        
+def docmdrun(aname,name,*args):
+    s='i am running  file {0} in home directory, ({3}) with parameters {2}, for user {1}'.format(name,aname," ".join(args),WHEREIRUNDIR)
 #check there is a file and directory. if not say "oops"
     thefiletorun=WHEREIRUNDIR+'cmd/'+name
     if not os.path.exists(thefiletorun):
         print('oops no such file: '+thefiletorun)
-        await splitsend(ctx.channel,'oops no such file: '+thefiletorun,False)
-        return
+        s='oops no such file: '+thefiletorun
+        return s
 #call script that runs file, etc into a text file
 #send back message with pid, for killing
 #script will send back the output file by curl
-    sys.path.append(WHEREIRUNDIR)
-    sys.path.append('/home/pi/SpiderPi/HiwonderSDK')
+    sys.path.append(WHEREIRUNDIR) #not clear if this is needed
+    #sys.path.append('/home/pi/SpiderPi/HiwonderSDK') #this should not be here
     thestringlist=["/bin/bash",WHEREIRUNDIR+"runcommand.bash","runpython3.bash",thefiletorun]+list(args)
     print(thestringlist)
     out = subprocess.Popen(thestringlist, 
@@ -110,25 +129,30 @@ async def iamz1_cmdrun(ctx,name,*args):
            stderr=subprocess.STDOUT)
     stdout,stderr = out.communicate()
     s=s+ '\n'+str(thestringlist)+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
-
-    await splitsend(ctx.channel,s,False)
-    return
-        
-
+    return s
 
 @bot.command(name='raglist', help='show list of action groups we can rag',hidden=True)
 async def iamz1_raglist(ctx):
+    s=doraglist()
+    await splitsend(ctx.channel,s,False)
+    return
+
+def doraglist():
     out = subprocess.Popen(['/usr/bin/python3', 'raglist.py'],
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
     stdout,stderr = out.communicate()
     s='available action groups:\n'+str(stdout,"utf-8").replace("\\n",'\n')
-    await splitsend(ctx.channel,s,False)
-    return
+    return s
 
 @bot.command(name='stop', help='stops any ongoing action group (rag) and camera motion (cam). we hope', before_invoke=gotit)
 async def iamz1_stop(ctx):
+    s=dostop()
+    await splitsend(ctx.channel,s,False)
+    return
+
+def dostop():
     out = subprocess.Popen(['/bin/bash', "killrag.bash"],
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
@@ -143,16 +167,20 @@ async def iamz1_stop(ctx):
     #stdout,stderr = out.communicate()
     #s2=s1+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
     s="did i stop/freeze all?"
-    await splitsend(ctx.channel,s,False)
-    return
-        
+    return s
+
 @bot.command(name='rag', help='run action group NAME [TIMES] times. "list" shows list of available actions. "stop" stops running action. ',before_invoke=gotit)
 async def iamz1_rag(ctx, name, *args):
-    await gotit(ctx)
+    await gotit(ctx) #must we?
+    s=dotherag(name,*args)
+    await splitsend(ctx.channel,s,False)
+    return
+
+def dotherag(name,*args):
+    s="output problem"
     global make_clip
     if make_clip:
         do_make_clip()
-
     out = subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+list(args),
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
@@ -160,21 +188,25 @@ async def iamz1_rag(ctx, name, *args):
     try:
         stdout,stderr = out.communicate(timeout=2)
         s=str(stdout,"utf-8").replace("\\n",'\n')
-        await splitsend(ctx.channel,s,False)
     except subprocess.TimeoutExpired:
         pass
     if name != "list" and tweet_outcome:
         do_tweet_outcome("rag "+name+' '+" ".join(list(args)))
     if auto_unload:
-        do_unload()
-    return
-
+        do_unload() #should be by new function
+    return s
 
 
 @bot.command(name='seq', help='run a sequence of commands NAME [TIMES] times. "list" shows list of available sequence files actions. "stop" stops running action. ',before_invoke=gotit)
 #sequnces in subfolder "seqs"
 async def iamz1_seq(ctx, name, *args):
     await gotit(ctx)
+    s=dotheseq(name,*args)
+    await splitsend(ctx.channel,s,False)
+    return
+
+def dotheseq(name,*args):
+    s="output problem"
     global make_clip
     if make_clip:
         do_make_clip()
@@ -186,20 +218,25 @@ async def iamz1_seq(ctx, name, *args):
     try:
         stdout,stderr = out.communicate(timeout=10)#longer timeout as sequnce
         s=str(stdout,"utf-8").replace("\\n",'\n')
-        await splitsend(ctx.channel,s,False)
     except subprocess.TimeoutExpired:
         pass
-    if name != "list" and tweet_outcome:
+    if name != "list" and tweet_outcome: #no support for seq list command, yet
         do_tweet_outcome("seq "+name+' '+" ".join(list(args)))
 
     if auto_unload:
         do_unload()
-    return
-    
+    return s
 
 @bot.command(name='cam', help='move camera pan/tilt +/-/x OR x,y OR rest. "list" shows list of available actions. ', before_invoke=gotit)
 async def iamz1_cam(ctx, *args):
     await gotit(ctx)
+
+    s=dothecame(*args)
+    await splitsend(ctx.channel,s,False)
+    return
+        
+def dothecam(*args):
+    s="comm problems"
     out = subprocess.Popen(['/usr/bin/python3', 'cam.py']+list(args),
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
@@ -207,29 +244,36 @@ async def iamz1_cam(ctx, *args):
     try:
         stdout,stderr = out.communicate(timeout=2)
         s=str(stdout,"utf-8").replace("\\n",'\n')
-        await splitsend(ctx.channel,s,False)
+
     except subprocess.TimeoutExpired:
         pass
-    return
-        
-        
+    return s
+    
 @bot.command(name='unload', help='move all servos to unload configuration')
 async def iamz1_unloadservos(ctx):
-    do_unload()
-    s='ah. feeling unloaded'
+    s=dotheunload()
     await splitsend(ctx.channel,s,False)
     return
-        
+
+def dotheunload():
+    do_unload()
+    s='ah. feeling unloaded'
+    return s
 
 
 @bot.command(name='run', help='run X ARGS: run a file X in the directory of user that sent the message. send next parameters to running. ', before_invoke=gotit)
 async def iamz1_run(ctx,name,*args):
-    s='i am running  file {0} in directory of {1} ({3}) with parameters {2}'.format(name,ctx.author.name," ".join(args),name2filename(ctx.author.name))
+    s=dorun(ctx.author.name,name,*args)
+    await splitsend(ctx.channel,s,False)
+    return
+
+def dorun(aname,name,*args):
+    s='i am running  file {0} in directory of {1} ({3}) with parameters {2}'.format(name,aname," ".join(args),name2filename(aname))
 #check there is a file and directory. if not say "oops"
-    thefiletorun=USERHOMEDIR+name2filename(ctx.author.name)+'/'+name
+    thefiletorun=USERHOMEDIR+name2filename(aname)+'/'+name
     if not os.path.exists(thefiletorun):
         print('oops no such file: '+thefiletorun)
-        await splitsend(ctx.channel,'oops no such file: '+thefiletorun,False)
+        s='oops no such file: '+thefiletorun
         return
 #call script that runs file, etc into a text file
 #send back message with pid, for killing
@@ -241,26 +285,27 @@ async def iamz1_run(ctx,name,*args):
            stderr=subprocess.STDOUT)
     stdout,stderr = out.communicate()
     s=s+ '\n'+str(thestringlist)+'\n'+str(stdout,"utf-8").replace("\\n",'\n')
-
-    await splitsend(ctx.channel,s,False)
-    return
-        
+    return s
 
         
 @bot.command(name='video', help='video on/off duration. for now it can only start and only for 5 min. ', before_invoke=gotit)
 async def iamz1_video(ctx,onoff, *arg):
-        if len(arg)>0:
-            dur=arg[0]
-        else:
-            dur="300"
-        if (onoff=='off'):
-            subprocess.call(['/bin/bash', 'stopvideo'],cwd=WHEREIRUNDIR)
-            s='tried to turn off video using kill (stopvideo). if video was not running, effect on system stability unpredictable'
-        else:
-            subprocess.call(['/bin/bash', 'streamviatwilio', dur],cwd=WHEREIRUNDIR)
-            s="tried to start video. unpredictible reults if last run not over yet. see video using 'runonviewer.html'."
-        await splitsend(ctx.channel,s,False)
-        return
+    s=dovideo(onoff,*arg)
+    await splitsend(ctx.channel,s,False)
+    return
+
+def dovideo(onoff,*arg):
+    if len(arg)>0:
+        dur=arg[0]
+    else:
+        dur="300"
+    if (onoff=='off'):
+        subprocess.call(['/bin/bash', 'stopvideo'],cwd=WHEREIRUNDIR)
+        s='tried to turn off video using kill (stopvideo). if video was not running, effect on system stability unpredictable'
+    else:
+        subprocess.call(['/bin/bash', 'streamviatwilio', dur],cwd=WHEREIRUNDIR)
+        s="tried to start video. unpredictible reults if last run not over yet. see video using 'runonviewer.html'."
+    return s
 
 @bot.command(name='tweet', help='tweet on/off. tweet a picture of outcome of command after doing command', before_invoke=gotit)
 async def tweetonoff(ctx,onoff):
