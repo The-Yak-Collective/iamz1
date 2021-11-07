@@ -1,1 +1,1 @@
-pagekite.py --clean --frontend=rovers.yakcollective.org:80 --service_on=http:wwg.rovers.yakcollective.org:localhost:5000:thewayoftheninja
+nohup pagekite.py --clean --frontend=rovers.yakcollective.org:80 --service_on=http:wwg.rovers.yakcollective.org:localhost:5000:$1 &
