@@ -1,5 +1,13 @@
 #discord support functions - now copied to discordsupport
 from discord_iamz1 import * #especially "bot" # i think i do not need to import discord as well
+import discord
+
+
+async def gotit(ctx): #designed to work only with discord
+        s='I got: {0} from {1}'.format(ctx.message.content, ctx.author.name)
+        print(s)
+        await splitsend(ctx.channel,s,False)
+        return
 
 def allowed(x,y): #is x allowed to play with item created by y
 #permissions - some activities can only be done by yakshaver, etc. or by person who initiated action

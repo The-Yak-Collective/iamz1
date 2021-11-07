@@ -1,4 +1,5 @@
 from discord_iamz1 import * #especially "bot"
+from discordsupport import *
 
 ##from here unsupported functions
 
