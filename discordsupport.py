@@ -49,4 +49,10 @@ async def splitsend(ch,st,codeformat):
             await ch.send(st[0:x])
         await splitsend(ch,st[x+1:],codeformat)
 
+
+
+def name2filename(x):
+    return re.sub('[^a-zA-Z0-9]+','',x)
+
+
 #till here discord support functions
