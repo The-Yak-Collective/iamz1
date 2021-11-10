@@ -15,7 +15,7 @@ reps=1
 @app.route('/')
 def index():
     global listofrag, reps
-    buts=[ragbutton(f,reps) for f in listofrag]+[unloadbut()]+repbuts()+twitchintegrate()
+    buts=[ragbutton(f,reps) for f in listofrag]+[unloadbut()]+repbuts()+[twitchintegrate()]
     return " ".join(buts)
     
 @app.route('/dorag')
