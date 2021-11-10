@@ -1,6 +1,6 @@
 
-INRES="1920x1080" # input resolution
-OUTRES="1920x1080" # output resolution
+INRES="640x480" # input resolution
+OUTRES="640x480" # output resolution
 FPS="15" # target FPS
 GOP="30" # i-frame interval, should be double of FPS,
 GOPMIN="15" # min i-frame interval, should be equal to fps,
