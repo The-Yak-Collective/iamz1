@@ -61,12 +61,13 @@ def unloadbut():
 def twitchintegrate():
     return ('''
 <iframe
-    src="https://player.twitch.tv/?yakrovers&parent=wwg.rovers.yakcollective.org"
+    src="https://player.twitch.tv/?yakrovers"
     height="500"
     width="500"
     allowfullscreen="<allowfullscreen>">
 </iframe>
 ''')
+#was src="https://player.twitch.tv/?yakrovers&parent=wwg.rovers.yakcollective.org"
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
