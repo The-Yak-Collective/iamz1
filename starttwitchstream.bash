@@ -14,7 +14,7 @@ SERVER="fra02.contribute.live-video.net" # twitch server in frankfurt, see http:
 
 ffmpeg -re -f v4l2 -i /dev/video0 \
 -c:v libx264 -preset veryfast -maxrate 1000k \
--bufsize 1000k -r 10 -tune zerolatency -pix_fmt yuv420p -g 50 -an \
+-bufsize 500k -r 10 -tune zerolatency -pix_fmt yuv420p -g 50 -an \
 -f flv "rtmp://$SERVER/app/$STREAM_KEY"
 #ffmpeg -f x11grab -s "$INRES" -r "$FPS" -i :0.0 -f alsa -i pulse -f flv -ac 2 -ar $AUDIO_RATE \
 #-vcodec libx264 -g $GOP -keyint_min $GOPMIN -b:v $CBR -minrate $CBR -maxrate $CBR -pix_fmt yuv420p\
