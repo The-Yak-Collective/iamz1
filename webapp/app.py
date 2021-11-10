@@ -61,7 +61,7 @@ def unloadbut():
 def twitchintegrate():
     return ('''
 <iframe
-    src="https://player.twitch.tv/?yakrovers&parent=www.yakcollective.org"
+    src="https://player.twitch.tv/?yakrovers&parent=wwg.rovers.yakcollective.org"
     height="500"
     width="500"
     allowfullscreen="<allowfullscreen>">
