@@ -13,7 +13,7 @@ AUDIO_RATE="44100"
 SERVER="live-sjc" # twitch server in California, see http://bashtech.net/twitch/ingest.php to change
  
 ffmpeg -f x11grab -s "$INRES" -r "$FPS" -i :0.0 -f alsa -i pulse -f flv -ac 2 -ar $AUDIO_RATE \
--vcodec libx264 -g $GOP -keyint_min $GOPMIN -b:v $CBR -minrate $CBR -maxrate $CBR -pix_fmt yuv420p\
+-vcodec libx264 -g $GOP -keyint_min $GOPMIN -b:v $CBR -minrate $CBR -maxrate $CBR \
 -s $OUTRES -preset $QUALITY -tune film -acodec libmp3lame -threads $THREADS -strict normal \
 -bufsize $CBR "rtmp://$SERVER.twitch.tv/app/$STREAM_KEY"
 
