@@ -15,7 +15,7 @@ reps=1
 @app.route('/')
 def index():
     global listofrag, reps
-    buts=[ragbutton(f,reps) for f in listofrag]+[unloadbut()]+repbuts()
+    buts=[ragbutton(f,reps) for f in listofrag]+[unloadbut()]+repbuts()+twitchintegrate()
     return " ".join(buts)
     
 @app.route('/dorag')
@@ -58,6 +58,15 @@ def ragbutton(s,rep):
     
 def unloadbut():
     return '''<button onclick="window.location.href='/unload'">unload</button>'''
+def twitchintegrate():
+    return ('''
+<iframe
+    src="https://player.twitch.tv/?yakrovers&parent=wwg.rovers.yakcollective.org"
+    height="500"
+    width="500"
+    allowfullscreen="<allowfullscreen>">
+</iframe>
+''')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
