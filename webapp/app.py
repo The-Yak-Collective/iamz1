@@ -63,7 +63,7 @@ def ragbutton(s,rep):
 #onclick="window.location.href='/dorag?name={0}&repeat={1}'">{0}</button>'''.
 
 def unloadbut():
-    return '''<button onclick=fetch('/unload',{method:'POST'})">unload</button>'''
+    return '''<button onclick="fetch('/unload',{method:'POST'})">unload</button>'''
 def twitchintegrate():
     return ('''
 <iframe
