@@ -54,7 +54,7 @@ def repbuts():
     return s
     
 def ragbutton(s,rep):
-    s='''<button onclick="fetch('/dorag?name={0}&repeat={1}',{method:'POST'})">{0}</button>'''.format(s,rep) #later change to a form or something so we can also read the repeats setting. or simply reserve the page
+    s='''<button onclick="fetch('/dorag?name={0}&repeat={1}',{{method:'POST'}})">{0}</button>'''.format(s,rep) #later change to a form or something so we can also read the repeats setting. or simply reserve the page
     return s
 
 #onclick="window.location.href='/dorag?name={0}&repeat={1}'">{0}</button>'''.
