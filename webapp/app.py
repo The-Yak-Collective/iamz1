@@ -51,7 +51,7 @@ def repbuts():
     s=[]
     global reps
     for i in [1,2,5,10]:
-        q="*" if reps==i else ""
+        #q="*" if reps==i else "" #now with fetch, buttons not redrawn. will need to be a toggle or something, on client side
         s.append('''<button onclick="fetch('/setrep?value={0}',{{method:'POST'}})">{1}{0}</button>'''.format(i,q))
     return s
     
@@ -62,7 +62,7 @@ def ragbutton(s,rep):
 #onclick="window.location.href='/dorag?name={0}&repeat={1}'">{0}</button>'''.
 
 def unloadbut():
-    return '''<button onclick=fetch('/unload',{{method:'POST'}})">unload</button>'''
+    return '''<button onclick=fetch('/unload',{method:'POST'})">unload</button>'''
 def twitchintegrate():
     return ('''
 <iframe
