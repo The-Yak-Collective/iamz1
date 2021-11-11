@@ -18,8 +18,9 @@ def index():
     buts=[ragbutton(f,reps) for f in listofrag]+[unloadbut()]+repbuts()+[twitchintegrate()]
     return " ".join(buts)
     
-@app.route('/dorag')
+@app.route('/dorag',methods=["POST"])
 def dorag():
+    print("got to rag")
     global reps
     name=request.args.get('name')
     #rep=request.args.get('repeat',default=1,type=int)
