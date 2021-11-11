@@ -1,4 +1,4 @@
-
+source .env
 #INRES="1920x1080" # input resolution
 #OUTRES="1920x1080" # output resolution
 FPS="15" # target FPS
