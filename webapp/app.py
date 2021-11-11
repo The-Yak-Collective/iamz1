@@ -27,7 +27,7 @@ def dorag():
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
-    return redirect("/")
+    return "rag done"
     return "i would run a rag command here:rag {0} {1}".format(name,rep)
 
 @app.route('/unload')
@@ -36,14 +36,14 @@ def dounload():
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
-    return redirect("/")
+    return "unload done"
 
 @app.route('/setrep')
 def dosetrep():
     global reps
     value=request.args.get('value', type=int)
     reps=value
-    return redirect("/")
+    return "rep set"
 
 def repbuts():
     s=[]
@@ -54,8 +54,10 @@ def repbuts():
     return s
     
 def ragbutton(s,rep):
-    return '''<button onclick="window.location.href='/dorag?name={0}&repeat={1}'">{0}</button>'''.format(s,rep) #later change to a form or something so we can also read the repeats setting. or simply reserve the page
-    
+    return '''<button onclick="fetch('/dorag?name={0}&repeat={1}'.{method:'POST'}">{0}</button>'''.format(s,rep) #later change to a form or something so we can also read the repeats setting. or simply reserve the page
+
+#onclick="window.location.href='/dorag?name={0}&repeat={1}'">{0}</button>'''.
+
 def unloadbut():
     return '''<button onclick="window.location.href='/unload'">unload</button>'''
 def twitchintegrate():
