@@ -52,6 +52,7 @@ def repbuts():
     global reps
     for i in [1,2,5,10]:
         #q="*" if reps==i else "" #now with fetch, buttons not redrawn. will need to be a toggle or something, on client side
+        q=""
         s.append('''<button onclick="fetch('/setrep?value={0}',{{method:'POST'}})">{1}{0}</button>'''.format(i,q))
     return s
     
