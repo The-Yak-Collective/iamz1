@@ -23,6 +23,7 @@ def dorag():
     global reps
     name=request.args.get('name')
     #rep=request.args.get('repeat',default=1,type=int)
+    print("dorag",name)
     subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+[str(reps)],
            cwd=WHEREIRUNDIR,
            stdout=subprocess.PIPE, 
