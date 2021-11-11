@@ -32,7 +32,7 @@ def dorag():
     return "rag done"
     return "i would run a rag command here:rag {0} {1}".format(name,rep)
 
-@app.route('/unload')
+@app.route('/unload',methods=["POST"])
 def dounload():
     subprocess.Popen(['/usr/bin/python3', 'testunload.py'],
            cwd=WHEREIRUNDIR,
@@ -40,7 +40,7 @@ def dounload():
            stderr=subprocess.STDOUT)
     return "unload done"
 
-@app.route('/setrep')
+@app.route('/setrep',methods=["POST"])
 def dosetrep():
     global reps
     value=request.args.get('value', type=int)
@@ -52,7 +52,7 @@ def repbuts():
     global reps
     for i in [1,2,5,10]:
         q="*" if reps==i else ""
-        s.append('''<button onclick="window.location.href='/setrep?value={0}'">{1}{0}</button>'''.format(i,q))
+        s.append('''<button onclick="fetch('/setrep?value={0}',{{method:'POST'}})">{1}{0}</button>'''.format(i,q))
     return s
     
 def ragbutton(s,rep):
@@ -62,7 +62,7 @@ def ragbutton(s,rep):
 #onclick="window.location.href='/dorag?name={0}&repeat={1}'">{0}</button>'''.
 
 def unloadbut():
-    return '''<button onclick="window.location.href='/unload'">unload</button>'''
+    return '''<button onclick=fetch('/unload',{{method:'POST'}})">unload</button>'''
 def twitchintegrate():
     return ('''
 <iframe
