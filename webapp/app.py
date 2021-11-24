@@ -20,7 +20,7 @@ reps=1
 @app.route('/')
 def index():
     global listofrag, reps
-    buts=[ragbutton(f,reps) for f in listofrag]+[unloadbut()]+repbuts()+cambut()+[twitchintegrate()]
+    buts=[ragbutton(f,reps) for f in listofrag]+[unloadbut()]+repbuts()+cambut()+[talkbut()]+[twitchintegrate()]
     return " ".join(buts)
     
 @app.route('/dorag',methods=["POST"])
@@ -105,13 +105,13 @@ def cambut():
     s.append('''<button onclick="fetch('/docam?name=tilt&param=go',{method:'POST'})">tilt scan</button>''')
     s.append('''<button onclick="fetch('/docam?name=tilt&param=plus',{method:'POST'})">tilt +</button>''')
     s.append('''<button onclick="fetch('/docam?name=tilt&param=minus',{method:'POST'})">tilt -</button>''')
-    s.append('''<button onclick="fetch('/docam?name=tilt&param='+document.getElementById("tiltval").value,{method:'POST'})">tilt to</button><input type="text" id="tiltval" name="tiltval">''')
-    s.append('''<button onclick="fetch('/docam?name=pan&param='+document.getElementById("panval").value,{method:'POST'})">pan to</button><input type="text" id="panval" name="panval">''')
+    s.append('''<button onclick="fetch('/docam?name=tilt&param='+document.getElementById('tiltval').value,{method:'POST'})">tilt to</button><input type="text" id="tiltval" name="tiltval">''')
+    s.append('''<button onclick="fetch('/docam?name=pan&param='+document.getElementById('panval').value,{method:'POST'})">pan to</button><input type="text" id="panval" name="panval">''')
     
     return s
 
 def talkbut():
-    return ('''<button onclick="fetch('/dosaythis?text='+document.getElementById("saythis").value,{method:'POST'})">say this</button><input type="text" id="saythis" name="saythis">''')
+    return ('''<button onclick="fetch('/dosaythis?text='+document.getElementById('saythis').value,{method:'POST'})">say this</button><input type="text" id="saythis" name="saythis">''')
 
 
 def twitchintegrate():
