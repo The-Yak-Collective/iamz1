@@ -3,6 +3,7 @@
 import os
 from flask import Flask, request, redirect
 import subprocess
+import talk
 
 app = Flask(__name__)
 listofrag=os.listdir("/home/pi/SpiderPi/ActionGroups")
@@ -15,7 +16,7 @@ reps=1
 @app.route('/')
 def index():
     global listofrag, reps
-    buts=[ragbutton(f,reps) for f in listofrag]+[unloadbut()]+repbuts()+[twitchintegrate()]
+    buts=[ragbutton(f,reps) for f in listofrag]+[unloadbut()]+repbuts()+cambut()+[twitchintegrate()]
     return " ".join(buts)
     
 @app.route('/dorag',methods=["POST"])
@@ -23,6 +24,8 @@ def dorag():
     print("got to rag")
     global reps
     name=request.args.get('name')
+    if name=='flip':
+        return
     #rep=request.args.get('repeat',default=1,type=int)
     print("dorag",name)
     subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+[str(reps)],
@@ -31,6 +34,30 @@ def dorag():
            stderr=subprocess.STDOUT)
     return "rag done"
     return "i would run a rag command here:rag {0} {1}".format(name,rep)
+
+@app.route('/docam',methods=["POST"])
+def docam():
+    print("got to cam")
+    name=request.args.get('name')
+    param=request.args.get('param','')
+    param='+' if param=='plus' else param
+    param='-' if param=='minus' else param
+    param='' if param=='none' else param
+    
+    #rep=request.args.get('repeat',default=1,type=int)
+    print("docam",name,param)
+    subprocess.Popen(['/usr/bin/python3', 'cam.py', name, param],
+           cwd=WHEREIRUNDIR,
+           stdout=subprocess.PIPE, 
+           stderr=subprocess.STDOUT)
+    return "cam done"
+
+@app.route('/dosaythis',methods=["POST"])
+def dosaythis():
+    print("got to saythis")
+    text=request.args.get('text')
+    text.saythis(text)
+    return "saythis done"
 
 @app.route('/unload',methods=["POST"])
 def dounload():
@@ -64,6 +91,25 @@ def ragbutton(s,rep):
 
 def unloadbut():
     return '''<button onclick="fetch('/unload',{method:'POST'})">unload</button>'''
+
+def cambut():
+    s=[]
+    s.append('''<button onclick="fetch('/docam?name=rest&param=none',{method:'POST'})">Cam rest</button>''')
+    s.append('''<button onclick="fetch('/docam?name=pan&param=go',{method:'POST'})">pan scan</button>''')
+    s.append('''<button onclick="fetch('/docam?name=pan&param=plus',{method:'POST'})">pan +</button>''')
+    s.append('''<button onclick="fetch('/docam?name=pan&param=minus',{method:'POST'})">pan -</button>''')
+    s.append('''<button onclick="fetch('/docam?name=tilt&param=go',{method:'POST'})">tilt scan</button>''')
+    s.append('''<button onclick="fetch('/docam?name=tilt&param=plus',{method:'POST'})">tilt +</button>''')
+    s.append('''<button onclick="fetch('/docam?name=tilt&param=minus',{method:'POST'})">tilt -</button>''')
+    s.append('''<button onclick="fetch('/docam?name=tilt&param='+document.getElementById("tiltval").value,{method:'POST'})">tilt to</button><input type="text" id="tiltval" name="tiltval">''')
+    s.append('''<button onclick="fetch('/docam?name=pan&param='+document.getElementById("panval").value,{method:'POST'})">pan to</button><input type="text" id="panval" name="panval">''')
+    
+    return s
+
+def talkbut():
+    return ('''<button onclick="fetch('/dosaythis?text='+document.getElementById("saythis").value,{method:'POST'})">say this</button><input type="text" id="saythis" name="saythis">''')
+
+
 def twitchintegrate():
     return ('''
 <iframe

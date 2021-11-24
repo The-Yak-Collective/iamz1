@@ -113,7 +113,7 @@ async def iamz1_seq(ctx, name, *args):
 async def iamz1_cam(ctx, *args):
     await gotit(ctx)
 
-    s=dothecame(*args)
+    s=dothecam(*args)
     await splitsend(ctx.channel,s,False)
     return
         
