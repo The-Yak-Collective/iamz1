@@ -1,5 +1,9 @@
 #very primitive setup just to see it works. next step is to extract the rag, etc. commands from iamz1 and turn them into a stand-alone library. or better, a service
 
+WHEREIRUNDIR="/home/pi/test/iamz1/"
+
+import sys
+sys.path.append(WHEREIRUNDIR)
 import os
 from flask import Flask, request, redirect
 import subprocess
@@ -10,7 +14,7 @@ listofrag=os.listdir("/home/pi/SpiderPi/ActionGroups")
 listofrag=[f[:-4] for f in listofrag if f[-4:] in [".csv",".d6a"]]
 listofrag=list(set(listofrag))
 listofrag.sort()
-WHEREIRUNDIR="/home/pi/test/iamz1/"
+
 reps=1
 
 @app.route('/')
@@ -24,7 +28,7 @@ def dorag():
     print("got to rag")
     global reps
     name=request.args.get('name')
-    if name=='flip':
+    if name=='stand_flip':
         return
     #rep=request.args.get('repeat',default=1,type=int)
     print("dorag",name)
