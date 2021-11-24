@@ -60,7 +60,7 @@ def docam():
 def dosaythis():
     print("got to saythis")
     text=request.args.get('text')
-    text.saythis(text)
+    talk.saythis(text)
     return "saythis done"
 
 @app.route('/unload',methods=["POST"])
