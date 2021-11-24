@@ -38,6 +38,10 @@ def pos():
     return Board.Servos[TILT-1].getPosition(),Board.Servos[PAN-1].getPosition()
     
 def setpos(id,x):
+    if x<500:
+        x=500
+    if x>2500:
+        x=2500
     #print('setting servo {} to {} with speed {}'.format(id,x,SPEEDTIME))
     Board.setPWMServoPulse(int(id),int(x),int(SPEEDTIME))
     time.sleep(SPEEDTIME/1000.0)
