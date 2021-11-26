@@ -26,6 +26,8 @@ import csv
 # onroverdb: sqlite3 file. for now, we will only write variables there and read modulation data from it
 import json
 from dotenv import load_dotenv, find_dotenv
+import rpcservices
+
 load_dotenv(find_dotenv())
 ACTDIR=os.getenv('ACTDIR','/home/pi/SpiderPi/ActionGroups/')
 
@@ -68,6 +70,7 @@ def runActionGroup(actName, times=1, rs=1.0, modu = False, sd=False):
             return runAction(actName, rs=rs)
 
 def measure_state():
+    return rpcservices.leg_pos() # now using service. hopefully faster
     x=[0]*19
     for i in range(1,19):
         x[i]=int(getBusServoPulse(i))#yes, slow. but we need it for relative movement. i guess we can run this only if we have an actual rel instruction and only for those entries. and maybe only first time they get called. TBD for now as this should work, even if slower
