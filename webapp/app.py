@@ -132,7 +132,7 @@ def cambut():
     return s
 
 def talkbut():
-    return ('''<button onclick="fetch('/dosaythis?text='+document.getElementById('saythis').value,{method:'POST'})">say this</button><input type="text" id="saythis" name="saythis">''')
+    return ('''<button onclick="fetch('/dosaythis?text=%20'+document.getElementById('saythis').value,{method:'POST'})">say this</button><input type="text" id="saythis" name="saythis">''')
 
 
 def twitchintegrate():
