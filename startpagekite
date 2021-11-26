@@ -1,1 +1,2 @@
+source /etc/environment
 nohup pagekite.py --clean --frontend=rovers.yakcollective.org:80 --service_on=http:$YAK_ROVER_NAME.rovers.yakcollective.org:localhost:5000:$1 &
