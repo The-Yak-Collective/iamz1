@@ -21,7 +21,7 @@ legs = xmlrpc.client.ServerProxy('http://localhost:'+str(PORTFORLEGS))
 def leg_pos():
     return legs.legpos()
 
-rag = xmlrpc.client.ServerProxy('http://localhost:'+str(PORTFORRAG))
+ragserver = xmlrpc.client.ServerProxy('http://localhost:'+str(PORTFORRAG))
 
 def rag(name, reps=1,speedratio=1.0,modu=False):#dropping "savedata", as we have logger now
-    return rag.rag(name,reps,speedratio,modu)
+    return ragserver.rag(name,reps,speedratio,modu)
