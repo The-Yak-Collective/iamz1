@@ -49,7 +49,7 @@ with SimpleXMLRPCServer(('localhost', PORTFORRAG),
             rpcservices.log_start(name)
             s=AGC.runActionGroup(name,times=times, rs=speedratio, sd=False, modu=modu)
             rpcservices.log_stop()
-            return json.dumps(rpcservices.log_get())
+            return json.dumps(rpcservices.log_get()[-1])#numbers in log (time?) too big. maybe rpc idea is not so great after all
         else:
             return ("error - action not exist: "+ name)
 
