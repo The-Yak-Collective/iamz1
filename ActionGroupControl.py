@@ -119,6 +119,7 @@ def runAction(actNum, lock_servos='',rs=1.0):
     actNum = ACTDIR + actNum + ".d6a"
 
     if os.path.exists(relNum) is True: #do the rel type action group file
+        runningAction=False #need to delete this. anyway, it seems to intefere with recursion
         if runningAction is False:
             runningAction = True
             with open(relNum,newline='') as csvfile:
@@ -183,9 +184,9 @@ def runAction(actNum, lock_servos='',rs=1.0):
                     print (lerror,serror)
                     for i,l in enumerate(lerror):
                         if l>350:#empirical number based on typical error in leaves being 1600 for all legs together
-                            print("error=",l)
-                            runAction("legfree1#"+str(i))
-                            runAction("legfree2#"+str(i))
+                            print("error=",l,"leg=",i)
+                            runAction("legfree1#"+str(i+1))
+                            runAction("legfree2#"+str(i+1))
                 if feedback or savedata: #no difference for now
                     cur_state=measure_state()
                     print("we should be at:",estimated_state)
