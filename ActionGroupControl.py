@@ -180,9 +180,12 @@ def runAction(actNum, lock_servos='',rs=1.0):
                     lerror=[0,0,0,0,0,0]
                     for i,s in enumerate(serror):
                         lerror[int(i/3)]+=s
+                    print (lerror,serror)
                     for i,l in enumerate(lerror):
                         if l>350:#empirical number based on typical error in leaves being 1600 for all legs together
+                            print("error=",l)
                             runAction("legfree1#"+str(i))
+                            runAction("legfree2#"+str(i))
                 if feedback or savedata: #no difference for now
                     cur_state=measure_state()
                     print("we should be at:",estimated_state)
