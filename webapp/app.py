@@ -64,7 +64,7 @@ def docam():
 @app.route('/dosaythis',methods=["POST"])
 def dosaythis():
     print("got to saythis")
-    text=request.args.get('text')
+    text=request.args.get('text',"silence is golden")
     talk.saythis(text)
     return "saythis done"
 
@@ -101,7 +101,7 @@ def repbuts():
     return s
 
 def insistbut():
-    s='''<button onclick="fetch('/setinsist?value='+document.getElementById('insist').value,{{method:'POST'}})">Insist(move#1)</button><input type="checkbox" id="insist" name="insist">'''
+    s='''<button onclick="fetch('/setinsist?value='+document.getElementById('insist').value,{method:'POST'})">Insist(move#1)</button><input type="checkbox" id="insist" name="insist">'''
     return s
 
     
