@@ -64,8 +64,11 @@ def docam():
 @app.route('/dosaythis',methods=["POST"])
 def dosaythis():
     print("got to saythis")
-    text=request.args.get('text',"silence is golden")
-    talk.saythis(text)
+    try:
+        text=request.args.get('text',"silence is golden")
+        talk.saythis(text)
+    except:
+        pass
     return "saythis done"
 
 @app.route('/unload',methods=["POST"])
