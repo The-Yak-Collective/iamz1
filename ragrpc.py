@@ -11,6 +11,7 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 ACTDIR=os.getenv('ACTDIR','/home/pi/SpiderPi/ActionGroups/')
 import rpcservices
+import json
 
 PORTFORRAG=9503 #position of each servo
 
@@ -48,7 +49,7 @@ with SimpleXMLRPCServer(('localhost', PORTFORRAG),
             rpcservices.log_start(name)
             s=AGC.runActionGroup(name,times=times, rs=speedratio, sd=False, modu=modu)
             rpcservices.log_stop()
-            return rpcservices.log_get()
+            return json.dumps(rpcservices.log_get())
         else:
             return ("error - action not exist: "+ name)
 
