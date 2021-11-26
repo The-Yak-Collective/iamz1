@@ -8,6 +8,7 @@ import os
 from flask import Flask, request, redirect
 import subprocess
 import talk
+import rpcservices as rpc
 
 app = Flask(__name__)
 listofrag=os.listdir("/home/pi/SpiderPi/ActionGroups")
@@ -16,6 +17,7 @@ listofrag=list(set(listofrag))
 listofrag.sort()
 
 reps=1
+insist=False
 
 @app.route('/')
 def index():
@@ -31,11 +33,14 @@ def dorag():
     if name=='stand_flip':
         return
     #rep=request.args.get('repeat',default=1,type=int)
+    if insist:
+        name=name+"@I"
     print("dorag",name)
-    subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+[str(reps)],
-           cwd=WHEREIRUNDIR,
-           stdout=subprocess.PIPE, 
-           stderr=subprocess.STDOUT)
+    rpc.rag(name,reps)
+#    subprocess.Popen(['/usr/bin/python3', 'rag.py', name]+[str(reps)],
+#           cwd=WHEREIRUNDIR,
+#           stdout=subprocess.PIPE, 
+#           stderr=subprocess.STDOUT)
     return "rag done"
     return "i would run a rag command here:rag {0} {1}".format(name,rep)
 
@@ -78,6 +83,14 @@ def dosetrep():
     reps=value
     return "rep set"
 
+@app.route('/setinsist',methods=["POST"])
+def dosetinsist():
+    global insist
+    value=request.args.get('value', type=bool)
+    insist=value
+    return "rep set"
+
+
 def repbuts():
     s=[]
     global reps
@@ -86,6 +99,11 @@ def repbuts():
         q=""
         s.append('''<button onclick="fetch('/setrep?value={0}',{{method:'POST'}})">{1}{0}</button>'''.format(i,q))
     return s
+
+def insistbut():
+    s='''<button onclick="fetch('/setinsist?value='+document.getElementById('insist').value,{{method:'POST'}})"></button><input type="checkbox" id="insist" name="insist">'''
+    return s
+
     
 def ragbutton(s,rep):
     s='''<button onclick="fetch('/dorag?name={0}&repeat={1}',{{method:'POST'}})">{0}</button>'''.format(s,rep) #later change to a form or something so we can also read the repeats setting. or simply reserve the page
