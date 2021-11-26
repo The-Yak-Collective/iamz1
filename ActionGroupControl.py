@@ -181,7 +181,7 @@ def runAction(actNum, lock_servos='',rs=1.0):
                     for i,s in enumerate(serror):
                         lerror[int(i/3)]+=s
                     for i,l in enumerate(lerror):
-                        if lerror>350:#empirical number based on typical error in leaves being 1600 for all legs together
+                        if l>350:#empirical number based on typical error in leaves being 1600 for all legs together
                             runAction("legfree1#"+str(i))
                 if feedback or savedata: #no difference for now
                     cur_state=measure_state()
