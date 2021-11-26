@@ -46,7 +46,7 @@ with SimpleXMLRPCServer(('localhost', PORTFORRAG),
 
         if name.split('#')[0].split('@')[0] in actnames or name.split('#')[0].split('@')[0] in relactnames:
             rpcservices.log_start(name)
-            s=AGC.runActionGroup(name,times=times, rs=speedratio, sd=savedata, modu=modu))
+            s=AGC.runActionGroup(name,times=times, rs=speedratio, sd=savedata, modu=modu)
             rpcservices.log_stop()
             return s
         else:
