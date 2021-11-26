@@ -104,7 +104,7 @@ def repbuts():
     return s
 
 def insistbut():
-    s='''<button onclick="fetch('/setinsist?value='+document.getElementById('insist').value,{method:'POST'})">Insist(move#1)</button><input type="checkbox" id="insist" name="insist">'''
+    s='''<button onclick="fetch('/setinsist?value='+document.getElementById('insist').checked,{method:'POST'})">Insist(move#1)</button><input type="checkbox" id="insist" name="insist">'''
     return s
 
     
