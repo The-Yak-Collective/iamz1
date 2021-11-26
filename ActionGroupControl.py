@@ -45,7 +45,7 @@ def stopAction():
     
     stop_action = True
 
-def runActionGroup(actName, times=1, rs=1.0, modu = False, sd=False):
+def runActionGroup(actName, times=1, rs=1.0, modu = False, sd=True): #save data. who knows...
     global stop_action
     global stop_action_group
     global modulate
@@ -173,7 +173,16 @@ def runAction(actNum, lock_servos='',rs=1.0):
                 estimated_state=cur_state.copy()
                 endtime=int(time.time()*1000)
                 if insist:
-                    print("insist function not supported yet")
+                    cur_state=measure_state()
+                    serror=[]
+                    for x,y in zip(estimated_state[1:],cur_state[1:]): #do on 18 sized array
+                        serror.append((int(x)-int(y))*(int(x)-int(y)))
+                    lerror=[0,0,0,0,0,0]
+                    for i,s in enumerate(serror):
+                        lerror[int(i/3)]+=s
+                    for i,l in enumerate(lerror):
+                        if lerror>350:#empirical number based on typical error in leaves being 1600 for all legs together
+                            runAction("legfree1#"+str(i))
                 if feedback or savedata: #no difference for now
                     cur_state=measure_state()
                     print("we should be at:",estimated_state)
@@ -212,7 +221,7 @@ def runAction(actNum, lock_servos='',rs=1.0):
                 if act is not None:
                     for i in range(0, len(act) - 2, 1):
                         if (int(act[i+2]) < 0):
-                            continue #attempt to make negative numbers into "NOP". maybe thsi was original intention of lock_servos
+                            continue #attempt to make negative numbers into "NOP". maybe this was original intention of lock_servos
                         elif str(i + 1) in lock_servos:
                             setBusServoPulse(i + 1, lock_servos[str(i + 1)], act[1])
                         else:

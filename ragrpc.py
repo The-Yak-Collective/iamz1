@@ -32,7 +32,7 @@ with SimpleXMLRPCServer(('localhost', PORTFORRAG),
 
 
     # Register a function under a different name
-    def rag(name, times, speedratio,modu):
+    def rag(name, times, speedratio,modu,toldtowait):
         if(name=="list"): #list rebuilds list as well!
             global actnames,relactnames
             f=sorted(os.listdir(ACTDIR))
@@ -47,7 +47,11 @@ with SimpleXMLRPCServer(('localhost', PORTFORRAG),
 
         if name.split('#')[0].split('@')[0] in actnames or name.split('#')[0].split('@')[0] in relactnames:
             rpcservices.log_start(name)
-            s=AGC.runActionGroup(name,times=times, rs=speedratio, sd=False, modu=modu)
+            if toldtowait:
+                AGC.runActionGroup(name,times=times, rs=speedratio, sd=False, modu=modu)
+            else:
+                x=threading.Thread(target=AGC.runActionGroup,args=(name,times,speedratio,False,modu))
+                x.start()#nice to return how long action would take
             rpcservices.log_stop()
             return json.dumps(rpcservices.log_get()[-1])#numbers in log (time?) too big. maybe rpc idea is not so great after all
         else:
