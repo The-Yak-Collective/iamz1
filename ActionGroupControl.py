@@ -68,6 +68,7 @@ def runActionGroup(actName, times=1, rs=1.0, modu = False, sd=False):
                 stop_action_group = False
                 break
             return runAction(actName, rs=rs)
+     return ("done actiongroup: "+name)
 
 def measure_state():
     return [0]+rpcservices.leg_pos()[1] # now using service. hopefully fasterru

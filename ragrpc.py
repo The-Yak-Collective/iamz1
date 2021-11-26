@@ -48,7 +48,7 @@ with SimpleXMLRPCServer(('localhost', PORTFORRAG),
             rpcservices.log_start(name)
             s=AGC.runActionGroup(name,times=times, rs=speedratio, sd=False, modu=modu)
             rpcservices.log_stop()
-            return s
+            return rpcservices.log_get()
         else:
             return ("error - action not exist: "+ name)
 
