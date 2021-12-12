@@ -22,7 +22,7 @@ insist=False
 @app.route('/')
 def index():
     global listofrag, reps
-    buts=[ragbutton(f,reps) for f in listofrag]+[unloadbut()]+repbuts()+cambut()+[talkbut()]+[insistbut()]+[twitchintegrate()]
+    buts=["movement commands:"]+[ragbutton(f,reps) for f in listofrag]+["<br>Save power(unload):"]+[unloadbut()]+["<br>How many repeats:"]+repbuts()+["<BR>Camera control:"]+cambut()+["<br>Inactive"]+[talkbut()]+[insistbut()]+[twitchintegrate()]
     return " ".join(buts)
     
 @app.route('/dorag',methods=["POST"])
