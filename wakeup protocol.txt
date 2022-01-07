@@ -1,0 +1,35 @@
+*what to do when waking up - a basic BOS function (BOS is Bos Operating system - Bos being bovine)
+
+autonomic self check:
+*    battery level (using vin on servo?)
+*    what is my name and what hardware do i have (in general - wheels, legs)
+*    check that all parts still work and maybe reconfigure if needed - but minimal movements - not to break anything, esp. not self
+*        could be mission specific
+*        each part can have its own check PLUS some combination of parts (like a whole leg). same with sensors, camera position - gives eror size as well
+*            also inert parst can be evaluated using sensors
+*        build body image (at same time, we need to design an architecture which is discoverable - PnP, USB - can we generalize it to GPIO, i2c?)
+*            the model is maybe more than just additive - there could be synergy between components - joint models for components that work together - maybe derived from specific activities, maybe learnt
+            consider gradual discovery - a layer which translates component protocol into a protocol which can be used immediately (any command does something) and has small steps towards greater use
+*    check integrity (s/w, checksum of stuff, security, autonomy)
+*        maybe use blockchain to confirm integrity
+    physical safety - where are parts and are we about to fall off the bed
+*check communication connectivity
+*    start connectivity tools
+*start all sorts of software components (e.g., which report to a bus or can be activated)
+*    for now - the logging
+*check posture (probably before moving stuff around - maybe even as a safety lock)
+check social network (who is up, again, blockchain)
+*check environment: "weather"
+*where am i
+*    bootstrap situation construction
+*    look for orientation landmarks - maybe old, maybe set before turning off
+*    exact location vs. type of position
+*    local where am i - clearance within reach (maybe also a safety lock)
+*do i have an ongoing mission
+*read my messages (from outside) and alerts (inside)
+*listen and decide on priorities
+
+*go to "what do i do now" algorithm    
+
+*Q - should we track that all systems are operational before letting it move or is there simply some set of critical ones?
+    maybe define levels of preparation. or is it continuous?
