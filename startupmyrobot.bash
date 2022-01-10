@@ -1,8 +1,9 @@
 #! /bin/bash
 #this script starts up all the various functions of the rover, including self-test. basically - BOS (Bos Operating System)
-#now drafted in the form of one script, but for modularity reasons, some parts should be in seperate files (to make them easy to re-run)
+#now drafted in the form of one script, but for modularity reasons, some parts should be in separate files (to make them easy to re-run when a prerequisite comes up)
+#also need to define what is MINWORKS - what is minimum and how is it decided
 
-#open question - hwo do we define preparedness of rover. on the one hand, there is a minimum. on teh other, if something doe snot work, that si simply a new configuration
+#open question - how do we define preparedness of rover. on the one hand, there is a minimum. on the other, if something does not work, that is simply a new configuration
 
 #need env variables?
 #source ....
@@ -22,7 +23,7 @@
 #start communication connectivity
     #check re internet connection - wifi, etc. 
     
-    ##what if we fail? lets say there is a background check every X seconds. and when it works, it redoes this section, so section shoudl be in its own file
+    ##what if we fail? lets say there is a background check every X seconds. and when it works, it redoes this section, so section should be in its own file
     HAVEINT=true
 
 #start secondary s/w components
@@ -35,15 +36,16 @@
     
     #start continuous-learning module
     
-    #start continuous discover module - a layer which translates component protocol into a protocol which can be used immediately (any command does something) and has small steps towards greater use
+    #start continuous discovery adapter module - a layer which translates component protocol into a protocol which can be used immediately (any command does something) and has small steps towards greater use
     
-#start self-configuration. testinga nd reconfiguring can be mission specific. how to do?
+#start self-configuration. testing and reconfiguring can be mission specific. how to do?
+#perhaps some of this is skipped based on the type of on-off cycle. and we have a more minimal check to see nothing changed. in any case, we have some sort of ongoing "did h/w change"
 
     #identify components (how do we make architecture discoverable) and self name
     #for each component run its own self-check
-    #additional self checks, as defined. esp. for combinations of components (e.g., leg, coordination, etc)
+    #additional self checks, as defined. esp. for combinations of components (e.g., whole leg, coordination, etc)
 
-    #test actuators by moving, a tiny bit
+    #test actuators by moving, a tiny bit - dangerous
     #test/configure inert parts, using other sensors on rover
 
 #check integrity - using blockchain here could be interesting
@@ -53,12 +55,11 @@
     #malicious code (what is that beyond viruses? maybe that commands do what you expect and so do sensors?)
     #autonomy (not clear how you check the integrety of this. and can it be done this stage of process)
     
-#do the configuration
-    #reconfigure based on results - should drivers be like in s/w or are robotic drivers more complex or more integrated into s/w or BOS than standard OS drivers?
-    #build self model - format and contenst not clear yet,  - is it just uploading a library? how do we reconfigure other s/w to match model?
+#do the configuration - there is something deeper here about configuration management and inheritance
+    #reconfigure based on results - should drivers be like in s/w (very modular) or are robotic drivers more complex or more integrated into s/w or BOS than standard OS drivers?
+    #build self model - format and contenst not clear yet,  - is it just uploading a library(s)/package or is it a configuration file? how do we reconfigure other s/w to match model? OR maybe we have a standard model and we overload it based on changes (like loading a "missing leg" package)
+    #define movement limits based on self-model
 
-    
-    
     
 #start higher behavioral components
 
@@ -66,7 +67,11 @@
     
     #start "location sense"
     
+    #start SLAM or the like
+    
     #start "posture sense"
+    
+    #start watchdogs (some generate alerts and some do things)
     
 #start "enviroment sensing"
     
@@ -77,14 +82,14 @@
     #check posture
     #check posture/location risk = am i about to fall off the table
     #check for (and handle) alerts
+    #generate risks profile (what to be scared of + what alerts are needed)
 
 
     
 #now start doing things
 
-    #check social network (who is up, etc.)
-    #sync blockchain
-    #look for orientation landmarks, including ones set before "off"
+    #sync blockchain - needs wifi
+    #look for orientation landmarks, including ones set before "off" (so what does shutdown process look like, or ongoing "store state" process)
     #generate position estimate (exact or generalized info about)
     #local whereami - clearence within reach
     #release safety lock
@@ -92,7 +97,6 @@
     
 #start command stuff
     #check for ongoing mission
-    
         #mission specific checkup
     #check for incoming messages
     #integrate inputs and decide on priorities
@@ -108,7 +112,7 @@
     #start discord client
     
     #start "social sense"
-    
+        #check social network (who is up, etc.) - requires wifi
     fi
 
 #all (or enough) is working. so release rover
