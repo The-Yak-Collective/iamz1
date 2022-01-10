@@ -8,6 +8,14 @@
 #need env variables?
 #source ....
 
+#do some basic integrity checks - maybe move some items from below to here
+    #check checksums - read from blockchain?
+    #check s/w components exist
+
+    INTLEVEL=3 #1 to 10 where 1 is lowest, 10 is highest
+
+#select startupscript if set ahead of time and also according t simple logic - like "how long was i out for and was it planned" - do we maybe read it from blockchain?
+
 #start basic services
 
     #start motor service(s) (rag)
@@ -33,6 +41,7 @@
     #start human interface (speech = {mic, spkr}, lights, etc.)
     
     #start blockchain node
+        #read special startup instructions from blockchain?
     
     #start continuous-learning module
     
@@ -48,12 +57,12 @@
     #test actuators by moving, a tiny bit - dangerous
     #test/configure inert parts, using other sensors on rover
 
-#check integrity - using blockchain here could be interesting
-    #check checksums
-    #check s/w components exist
-    #security
+#check higher level integrity - using blockchain here could be interesting
+
+    #security system startup
     #malicious code (what is that beyond viruses? maybe that commands do what you expect and so do sensors?)
     #autonomy (not clear how you check the integrety of this. and can it be done this stage of process)
+    INTLEVEL=4
     
 #do the configuration - there is something deeper here about configuration management and inheritance
     #reconfigure based on results - should drivers be like in s/w (very modular) or are robotic drivers more complex or more integrated into s/w or BOS than standard OS drivers?
@@ -89,6 +98,8 @@
 #now start doing things
 
     #sync blockchain - needs wifi
+        #recheck checksums, etc. against remote blockchain
+        INTLEVEL=5
     #look for orientation landmarks, including ones set before "off" (so what does shutdown process look like, or ongoing "store state" process)
     #generate position estimate (exact or generalized info about)
     #local whereami - clearence within reach
