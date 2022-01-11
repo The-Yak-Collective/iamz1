@@ -82,6 +82,8 @@
     
     #start senseofself/identity
     
+    #start emotion/mood system(?)
+    
     #start watchdogs (some generate alerts and some do things)
     
 #start "enviroment sensing"
