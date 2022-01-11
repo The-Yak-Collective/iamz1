@@ -80,6 +80,8 @@
     
     #start "posture sense"
     
+    #start senseofself/identity
+    
     #start watchdogs (some generate alerts and some do things)
     
 #start "enviroment sensing"
