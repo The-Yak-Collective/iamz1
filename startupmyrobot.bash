@@ -10,6 +10,7 @@
 
 #do some basic integrity checks - maybe move some items from below to here
     #check checksums - read from blockchain?
+        #maybe blockchain is a very low level part of os?
     #check s/w components exist
 
     INTLEVEL=3 #1 to 10 where 1 is lowest, 10 is highest
@@ -86,6 +87,8 @@
     
     #start watchdogs (some generate alerts and some do things)
     
+    #setup error recovery routines
+    
 #start "enviroment sensing"
     
 #evaluate physical safty 
@@ -113,6 +116,7 @@
 #start command stuff
     #check for ongoing mission
         #mission specific checkup
+        #maybe a smart contract on blockchain?
     #check for incoming messages
     #integrate inputs and decide on priorities
 
