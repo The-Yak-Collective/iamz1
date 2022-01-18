@@ -16,7 +16,8 @@
     INTLEVEL=3 #1 to 10 where 1 is lowest, 10 is highest
 
 #select startupscript if set ahead of time and also according t simple logic - like "how long was i out for and was it planned" - do we maybe read it from blockchain?
-
+    #check whenami (vs. plan)
+    
 #start basic services
 
     #start motor service(s) (rag)
@@ -52,6 +53,7 @@
 #perhaps some of this is skipped based on the type of on-off cycle. and we have a more minimal check to see nothing changed. in any case, we have some sort of ongoing "did h/w change"
 
     #identify components (how do we make architecture discoverable) and self name
+        #check whoami & whatami
     #for each component run its own self-check
     #additional self checks, as defined. esp. for combinations of components (e.g., whole leg, coordination, etc)
 
@@ -62,12 +64,12 @@
 
     #security system startup
     #malicious code (what is that beyond viruses? maybe that commands do what you expect and so do sensors?)
-    #autonomy (not clear how you check the integrety of this. and can it be done this stage of process)
+    #autonomy (not clear how you check the integrity of this. and can it be done this stage of process)
     INTLEVEL=4
     
 #do the configuration - there is something deeper here about configuration management and inheritance
     #reconfigure based on results - should drivers be like in s/w (very modular) or are robotic drivers more complex or more integrated into s/w or BOS than standard OS drivers?
-    #build self model - format and contenst not clear yet,  - is it just uploading a library(s)/package or is it a configuration file? how do we reconfigure other s/w to match model? OR maybe we have a standard model and we overload it based on changes (like loading a "missing leg" package)
+    #build self model - format and contents not clear yet,  - is it just uploading a library(s)/package or is it a configuration file? how do we reconfigure other s/w to match model? OR maybe we have a standard model and we overload it based on changes (like loading a "missing leg" package)
     #define movement limits based on self-model
 
     
@@ -89,9 +91,9 @@
     
     #setup error recovery routines
     
-#start "enviroment sensing"
+#start "environment sensing"
     
-#evaluate physical safty 
+#evaluate physical safety 
     #check power level (voltage as a proxy for power levels)
     #check environment ("weather")
     #bootstrap situation construction
@@ -132,6 +134,7 @@
     
     #start "social sense"
         #check social network (who is up, etc.) - requires wifi
+        #chack whoamitoothers vs. whoamitoself
     fi
 
 #all (or enough) is working. so release rover
