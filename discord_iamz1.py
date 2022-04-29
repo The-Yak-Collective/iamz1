@@ -12,6 +12,8 @@ PREAMBLE=os.getenv('YAK_ROVER_NAME')
 intents = discord.Intents.default()
 #intents.reactions = True
 #intents.members = True
+intents.messages=True
+intents.message_content=True #and now also to read messages...
 bot = commands.Bot(command_prefix='$'+PREAMBLE+' ', intents=intents)
 print('bot:',bot)
 

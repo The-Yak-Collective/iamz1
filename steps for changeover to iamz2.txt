@@ -1,0 +1,33 @@
+steps:
+1. update python to 3.9 
+do that freeze thingee and switch the python3 link
+
+no cupshelpers
+no distro-info
+no unknown...
+lxml failed to install
+trying to build numpy 1.16.2; failed - maybe we can download it?
+failed pygame
+failed pycups
+failed pycocotools (due to missing numpy)
+failed pyGObject
+failed pysmbc
+failed python-apt
+failed RTIMUlib
+failed scikit-image (due to missing numpy)
+failed scipy (due to missing numpy)
+failed tflite
+failed typed-ast
+failed unattended-upgrades
+
+freeze did not quite work as cv failed, so trying to do freeze but install w/o dependencies
+but that really needs numpy to be installed, as some pcakages want numpy
+
+2. see that spider program still works
+-> problem. mainly with numpy and cv2
+3. see that iamz1 still works
+-> other startup things fail. again, maybe due to cv2, maybe other things
+4. copy iamz1 to iamz2
+5. change crontab to point to iamz2/startup
+6. also for iamz1 create a startp file for cron
+7. sent /etc/enviroment variable for $IAMZ2, to use in all relative code. will add more later, liek for storage
