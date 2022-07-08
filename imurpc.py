@@ -65,7 +65,7 @@ def main():
             try:
                 return (rawdata[-1]) #needs work - as should only return the data from raw data
             except:
-                return(0,[0,0,0,0,0,0,0]
+                return(0,[0,0,0,0,0,0,0])
 
         server.register_function(getimudata, 'getimudata')
         x=threading.Thread(target=tick, daemon=True) #when tick works, will open this and then getimudata should be pure "read form the stack"
