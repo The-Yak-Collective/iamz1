@@ -38,5 +38,5 @@ def getimupos():#return position, velocity and angle. calculated by basic integr
 def imucalibn(n):#calibrate using n samples
     return imuserver.calibn(n)
     
-def imuset(pos=None,vel=None,angle=None):#calibrate using n samples
+def imuset(pos=False,vel=False,angle=False):#calibrate using n samples
     return imuserver.posset(pos,vel,angle)

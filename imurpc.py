@@ -139,7 +139,7 @@ def calibn(n): # do a new calibration, n times
         for i in range(len(readit)):
             calib1[i]=calib1[i]+readit[i]
     for i in range(len(calib1)):
-        calib[i]=calib1[i]/n #hope no position checking in this window. too lazy to lock
+        calib[i]=calib1[i]/n #hope no position checking in this window.  too lazy to lock. OTOH, seems to be blocking
     t2=time.time()
     print(calib, t2-t1, n) #for now, we are also zeroing the z axis. oh
     return(calib)
