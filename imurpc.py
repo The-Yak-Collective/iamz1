@@ -91,6 +91,7 @@ def init6dof():
     global mpu
     global calib
     t1=time.time()
+    data=[]
     mpu = MPU.mpu6050(0x68)
     mpu.set_gyro_range(mpu.GYRO_RANGE_2000DEG)
     mpu.set_accel_range(mpu.ACCEL_RANGE_2G)
