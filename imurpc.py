@@ -101,7 +101,7 @@ def init6dof():
         for i in range(len(readit)):
             calib[i]=calib[i]+readit[i]
     for i in range(len(calib)):
-        calib[i]=claib[i]/100
+        calib[i]=calib[i]/100
     t2=time.time()
     print(calib, t2-t1) #for now, we are also zeroing the z axis. oh well...
     
