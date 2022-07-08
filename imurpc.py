@@ -27,19 +27,20 @@ TOOBIG=10000
 ENOUGH=1000
 def tick():
     global rawdata
-    st=time.time()
-    t=int(st*1000) #time in ms
-    eventdata=read6dof()
-    rawdata.append((st,eventdata)) #t is simply too large for xml int
-    if len(rawdata)>TOOBIG:
-        del rawdata[TOOBIG-ENOUGH:]
-    t2=time.time()
-    timelefttosleep=st+0.1-t2
-    if timelefttosleep>0:
-        time.sleep(timelefttosleep)#so we sample about each 0.1 seconds
-        #print(timelefttosleep)
-    else:
-        print('(read is slow) timelefttosleep=',timelefttosleep, st,t2)
+    while True:
+        st=time.time()
+        t=int(st*1000) #time in ms
+        eventdata=read6dof()
+        rawdata.append((st,eventdata)) #t is simply too large for xml int
+        if len(rawdata)>TOOBIG:
+            del rawdata[TOOBIG-ENOUGH:]
+        t2=time.time()
+        timelefttosleep=st+0.1-t2
+        if timelefttosleep>0:
+            time.sleep(timelefttosleep)#so we sample about each 0.1 seconds
+            #print(timelefttosleep)
+        else:
+            print('(read is slow) timelefttosleep=',timelefttosleep, st,t2)
 
 def main():
     global timestamp
