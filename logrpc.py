@@ -135,8 +135,10 @@ def main():
 
     
 def read6dof():
-    d=mpu.get_all_data()
-    res=[d[0]["x"],d[0]["y"],d[0]["z"],d[1]["x"],d[1]["y"],d[1]["z"],d[2]]
+    d=rpcservices.getimudata()
+    res=d[1]
+#    d=mpu.get_all_data()
+#    res=[d[0]["x"],d[0]["y"],d[0]["z"],d[1]["x"],d[1]["y"],d[1]["z"],d[2]]
     return res
 
 def readulsrangefinder():
@@ -148,6 +150,7 @@ def readulsrangefinder():
 
     
 def init6dof():
+    return # now handled by imurpc
     global mpu
     mpu = MPU.mpu6050(0x68)
     mpu.set_gyro_range(mpu.GYRO_RANGE_2000DEG)
