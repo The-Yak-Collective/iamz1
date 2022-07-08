@@ -63,6 +63,7 @@ def main():
 #                lastrecorded=(t,read6dof())
 #            return (lastrecorded,rawdata[-1]) #needs work - as should only return the data from raw data
             try:
+                print(rawdata[-1],len(rawdata))
                 return (rawdata[-1]) #needs work - as should only return the data from raw data
             except:
                 return(0,[0,0,0,0,0,0,0])
