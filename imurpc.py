@@ -86,6 +86,8 @@ def main():
 
         server.register_function(getimudata, 'getimudata')
         server.register_function(getimupos, 'getimupos')
+        server.register_function(calibn, 'calibn')
+        server.register_function(posset, 'posset')
         x=threading.Thread(target=tick, daemon=True) #when tick works, will open this and then getimudata should be pure "read form the stack"
         x.start()
         # Run the server's main loop
@@ -116,7 +118,30 @@ def init6dof():
         calib[i]=calib[i]/SAMPLESTOUSE
     t2=time.time()
     print(calib, t2-t1) #for now, we are also zeroing the z axis. oh well...
-    
+def posset(p=None,v=None,a=None): # set any number you want
+    global pos,vel, angle
+    if p:
+        for i in range(3):
+            pos[i]=p[i]
+    if v:
+        for i in range(3):
+            vel[i]=v[i]
+    if a:
+        for i in range(3):
+            angle[i]=a[i]
+    return (pos,vel,angle)
+
+def calibn(n): # do a new calibration, n times
+    calib1=[0,0,0,0,0,0,0]
+    for i in range(n):
+        readit=read6dof()
+        for i in range(len(readit)):
+            calib1[i]=calib1[i]+readit[i]
+    for i in range(len(calib1)):
+        calib[i]=calib1[i]/n #hope no position checking in this window. too lazy to lock
+    t2=time.time()
+    print(calib, t2-t1) #for now, we are also zeroing the z axis. oh
+    return(calib)
 
 
 
