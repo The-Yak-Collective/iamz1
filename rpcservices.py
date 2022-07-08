@@ -29,5 +29,8 @@ def rag(name, reps=1,speedratio=1.0,modu=False,toldtowait=True):#dropping "saved
 
 imuserver = xmlrpc.client.ServerProxy('http://localhost:'+str(PORTFORIMU))
 
-def getimudata():#return pair of time and 7 element vector. later do better
+def getimudata():#return pair of time and 7 element vector. later do better. some basic calibration (17 seconds)
     return imuserver.getimudata()
+
+def getimupos():#return position, velocity and angle. calculated by basic integration. probably rather noisy and mistaken. but may be enough
+    return imuserver.getimupos()
