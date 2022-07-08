@@ -92,16 +92,17 @@ def init6dof():
     global calib
     t1=time.time()
     data=[]
+    SAMPLESTOUSE=1000
     mpu = MPU.mpu6050(0x68)
     mpu.set_gyro_range(mpu.GYRO_RANGE_2000DEG)
     mpu.set_accel_range(mpu.ACCEL_RANGE_2G)
-    for i in range(100):
+    for i in range(SAMPLESTOUSE):
         readit=read6dof()
-        data.append(readit) #100 readings. now lets average them
+        data.append(readit) #100+ readings. now lets average them
         for i in range(len(readit)):
             calib[i]=calib[i]+readit[i]
     for i in range(len(calib)):
-        calib[i]=calib[i]/100
+        calib[i]=calib[i]/SAMPLESTOUSE
     t2=time.time()
     print(calib, t2-t1) #for now, we are also zeroing the z axis. oh well...
     
