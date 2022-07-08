@@ -4,6 +4,7 @@ import rpcservices
 while True:
     t=time.time()
     print("imu:",rpcservices.getimudata())
+    print("pos:",rpcservices.getimupos())
     print("leg:",rpcservices.leg_pos())
     t1=time.time()
     tts=0.1-(t1-t)

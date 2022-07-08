@@ -22,13 +22,14 @@ RES6DOF = 0.1 #accuracy of raw data = every 100 ms. play with it...
 PORTFORIMU=9504 #IMU data port
 calib=[0,0,0,0,0,0,0]
 pos=[0,0,0]
+vel=[0,0,0]
 angle=[0,0,0]
 lastrecorded=(0,[]) #change a bit as we need to have continuous
 rawdata=[] #need some way to limit this to say last 1000 datums, etc
 TOOBIG=10000
 ENOUGH=1000
 def tick():
-    global rawdata, calib, pos, angle #not really raw any more data as we calibrate it...
+    global rawdata, calib, pos, vel, angle #not really raw any more data as we calibrate it...
     while True:
         st=time.time()
         t=int(st*1000) #time in ms
@@ -38,14 +39,18 @@ def tick():
         rawdata.append((st,eventdata)) #t is simply too large for xml int
         if len(rawdata)>TOOBIG:
             del rawdata[TOOBIG-ENOUGH:]
-        #and now (not yet here) calculate pos and angle
+        #and now calculate pos and angle. very badly!
+        for i in [0,1,2]:
+            vel[i]=vel[i]+eventdata[i]*RES6DOF
+            pos[i]=pos[i]+vel[i]*RES6DOF
+            angle[i]=angle[i]+eventdata[i+3]*RES6DOF
         t2=time.time()
-        timelefttosleep=st+0.1-t2
+        timelefttosleep=st+RES6DOF-t2
         if timelefttosleep>0:
             time.sleep(timelefttosleep)#so we sample about each 0.1 seconds
             #print(timelefttosleep)
         else:
-            print('(read is slow) timelefttosleep=',timelefttosleep, st,t2)
+            print('(read is slow) timelefttosleep=',timelefttosleep, st,t2, RES6DOF)
 
 def main():
     global timestamp
@@ -73,8 +78,14 @@ def main():
                 return (rawdata[-1]) #needs work - as should only return the data from raw data
             except:
                 return(0,[0,0,0,0,0,0,0])
+        def getimupos():
+            global pos,vel,angle
+            print(pos,vel,angle)
+            return (pos,vel,angle) 
+
 
         server.register_function(getimudata, 'getimudata')
+        server.register_function(getimupos, 'getimupos')
         x=threading.Thread(target=tick, daemon=True) #when tick works, will open this and then getimudata should be pure "read form the stack"
         x.start()
         # Run the server's main loop
