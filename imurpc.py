@@ -33,7 +33,7 @@ def tick():
         st=time.time()
         t=int(st*1000) #time in ms
         eventdata=read6dof()
-        for i in len(eventdata):
+        for i in range(len(eventdata)):
             eventdata[i]=eventdata[i]-calib[i]
         rawdata.append((st,eventdata)) #t is simply too large for xml int
         if len(rawdata)>TOOBIG:
@@ -98,9 +98,9 @@ def init6dof():
     for i in range(100):
         readit=read6dof()
         data.append(readit) #100 readings. now lets average them
-        for i in len(readit):
+        for i in range(len(readit)):
             calib[i]=calib[i]+readit[i]
-    for i in len(calib):
+    for i in range(len(calib)):
         calib[i]=claib[i]/100
     t2=time.time()
     print(calib, t2-t1) #for now, we are also zeroing the z axis. oh well...
