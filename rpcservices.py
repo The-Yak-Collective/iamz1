@@ -30,4 +30,4 @@ def rag(name, reps=1,speedratio=1.0,modu=False,toldtowait=True):#dropping "saved
 imuserver = xmlrpc.client.ServerProxy('http://localhost:'+str(PORTFORIMU))
 
 def getimudata():#return pair of time and 7 element vector. later do better
-    return imuserver.getdata()
+    return imuserver.getimudata()
