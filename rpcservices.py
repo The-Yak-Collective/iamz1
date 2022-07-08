@@ -35,7 +35,7 @@ def getimudata():#return pair of time and 7 element vector. later do better. som
 def getimupos():#return position, velocity and angle. calculated by basic integration. probably rather noisy and mistaken. but may be enough
     return imuserver.getimupos()
 
-def imuclaibn(n):#calibrate using n samples
+def imucalibn(n):#calibrate using n samples
     return imuserver.calibn(n)
     
 def imuset(pos=None,vel=None,angle=None):#calibrate using n samples

@@ -132,6 +132,7 @@ def posset(p=None,v=None,a=None): # set any number you want
     return (pos,vel,angle)
 
 def calibn(n): # do a new calibration, n times
+    t1=time.time()
     calib1=[0,0,0,0,0,0,0]
     for i in range(n):
         readit=read6dof()
@@ -140,7 +141,7 @@ def calibn(n): # do a new calibration, n times
     for i in range(len(calib1)):
         calib[i]=calib1[i]/n #hope no position checking in this window. too lazy to lock
     t2=time.time()
-    print(calib, t2-t1) #for now, we are also zeroing the z axis. oh
+    print(calib, t2-t1, n) #for now, we are also zeroing the z axis. oh
     return(calib)
 
 
