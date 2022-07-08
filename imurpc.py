@@ -102,7 +102,7 @@ def init6dof():
     for i in len(calib):
         calib[i]=claib[i]/100
     t2=time.time()
-    print(calib, t2-t1)) #for now, we are also zeroing the z axis. oh well...
+    print(calib, t2-t1) #for now, we are also zeroing the z axis. oh well...
     
 
 
