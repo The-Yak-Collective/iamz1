@@ -30,7 +30,7 @@ def tick():
     st=time.time()
     t=int(st*1000) #time in ms
     eventdata=read6dof()
-    rawdata.append((t,eventdata))
+    rawdata.append((st,eventdata)) #t is simply too large for xml int
     if len(rawdata)>TOOBIG:
         del rawdata[TOOBIG-ENOUGH:]
     t2=time.time()
