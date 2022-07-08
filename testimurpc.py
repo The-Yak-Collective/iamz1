@@ -8,4 +8,4 @@ while True:
     t1=time.time()
     tts=0.1-(t1-t)
     print(t, t1, tts)
-    sleep(tts)
+    time.sleep(tts)
