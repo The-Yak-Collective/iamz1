@@ -136,7 +136,7 @@ pytz==2020.4
 PyWavelets==1.0.3
 pywifi==1.1.12
 pyxdg==0.25
-PyYAML==5.3.1
+PyYAML==5.4
 rainbowhat==0.1.0
 reportlab==3.5.55
 requests==2.21.0
