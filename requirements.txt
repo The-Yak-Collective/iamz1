@@ -138,7 +138,7 @@ pywifi==1.1.12
 pyxdg==0.25
 PyYAML==5.3.1
 rainbowhat==0.1.0
-reportlab==3.5.13
+reportlab==3.5.55
 requests==2.21.0
 requests-oauthlib==1.0.0
 responses==0.9.0
