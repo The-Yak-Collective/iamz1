@@ -18,7 +18,7 @@ certifi==2018.8.24
 cffi==1.15.0
 chardet==3.0.4
 Click==7.0
-codecov==2.0.15
+codecov==2.0.16
 colorama==0.3.7
 colorzero==1.1
 cookies==2.2.1
