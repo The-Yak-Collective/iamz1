@@ -38,7 +38,7 @@ entrypoints==0.3
 envirophat==1.0.0
 ExplorerHAT==0.4.2
 flake8==3.7.8
-Flask==1.0.2
+Flask==2.3.2
 fourletterphat==0.1.0
 future==0.18.3
 gast==0.2.2
