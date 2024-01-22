@@ -96,7 +96,7 @@ picamera==1.13
 picraft==1.0
 piglow==1.2.5
 pigpio==1.44
-Pillow==10.0.1
+Pillow==10.2.0
 playsound==1.3.0
 pluggy==0.13.0
 protobuf==3.18.3
