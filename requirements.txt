@@ -23,7 +23,7 @@ colorama==0.3.7
 colorzero==1.1
 cookies==2.2.1
 coverage==4.5.4
-cryptography==41.0.6
+cryptography==42.0.0
 cupshelpers==1.0
 cycler==0.10.0
 Cython==0.29.21
