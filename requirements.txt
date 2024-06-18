@@ -176,7 +176,7 @@ typing-extensions==3.7.4.3
 unattended-upgrades==0.1
 unicornhathd==0.0.4
 UNKNOWN==0.0.0
-urllib3==1.26.18
+urllib3==1.26.19
 wcwidth==0.1.7
 webencodings==0.5.1
 Werkzeug==3.0.3
